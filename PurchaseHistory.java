@@ -3,51 +3,46 @@ import java.io.*;
 
 public class PurchaseHistory {
     public static void main(String[] args) throws IOException {
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        final Scanner scanner = new Scanner(System.in);
 
-        final int numberOfCustomer = Integer.parseInt(reader.readLine());
+        final int numberOfCustomer = scanner.nextInt();
         final Map<String, Integer> purchaseCount = new HashMap<>();
 
-        readPurchaseData(reader, numberOfCustomer, purchaseCount);
+        readPurchaseData(scanner, numberOfCustomer, purchaseCount);
         final List<Map.Entry<String, Integer>> sortedPurchaseCount = sortPurchaseCount(purchaseCount);
 
-        final int q = Integer.parseInt(reader.readLine());
-        displayInformation(reader, q, sortedPurchaseCount);
+        final int q = scanner.nextInt();
+        displayInformation(scanner, q, sortedPurchaseCount);
     }
 
-    private static void readPurchaseData(BufferedReader reader, int numberOfCustomer, Map<String, Integer> purchaseCount) throws IOException {
+    private static void readPurchaseData(Scanner scanner, int numberOfCustomer, Map<String, Integer> purchaseCount) throws IOException {
         for (int i = 0; i < numberOfCustomer; i++) {
-            String[] products = reader.readLine().split(" ");
-            final int m = Integer.parseInt(products[0]);
-
-            for (int j = 1; j <= m; j++) {
-                String product = products[j];
-                purchaseCount.put(product, purchaseCount.getOrDefault(product, 0) + 1);
+            final int m = scanner.nextInt();
+            for (int j = 0; j < m; j++) {
+                final String product = scanner.next();
+                if (purchaseCount.containsKey(product)) {
+                    purchaseCount.put(product, purchaseCount.get(product) + 1);
+                } else {
+                    purchaseCount.put(product, 1);
+                }
             }
         }
     }
 
-    private static List<Map.Entry<String, Integer>> sortPurchaseCount(Map<String, Integer> purchaseCount) {
-        final List<Map.Entry<String, Integer>> sortedPurchaseCount = new ArrayList<>(purchaseCount.entrySet());
+    private static ArrayList<Map.Entry<String, Integer>> sortPurchaseCount(Map<String, Integer> purchaseCount) {
+        final ArrayList<Map.Entry<String, Integer>> sortedPurchaseCount = new ArrayList<>(purchaseCount.entrySet());
 
-        // 降順にソートするためにコンパレータが負を返すようにする
-        sortedPurchaseCount.sort((a, b) -> {
-            final int cmp = -Integer.compare(a.getValue(), b.getValue());
-            if (cmp != 0) {
-                return cmp;
-            }
-
-            return a.getKey().compareTo(b.getKey());
-        });
+        final Comparator<Map.Entry<String, Integer>> valueComp = Map.Entry.comparingByValue(Comparator.reverseOrder());
+        final Comparator<Map.Entry<String, Integer>> keyComp = Map.Entry.comparingByKey();
+        sortedPurchaseCount.sort(valueComp.thenComparing(keyComp));
 
         return sortedPurchaseCount;
     }
 
-    private static void displayInformation(BufferedReader reader, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) throws IOException {
+    private static void displayInformation(Scanner reader, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) throws IOException {
         for (int i = 0; i < q; i++) {
-            String[] query = reader.readLine().split(" ");
-            final int a = Integer.parseInt(query[0]) - 1;
-            final int b = Integer.parseInt(query[1]) - 1;
+            final int a = reader.nextInt() - 1;
+            final int b = reader.nextInt() - 1;
 
             for (int j = a; j <= b && j < sortedPurchaseCount.size(); j++) {
                 Map.Entry<String, Integer> entry = sortedPurchaseCount.get(j);
