@@ -14,6 +14,20 @@
 
 180
 
+## Phase2
+
+### task4:Relevant pairs of products (large data)
+
+
+
+### task5:Route simulation (generalized)
+
+
+
+### task6:Route simulation (path information)
+
+
+
 <br>
 <br>
 
