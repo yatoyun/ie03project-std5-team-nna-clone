@@ -26,14 +26,16 @@ class HTMLLoader:
         """
         member_path = glob.glob(os.path.join(self.prefix, '**', 'member', f'{ml_name}.html'), recursive=True)[0]
         return member_path
-    def get_df_classes(self):
-        """ return dataframe of classes """
+    def get_df_courses(self):
+        """ return dataframe of courses """
         index_path = self.get_index_html_path()
         # first element is the title of the table (unnecessary)
-        df_classes = pd.read_html(index_path)[1]
+        df_courses = pd.read_html(index_path)[1]
         # remove unnecessary columns
-        df_classes = df_classes.drop(columns=['詳細'])
-        return df_classes
+        df_courses = df_courses.drop(columns=['詳細'])
+        # change column name
+        df_courses = df_courses.rename(columns={'Mailing list名': 'ml_name', 'コマ': 'period', '授業名称':'course_name', '担当教員': 'instructor'})
+        return df_courses
     def get_df_members(self, ml_name):
         """ return dataframe of members
         Args:
@@ -45,7 +47,12 @@ class HTMLLoader:
         df_members = pd.read_html(member_path)[0]
         # remove unnecessary columns
         df_members = df_members.drop(columns=['番号No'])
+        # change column name
+        df_members = df_members.rename(columns={'氏名Name': 'name', '学籍番号UserID': 'id', '氏名（英語）Name(English)': 'name_en'})
         return df_members
+
+
+
 
 
 

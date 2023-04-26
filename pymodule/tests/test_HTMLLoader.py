@@ -4,7 +4,7 @@ def test_get_class_list():
     """ test get_class_list() """
     dir_path = './data/2023/s1/q1_definitive/'
     loader = HTMLLoader(dir_path)
-    classes = loader.get_df_classes()
+    classes = loader.get_df_courses()
     print(classes)
 
 def test_get_member_list():
