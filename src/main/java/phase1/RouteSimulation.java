@@ -1,3 +1,5 @@
+package src.main.java.phase1;
+
 import java.awt.Point;
 import java.util.Scanner;
 import java.util.AbstractMap.SimpleEntry;
