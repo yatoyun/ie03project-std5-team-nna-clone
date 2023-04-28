@@ -4,26 +4,32 @@
 
 ### task1:Product-information
 
-203
+Code:203
+
+Test:203
 
 ### task2:Relevant-pairs-of-products
 
-174
+Code:174
+
+Test:203
 
 ### task3:Route-simulation
 
-180
+Code:180
+
+Test:174
 
 ## Phase2
 
 ### task4:Relevant pairs of products (large data)
 
-203
+Both:203
 
 ### task5:Route simulation (generalized)
 
-174
+Both:174
 
 ### task6:Route simulation (path information)
 
-180
+Both:180
