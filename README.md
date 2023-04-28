@@ -18,10 +18,12 @@
 
 ### task4:Relevant pairs of products (large data)
 
-
+203
 
 ### task5:Route simulation (generalized)
 
-
+174
 
 ### task6:Route simulation (path information)
+
+180
