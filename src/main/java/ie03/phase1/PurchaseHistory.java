@@ -5,23 +5,23 @@ import java.io.*;
 
 public class PurchaseHistory {
     public static void main(String[] args) throws IOException {
-        final Scanner scanner = new Scanner(System.in);
+        final Scanner sc = new Scanner(System.in);
 
-        final int numberOfCustomer = scanner.nextInt();
+        final int numberOfCustomer = Integer.parseInt(sc.next());
         final Map<String, Integer> purchaseCount = new HashMap<>();
 
-        readPurchaseData(scanner, numberOfCustomer, purchaseCount);
+        readPurchaseData(sc, numberOfCustomer, purchaseCount);
         final List<Map.Entry<String, Integer>> sortedPurchaseCount = sortPurchaseCount(purchaseCount);
 
-        final int q = scanner.nextInt();
-        displayInformation(scanner, q, sortedPurchaseCount);
+        final int q = Integer.parseInt(sc.next());
+        displayInformation(sc, q, sortedPurchaseCount);
     }
 
-    private static void readPurchaseData(Scanner scanner, int numberOfCustomer, Map<String, Integer> purchaseCount) throws IOException {
+    private static void readPurchaseData(Scanner sc, int numberOfCustomer, Map<String, Integer> purchaseCount) throws IOException {
         for (int i = 0; i < numberOfCustomer; i++) {
-            final int m = scanner.nextInt();
+            final int m = Integer.parseInt(sc.next());
             for (int j = 0; j < m; j++) {
-                final String product = scanner.next();
+                final String product = sc.next();
                 if (purchaseCount.containsKey(product)) {
                     purchaseCount.put(product, purchaseCount.get(product) + 1);
                 } else {
@@ -41,10 +41,10 @@ public class PurchaseHistory {
         return sortedPurchaseCount;
     }
 
-    private static void displayInformation(Scanner reader, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) throws IOException {
+    private static void displayInformation(Scanner sc, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) throws IOException {
         for (int i = 0; i < q; i++) {
-            final int a = reader.nextInt() - 1;
-            final int b = reader.nextInt() - 1;
+            final int a = Integer.parseInt(sc.next()) - 1;
+            final int b = Integer.parseInt(sc.next()) - 1;
 
             for (int j = a; j <= b && j < sortedPurchaseCount.size(); j++) {
                 Map.Entry<String, Integer> entry = sortedPurchaseCount.get(j);
