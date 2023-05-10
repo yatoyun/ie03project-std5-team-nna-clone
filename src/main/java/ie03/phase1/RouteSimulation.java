@@ -8,11 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-public class RouteSimulation {
-    static int w, h;
-    static int weights[][];
 
-    public static int solvedist(Point cpos, Point dpos) {
+public class RouteSimulation {
+    public static int w, h;
+    public static int weights[][];
+    public static HashMap<String, Point> shelves = new HashMap<String, Point>();
+    public static Scanner sc = new Scanner(System.in);
+
+
+    public static int[][] solveTotalDist(Point cpos, Point dpos) {
         // solve distance using dikstra
         int totaldist[][] = new int[w][h];
         boolean visited[][] = new boolean[w][h];
@@ -53,26 +57,30 @@ public class RouteSimulation {
                 // check if out of bounds
                 if (npos.x < 0 || npos.x >= w || npos.y < 0 || npos.y >= h) {
                     continue;
-                // check if visited
+                    // check if visited
                 } else if (visited[npos.x][npos.y] == true) {
                     continue;
+                    // check if wall
                 } else if (weights[npos.x][npos.y] == Integer.MAX_VALUE) {
                     continue;
-                // main logic
+                    // main logic
                 } else if ( totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + weights[npos.x][npos.y] ) {
                     totaldist[npos.x][npos.y] = totaldist[cpos.x][cpos.y] + weights[npos.x][npos.y];
                     q.add(new SimpleEntry<Integer, Point>(totaldist[npos.x][npos.y], npos));
                 }
             }
         }
+        return totaldist;
+    }
+
+    public static int solveDist(Point cpos, Point dpos) {
+        int totaldist[][] = solveTotalDist(cpos, dpos);
         return totaldist[dpos.x][dpos.y];
     }
 
-    public static void main(String[] args) {
+    public static void inputFirst() {
+        // first input to set w, h, and shelve positions
 
-        // input 01
-
-        Scanner sc = new Scanner(System.in);
         w = sc.nextInt();
         h = sc.nextInt();
         int n = sc.nextInt();
@@ -91,8 +99,6 @@ public class RouteSimulation {
                 }
             }
         }
-
-        HashMap<String, Point> shelves = new HashMap<String, Point>();
 
         for (int i = 0; i < n; i++) {
 
@@ -121,8 +127,9 @@ public class RouteSimulation {
 
             shelves.put(s, pos);
         }
+    }
 
-
+    public static void inputSecond() {
         // input 02 and solve
 
         int q = sc.nextInt();
@@ -138,15 +145,22 @@ public class RouteSimulation {
             for (int j = 0; j < m; j++) {
                 String p = sc.next();
                 npos = shelves.get(p);
-                dist += solvedist(cpos, npos);
+                dist += solveDist(cpos, npos);
                 cpos = npos;
             }
 
             npos = new Point(w-2, 0);
-            dist += solvedist(cpos, npos);
+            dist += solveDist(cpos, npos);
 
             System.out.println(dist);
         }
+    }
 
+    public static void main(String[] args) {
+        // input 01
+        inputFirst();
+
+        // input 02 and solve
+        inputSecond();
     }
 }
