@@ -157,6 +157,8 @@ public class RouteSimulation {
     }
 
     public static void main(String[] args) {
+        sc = new Scanner(System.in);
+
         // input 01
         inputFirst();
 
