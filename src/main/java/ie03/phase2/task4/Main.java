@@ -1,4 +1,4 @@
-package src.main.java.ie03.phase2.task4;
+package ie03.phase2.task4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,6 @@ public class Main {
 
         long endTime = System.nanoTime();
         long result = (long) ((endTime - startTime) / 1e9);
-        System.out.println(result + "sec");
+        // System.out.println(result + "sec");
     }
 }

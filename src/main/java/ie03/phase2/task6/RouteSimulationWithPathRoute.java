@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 public class RouteSimulationWithPathRoute extends ie03.phase1.RouteSimulation {
     public static HashMap<Point, String> shelvesByPoint = new HashMap<Point, String>();
@@ -85,6 +86,7 @@ public class RouteSimulationWithPathRoute extends ie03.phase1.RouteSimulation {
     }
 
     public static void main(String[] args) {
+        sc = new Scanner(System.in);
         inputFirst();
         for (Entry<String, Point> entry : shelves.entrySet()) {
             shelvesByPoint.put(entry.getValue(), entry.getKey());
