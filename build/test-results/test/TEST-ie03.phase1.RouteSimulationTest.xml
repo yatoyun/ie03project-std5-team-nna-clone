@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ie03.phase1.RouteSimulationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-28T08:53:04" hostname="mcbp2.local" time="0.003">
-  <properties/>
-  <testcase name="testOutput()" classname="ie03.phase1.RouteSimulationTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

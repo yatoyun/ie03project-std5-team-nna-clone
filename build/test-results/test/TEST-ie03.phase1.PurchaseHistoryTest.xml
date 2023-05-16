@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ie03.phase1.PurchaseHistoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-04-28T08:53:04" hostname="mcbp2.local" time="0.019">
-  <properties/>
-  <testcase name="testOutput1()" classname="ie03.phase1.PurchaseHistoryTest" time="0.016"/>
-  <testcase name="testOutput2()" classname="ie03.phase1.PurchaseHistoryTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
