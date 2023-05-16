@@ -1,4 +1,4 @@
-package ie03.phase1;
+package ie03.phase1.task1;
 
 import java.util.*;
 import java.io.*;

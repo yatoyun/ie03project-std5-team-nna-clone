@@ -1,9 +1,7 @@
 package ie03;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.nio.file.*;
 
 public class TestUtils {
     public Object cls;

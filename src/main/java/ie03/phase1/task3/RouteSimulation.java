@@ -1,4 +1,4 @@
-package ie03.phase1;
+package ie03.phase1.task3;
 
 import java.awt.Point;
 import java.util.Scanner;

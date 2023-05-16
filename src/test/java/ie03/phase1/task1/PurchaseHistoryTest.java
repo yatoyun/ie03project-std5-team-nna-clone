@@ -1,12 +1,11 @@
-package ie03.phase1;
+package ie03.phase1.task1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ie03.TestUtils;
-import ie03.phase2.task6.RouteSimulationWithPathRoute;
+import ie03.phase1.task1.PurchaseHistory;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
 import java.nio.file.*;
 
 public class PurchaseHistoryTest {
