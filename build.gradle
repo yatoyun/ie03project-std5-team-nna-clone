@@ -29,6 +29,6 @@ test {
 
     afterTest { descriptor, result ->
         def totalTime = result.endTime - result.startTime
-        println "Execution Time $descriptor.name : $totalTime"
+        println "Execution Time $descriptor.name : $totalTime ms"
     }
 }
