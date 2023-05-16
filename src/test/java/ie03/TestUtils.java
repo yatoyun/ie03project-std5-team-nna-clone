@@ -10,11 +10,11 @@ public class TestUtils {
         this.cls = cls;
     }
 
-    public String execute(String filePath) throws Exception {
+    public String execute(String in) throws Exception {
         final InputStream stdin = System.in;
         final PrintStream stdout = System.out;
 
-        final FileInputStream input = new FileInputStream(filePath);
+        final InputStream input = new StringBufferInputStream(in);
         System.setIn(input);
 
         // set output stream for testing

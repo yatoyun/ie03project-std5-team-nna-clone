@@ -38,6 +38,6 @@ public class Main {
 
         long endTime = System.nanoTime();
         long result = (long) ((endTime - startTime) / 1e9);
-        // System.out.println(result + "sec");
+        System.err.println(result + "sec");
     }
 }

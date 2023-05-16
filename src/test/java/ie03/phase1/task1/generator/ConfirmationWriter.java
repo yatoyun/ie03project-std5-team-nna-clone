@@ -1,4 +1,4 @@
-package ie03.phase1.task1;
+package ie03.phase1.task1.generator;
 
 import java.io.FileWriter;
 import java.io.IOException;

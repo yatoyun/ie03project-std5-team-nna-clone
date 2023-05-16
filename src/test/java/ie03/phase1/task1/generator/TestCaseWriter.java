@@ -1,23 +1,22 @@
-package ie03.phase1.task1;
+package ie03.phase1.task1.generator;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CorrectOutputWriter {
-
-    final String output;
+public class TestCaseWriter {
+    final String testCase;
     final String fileName;
 
     final String FILEPATH = "src/test/resources/phase1/task1/";
 
-    CorrectOutputWriter(String output, String fileName) {
-        this.output = output;
+    TestCaseWriter(String testCase, String fileName) {
+        this.testCase = testCase;
         this.fileName = fileName;
     }
 
-    boolean writeOutput() {
+    boolean writeTestcase() {
         try (FileWriter writer = new FileWriter(FILEPATH + fileName)) {
-            writer.write(output);
+            writer.write(testCase);
             return true;
 
         } catch (IOException e) {
