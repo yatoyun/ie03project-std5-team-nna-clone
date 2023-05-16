@@ -20,14 +20,15 @@ run {
 
 test {
     useJUnitPlatform()
-}
-
-tasks.named('test', Test) {
-    useJUnitPlatform()
-
-    maxHeapSize = '1G'
 
     testLogging {
         events "passed"
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+    }
+
+    afterTest { descriptor, result ->
+        def totalTime = result.endTime - result.startTime
+        println "Execution Time $descriptor.name : $totalTime"
     }
 }

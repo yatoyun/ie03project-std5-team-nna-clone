@@ -11,6 +11,9 @@ public class TestUtils {
     }
 
     public String execute(String filePath) throws Exception {
+        final InputStream stdin = System.in;
+        final PrintStream stdout = System.out;
+
         final FileInputStream input = new FileInputStream(filePath);
         System.setIn(input);
 
@@ -26,8 +29,8 @@ public class TestUtils {
             e.printStackTrace();
         } finally {
             // reset input and output streams
-            System.setIn(System.in);
-            System.setOut(System.out);
+            System.setIn(stdin);
+            System.setOut(stdout);
         }
         return outContent.toString();
     }
