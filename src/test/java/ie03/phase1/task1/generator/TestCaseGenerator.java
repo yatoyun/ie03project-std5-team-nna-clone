@@ -11,7 +11,7 @@ public class TestCaseGenerator {
     private Map<String, Integer> purchasesData;
     private String output;
 
-    String generateTestCase(int caseNumber) {
+     public String generateTestCase(int caseNumber) {
         Random rand = new Random();
         StringBuilder sb1 = new StringBuilder();//store purchaseData
         StringBuilder sb2 = new StringBuilder();//store query
@@ -63,11 +63,11 @@ public class TestCaseGenerator {
         return sb1.append(queries).toString();
     }
 
-    Map<String, Integer> getPurchasesData() {
+    public Map<String, Integer> getPurchasesData() {
         return purchasesData;
     }
 
-    String getOutput() {
+    public String getOutput() {
         return output;
     }
 }
