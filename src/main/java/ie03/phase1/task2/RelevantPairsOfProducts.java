@@ -82,16 +82,13 @@ public class RelevantPairsOfProducts {
      }
 
      private static String get_key_name(String a, String b){
-         StringBuilder concat_names = new StringBuilder();
+         String concat_names;
+
          if (a.compareTo(b) < 0){
-             concat_names.append(a);
-             concat_names.append(" ");
-             concat_names.append(b);
+             concat_names = a + " " + b;
          }else{
-             concat_names.append(b);
-             concat_names.append(" ");
-             concat_names.append(a);
+             concat_names = b + " " + a;
          }
-         return concat_names.toString();
+         return concat_names;
      }
 }
