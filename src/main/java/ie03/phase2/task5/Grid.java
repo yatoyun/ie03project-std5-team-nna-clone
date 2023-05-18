@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class Grid {
 
     public static int w, h;
-    public static int grid[][];
-    public static HashMap<String, Point> shelves = new HashMap<String, Point>();
+    public static int[] grid[];
+    public static HashMap<String, Point> shelves = new HashMap<>();
 
     public static void set_grid() {
         Scanner sc = new Scanner(System.in);
