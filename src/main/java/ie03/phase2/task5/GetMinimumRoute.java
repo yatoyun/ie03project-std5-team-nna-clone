@@ -81,10 +81,7 @@ public class GetMinimumRoute {
         }
 
         // main logic
-        if (totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + grid[npos.x][npos.y]) {
-            return true;
-        }
-        return false;
+        return (totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + grid[npos.x][npos.y]);
     }
 
     public int solveDist(Point cpos, Point dpos) {
