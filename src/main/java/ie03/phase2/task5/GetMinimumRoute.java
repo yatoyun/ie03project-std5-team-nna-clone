@@ -74,7 +74,7 @@ public class GetMinimumRoute {
         return totaldist;
     }
 
-    public static int solveDist(Point cpos, Point dpos) {
+    public int solveDist(Point cpos, Point dpos) {
 
         int totaldist[][] = solveTotalDist(cpos, dpos);
         return totaldist[dpos.x][dpos.y];
