@@ -17,10 +17,10 @@ public class SolveRoutes {
         int q = sc.nextInt();
         for (int i = 0; i < q; i++) {
             int m = sc.nextInt();
-            int dist = 0;
+            int dist;
 
             // reset dist_graph
-            SolveRoutes.dist_graph = new HashMap<String, Integer>();
+            SolveRoutes.dist_graph = new HashMap<>();
             String[] stopovers = getDistGlaph(m);
 
             // solve

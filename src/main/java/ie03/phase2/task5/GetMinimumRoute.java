@@ -57,7 +57,7 @@ public class GetMinimumRoute {
 
                 if (isVisitable(npos, cpos, visited, totaldist)) {
                     totaldist[npos.x][npos.y] = totaldist[cpos.x][cpos.y] + grid[npos.x][npos.y];
-                    q.add(new AbstractMap.SimpleEntry<Integer, Point>(totaldist[npos.x][npos.y], npos));
+                    q.add(new AbstractMap.SimpleEntry<>(totaldist[npos.x][npos.y], npos));
                 }
             }
         }
@@ -68,14 +68,20 @@ public class GetMinimumRoute {
         // check if out of bounds
         if (npos.x < 0 || npos.x >= w || npos.y < 0 || npos.y >= h) {
             return false;
-            // check if visited
-        } else if (visited[npos.x][npos.y] == true) {
+        }
+
+        // check if visited
+        if (visited[npos.x][npos.y]) {
             return false;
-            // check if wall
-        } else if (grid[npos.x][npos.y] == Integer.MAX_VALUE) {
+        }
+
+        // check if wall
+        if (grid[npos.x][npos.y] == Integer.MAX_VALUE) {
             return false;
-            // main logic
-        } else if (totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + grid[npos.x][npos.y]) {
+        }
+
+        // main logic
+        if (totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + grid[npos.x][npos.y]) {
             return true;
         }
         return false;
@@ -83,7 +89,7 @@ public class GetMinimumRoute {
 
     public int solveDist(Point cpos, Point dpos) {
 
-        int totaldist[][] = solveTotalDist(cpos, dpos);
+        int[][] totaldist = solveTotalDist(cpos, dpos);
         return totaldist[dpos.x][dpos.y];
     }
 }
