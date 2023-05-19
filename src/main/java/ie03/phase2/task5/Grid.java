@@ -5,11 +5,11 @@ import java.util.HashMap;
 
 public class Grid {
 
-    public static int w, h;
-    public static int[][] grid;
-    public static HashMap<String, Point> shelves = new HashMap<>();
+    public int w, h;
+    public int[][] grid;
+    public HashMap<String, Point> shelves = new HashMap<>();
 
-    public static void set_grid() {
+    public void warehouseSetup() {
         // first input to set w, h, and shelve positions
 
         w = Input.nextInt();
@@ -17,6 +17,11 @@ public class Grid {
         int n = Input.nextInt();
         grid = new int[w][h];
 
+        gridInitializer(w,h,grid);
+        shelvesInitializer(w,n,grid,shelves);
+    }
+
+    public static void gridInitializer(int w, int h, int[][] grid){
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 if ((i == 0 && j == h - 1) || (i == w - 1 && j == h - 1)) {
@@ -30,7 +35,9 @@ public class Grid {
                 }
             }
         }
+    }
 
+    public static void shelvesInitializer(int w, int n, int[][] grid, HashMap<String, Point> shelves){
         for (int i = 0; i < n; i++) {
 
             int x = Input.nextInt();

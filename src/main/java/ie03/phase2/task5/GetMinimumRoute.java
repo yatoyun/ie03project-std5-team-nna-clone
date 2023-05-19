@@ -14,7 +14,6 @@ public class GetMinimumRoute {
         GetMinimumRoute.w = w;
         GetMinimumRoute.h = h;
         GetMinimumRoute.grid = grid;
-
     }
 
     public static int[][] solveTotalDist(Point cpos, Point dpos) {
