@@ -68,23 +68,19 @@ public class GetMinimumRoute {
         if (npos.x < 0 || npos.x >= w || npos.y < 0 || npos.y >= h) {
             return false;
         }
-
         // check if visited
         if (visited[npos.x][npos.y]) {
             return false;
         }
-
         // check if wall
         if (grid[npos.x][npos.y] == Integer.MAX_VALUE) {
             return false;
         }
-
         // main logic
         return (totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + grid[npos.x][npos.y]);
     }
 
     public int solveDist(Point cpos, Point dpos) {
-
         int[][] totaldist = solveTotalDist(cpos, dpos);
         return totaldist[dpos.x][dpos.y];
     }
