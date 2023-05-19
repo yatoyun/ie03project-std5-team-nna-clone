@@ -15,6 +15,6 @@ public class Main {
         grid.warehouseSetup();
 
         // input 02 and solve
-        SolveRoutes.inputSecond(grid.w, grid.h, grid.grid, grid.shelves);
+        Outputs.inputSecond(grid.w, grid.h, grid.grid, grid.shelves);
     }
 }
