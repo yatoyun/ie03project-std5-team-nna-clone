@@ -1,0 +1,20 @@
+8 8 14
+0 1 a e
+0 2 b e
+0 3 c e
+0 4 d e
+1 7 e s
+3 7 f s
+6 7 g s
+7 5 h w
+7 1 i w
+3 4 j w
+3 3 k w
+3 2 l w
+4 4 m n
+4 3 n s
+4
+4 a b c d
+3 a e g
+4 b j n g
+14 a b c d e f g h i j k l m n
