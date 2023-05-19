@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.*;
 
 public class SolveRoutes {
-    public static Scanner sc = new Scanner(System.in);
     public static HashMap<String, Integer> dist_graph;
     public static GetMinimumRoute get_route;
     public static HashMap<String, Point> shelves;
@@ -14,9 +13,9 @@ public class SolveRoutes {
         SolveRoutes.get_route = new GetMinimumRoute(w, h, grid);
         SolveRoutes.shelves = shelves;
 
-        int q = sc.nextInt();
+        int q = Input.nextInt();
         for (int i = 0; i < q; i++) {
-            int m = sc.nextInt();
+            int m = Input.nextInt();
             int dist;
 
             // reset dist_graph
@@ -37,7 +36,7 @@ public class SolveRoutes {
         stopovers[0] = "EN";
         stopovers[m + 1] = "EX";
         for (int i = 1; i < m + 1; i++) {
-            stopovers[i] = sc.next();
+            stopovers[i] = Input.next();
         }
         // get distances between each stopover and stopover
         getEachDists(stopovers, m + 2);

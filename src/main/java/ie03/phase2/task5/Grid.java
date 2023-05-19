@@ -2,7 +2,6 @@ package ie03.phase2.task5;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Grid {
 
@@ -11,12 +10,11 @@ public class Grid {
     public static HashMap<String, Point> shelves = new HashMap<>();
 
     public static void set_grid() {
-        Scanner sc = new Scanner(System.in);
         // first input to set w, h, and shelve positions
 
-        w = sc.nextInt();
-        h = sc.nextInt();
-        int n = sc.nextInt();
+        w = Input.nextInt();
+        h = Input.nextInt();
+        int n = Input.nextInt();
         grid = new int[w][h];
 
         for (int i = 0; i < w; i++) {
@@ -35,10 +33,10 @@ public class Grid {
 
         for (int i = 0; i < n; i++) {
 
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            String s = sc.next();
-            String d = sc.next();
+            int x = Input.nextInt();
+            int y = Input.nextInt();
+            String s = Input.next();
+            String d = Input.next();
 
             grid[x][y] = Integer.MAX_VALUE;
 
