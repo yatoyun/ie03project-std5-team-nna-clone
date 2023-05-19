@@ -7,21 +7,22 @@ import org.junit.jupiter.api.DynamicTest;
 import ie03.TestUtils;
 import org.junit.jupiter.api.TestFactory;
 
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
-public class RouteSimulationTest {
+public class MainTest {
 
     String execute(String input) throws Exception{
-        TestUtils test = new TestUtils(new RouteSimulation());
+        TestUtils test = new TestUtils(new Main());
         return test.execute(input);
     }
 
-    String getFileContent(String path) throws Exception{
-        final String fileContent = new String(Files.readAllBytes(Paths.get(getClass().getResource(path).getPath())));
-        return fileContent;
+    String getFileContent(String path) throws IOException, NullPointerException {
+        return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
     }
 
     @TestFactory
