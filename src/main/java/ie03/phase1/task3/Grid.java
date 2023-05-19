@@ -9,7 +9,6 @@ public class Grid {
     public int[][] weight;
     public HashMap<String, Point> shelves;
 
-
     public Grid(int w, int h) {
         this.w = w;
         this.h = h;
@@ -54,7 +53,6 @@ public class Grid {
                 pos.y = p.y;
             }
         }
-
         shelves.put(s, pos);
     }
 
