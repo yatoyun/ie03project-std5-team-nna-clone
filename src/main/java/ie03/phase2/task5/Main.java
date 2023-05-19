@@ -12,9 +12,9 @@ public class Main {
     public static void main(String[] args) {
         // input 01
         Grid grid = new Grid();
-        grid.set_grid();
+        grid.warehouseSetup();
 
         // input 02 and solve
-        SolveRoutes.inputSecond(grid.w, grid.h, grid.grid, grid.shelves);
+        Outputs.inputSecond(grid.w, grid.h, grid.grid, grid.shelves);
     }
 }

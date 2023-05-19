@@ -2,23 +2,26 @@ package ie03.phase2.task5;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Grid {
 
-    public static int w, h;
-    public static int[][] grid;
-    public static HashMap<String, Point> shelves = new HashMap<>();
+    public int w, h;
+    public int[][] grid;
+    public HashMap<String, Point> shelves = new HashMap<>();
 
-    public static void set_grid() {
-        Scanner sc = new Scanner(System.in);
+    public void warehouseSetup() {
         // first input to set w, h, and shelve positions
 
-        w = sc.nextInt();
-        h = sc.nextInt();
-        int n = sc.nextInt();
+        w = Input.nextInt();
+        h = Input.nextInt();
+        int n = Input.nextInt();
         grid = new int[w][h];
 
+        gridInitializer(w,h,grid);
+        shelvesInitializer(w,n,grid,shelves);
+    }
+
+    public static void gridInitializer(int w, int h, int[][] grid){
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 if ((i == 0 && j == h - 1) || (i == w - 1 && j == h - 1)) {
@@ -32,13 +35,15 @@ public class Grid {
                 }
             }
         }
+    }
 
+    public static void shelvesInitializer(int w, int n, int[][] grid, HashMap<String, Point> shelves){
         for (int i = 0; i < n; i++) {
 
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            String s = sc.next();
-            String d = sc.next();
+            int x = Input.nextInt();
+            int y = Input.nextInt();
+            String s = Input.next();
+            String d = Input.next();
 
             grid[x][y] = Integer.MAX_VALUE;
 

@@ -4,59 +4,53 @@ import java.awt.*;
 import java.util.*;
 
 public class SolveRoutes {
-    public static Scanner sc = new Scanner(System.in);
-    public static HashMap<String, Integer> dist_graph;
-    public static GetMinimumRoute get_route;
-    public static HashMap<String, Point> shelves;
+    public HashMap<String, Integer> dist_graph;
+    public GetMinimumRoute get_route;
+    public HashMap<String, Point> shelves;
 
-    public static void inputSecond(int w, int h, int[][] grid, HashMap<String, Point> shelves) {
-        // SolveRoutes 02 and solve
-        SolveRoutes.get_route = new GetMinimumRoute(w, h, grid);
-        SolveRoutes.shelves = shelves;
+    public String[] stopovers;
 
-        int q = sc.nextInt();
-        for (int i = 0; i < q; i++) {
-            int m = sc.nextInt();
-            int dist;
-
-            // reset dist_graph
-            SolveRoutes.dist_graph = new HashMap<>();
-            String[] stopovers = getDistGlaph(m);
-
-            // solve
-            dist = solveTSP(stopovers);
-
-            System.out.println(dist);
-        }
+    SolveRoutes(int w, int h, int[][] grid, HashMap<String, Point> shelves){
+        this.get_route = new GetMinimumRoute(w, h, grid);
+        this.shelves = shelves;
     }
 
-    public static String[] getDistGlaph(int m) {
+    public void resetDistGraph(){
+        dist_graph = new HashMap<>();
+    }
+
+    public void resetStopovers(int m){
+        stopovers = getDistGlaph(m);
+    }
+
+
+    public String[] getDistGlaph(int m) {
         String[] stopovers = new String[m + 2];
 
         // set stopovers including entry and exit
         stopovers[0] = "EN";
         stopovers[m + 1] = "EX";
         for (int i = 1; i < m + 1; i++) {
-            stopovers[i] = sc.next();
+            stopovers[i] = Input.next();
         }
         // get distances between each stopover and stopover
         getEachDists(stopovers, m + 2);
         return stopovers;
     }
 
-    public static void getEachDists(String[] stopovers, int num_stopovers) {
+    public void getEachDists(String[] stopovers, int num_stopovers) {
         // num_stopovers_C_2
         for (int i = 0; i < num_stopovers; i++) {
             for (int j = i + 1; j < num_stopovers; j++) {
 
-                SolveRoutes.dist_graph.put(getCombName(stopovers[i], stopovers[j]), // name of comb
-                        SolveRoutes.get_route.solveDist(      // value of dists
+                dist_graph.put(getCombName(stopovers[i], stopovers[j]), // name of comb
+                        get_route.solveDist(      // value of dists
                                 shelves.get(stopovers[i]), shelves.get(stopovers[j])));
             }
         }
     }
 
-    public static String getCombName(String first_stopover, String second_stopover) {
+    public String getCombName(String first_stopover, String second_stopover) {
         String concat_names;
 
         // Alphabetized and concatenate
@@ -71,7 +65,7 @@ public class SolveRoutes {
     /* If you want to know which route you went through,
     just comment out the line that says for debug and put it back in the code and you will see it.
      */
-    public static int solveTSP(String[] stopovers) {
+    public int solveTSP() {
         int n = stopovers.length - 1; // EX is excluded
         int[][] dp = new int[1 << n][n];
 //        int[][] prev = new int[1 << n][n]; // for debug
