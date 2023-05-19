@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.*;
 
 public class TestCaseGenerator {
+    int[][] weight;
     Grid grid;
     ArrayList<Object[]> shelves;
     ArrayList<Object[]> orders;
@@ -13,6 +14,7 @@ public class TestCaseGenerator {
 
     public TestCaseGenerator(int w, int h) {
         grid = new Grid(w, h);
+        weight = new int[w][h];
     }
 
     private void setShelf(Point p, String s, String d) {
@@ -55,7 +57,8 @@ public class TestCaseGenerator {
             String s = "S" + cnt;
 
             // if shelf is not put yet
-            if (grid.weight[x][y] != Integer.MAX_VALUE && grid.weight[pos.x][pos.y] != Integer.MAX_VALUE) {
+            if (grid.weight[x][y] != Integer.MAX_VALUE && weight[pos.x][pos.y] != Integer.MAX_VALUE) {
+                weight[pos.x][pos.y] = Integer.MAX_VALUE;
                 shelves.add(new Object[]{x, y, s, d});
                 // if shelf is not put yet
                 setShelf(new Point(x, y), s, d);
@@ -80,8 +83,10 @@ public class TestCaseGenerator {
     }
 
     public void printGrid() {
+        final int w = grid.w;
+        final int h = grid.h;
         final int n = shelves.size();
-        System.out.println(n);
+        System.out.println(w + " " + h + " " + n);
         for (int i = 0; i < n; i++) {
             Object[] shelf = shelves.get(i);
             System.out.println(shelf[0] + " " + shelf[1] + " " + shelf[2] + " " + shelf[3]);
