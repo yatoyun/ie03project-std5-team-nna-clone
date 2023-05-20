@@ -19,8 +19,7 @@ public class PurchaseHistoryTest {
     }
 
     String getFileContent(String path) throws Exception{
-        final String fileContent = new String(Files.readAllBytes(Paths.get(getClass().getResource(path).getPath())));
-        return fileContent;
+        return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
     }
 
     @TestFactory
@@ -64,6 +63,7 @@ public class PurchaseHistoryTest {
 
 
             tests.add(DynamicTest.dynamicTest("Example Test " + i, () -> {
+                execute(input);
 
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
