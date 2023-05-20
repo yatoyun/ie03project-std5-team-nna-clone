@@ -8,14 +8,33 @@ import java.util.*;
 public class TestCaseGenerator {
     int[][] weight;
     Grid grid;
+    TestCaseSolver solver;
     ArrayList<Object[]> shelves;
-    ArrayList<Object[]> orders;
+    ArrayList<Object[]> routes;
 
     public TestCaseGenerator(int w, int h) {
         grid = new Grid(w, h);
+        shelves = new ArrayList<>();
 
         //copy weight
         weight = new int[w][h];
+
+        solver = new TestCaseSolver(grid);
+    }
+
+    private boolean isValid(Point p) {
+        return grid.isValid(p) && weight[p.x][p.y] != Integer.MAX_VALUE;
+    }
+
+    private boolean isUnreachable(Point p) {
+        return solver.solve(new Point(1, 0), p) == -1 || solver.solve(p, new Point(grid.w-2, 0)) == -1;
+    }
+
+    private void clearShelves() {
+        shelves.clear();
+        grid.shelves.clear();
+        int w = grid.w;
+        int h = grid.h;
         for (int i = 0; i < w; i++) {
             System.arraycopy(grid.weight[i], 0, weight[i], 0, h);
         }
@@ -24,28 +43,23 @@ public class TestCaseGenerator {
         weight[1][1] = Integer.MAX_VALUE;
         weight[w-2][0] = Integer.MAX_VALUE;
         weight[w-2][1] = Integer.MAX_VALUE;
-    }
 
-    private boolean isInvalid(Point p) {
-        if (grid.isInvalid(p)) {
-            return true;
-        } else return weight[p.x][p.y] == Integer.MAX_VALUE;
     }
 
     public Grid getGrid() {
         return grid;
     }
 
-    public ArrayList<Object[]> getOrders() {
-        return orders;
+    public ArrayList<Object[]> getRoutes() {
+        return routes;
     }
 
-    public void putShelf(int n) {
-        shelves = new ArrayList<>();
+    public void putShelves(int n) {
+        clearShelves();
         Random rand = new Random();
         for (int cnt = 0; cnt < n;) {
-            int x = rand.nextInt(grid.w-1);
-            int y = rand.nextInt(grid.h-1);
+            int x = rand.nextInt(grid.w);
+            int y = rand.nextInt(grid.h);
             int dnum = rand.nextInt(4);
             String d = "";
 
@@ -76,61 +90,81 @@ public class TestCaseGenerator {
             String s = "S" + cnt;
 
             // if shelf is not put yet
-            if (!isInvalid(pos) && !isInvalid(new Point(x, y))) {
+            if (isValid(pos) && isValid(new Point(x, y))) {
+                shelves.add(new Object[]{x, y, s, d});
+                grid.setShelf(new Point(x, y), s, d);
                 weight[x][y] = Integer.MAX_VALUE;
                 weight[pos.x][pos.y] = Integer.MAX_VALUE;
-                shelves.add(new Object[]{x, y, s, d});
-                // if shelf is not put yet
-                grid.setShelf(new Point(x, y), s, d);
                 cnt++;
             }
+
+            for (int i = (cnt==n)?0:n; i < n; i++) {
+                // check if the shelf is unreachable
+                Point p = new Point((int)shelves.get(i)[0], (int)shelves.get(i)[1]);
+                System.out.println(p + " " + (String)shelves.get(i)[2]);
+                if (isUnreachable(p)) {
+                    clearShelves();
+                    cnt = 0;
+                    break;
+                }
+            }
+
         }
     }
 
-    public void generateOrder(int q) {
-        orders = new ArrayList<>();
+
+    public void generateRouteManually(int m) {
+        Random rand = new Random();
+        Object[] route = new Object[m+1];
+        route[0] = m;
+        for (int cnt = 0; cnt < m; cnt++) {
+            int idx = rand.nextInt(shelves.size());
+            route[cnt+1] = shelves.get(idx)[2];
+        }
+        routes.add(route);
+    }
+
+    public void generateRouteRandomly(int q, int maxRouteLength) {
         Random rand = new Random();
         for (int cnt = 0; cnt < q; cnt++) {
-            int m = 1 + rand.nextInt(shelves.size()-1);
-            Object[] order = new Object[m+1];
-            order[0] = m;
-            for (int i = 1; i < m+1; i++) {
-                int idx = rand.nextInt(shelves.size()-1);
-                order[i] = shelves.get(idx)[2];
-            }
-            orders.add(order);
+            int m = 1 + rand.nextInt(maxRouteLength);
+            generateRouteManually(m);
         }
     }
 
-    public void printGrid() {
+    public String getInput() {
+        // grid
+        StringBuilder sb = new StringBuilder();
         final int w = grid.w;
         final int h = grid.h;
         final int n = shelves.size();
-        System.out.println(w + " " + h + " " + n);
+
+        String line = w + " " + h + " " + n + "\n";
+        sb.append(line);
+
         for (int i = 0; i < n; i++) {
             Object[] shelf = shelves.get(i);
-            System.out.println(shelf[0] + " " + shelf[1] + " " + shelf[2] + " " + shelf[3]);
+            line = shelf[0] + " " + shelf[1] + " " + shelf[2] + " " + shelf[3] + "\n";
+            sb.append(line);
         }
-    }
 
-    public void printOrders() {
-        final int n = orders.size();
-        System.out.println(n);
-        for (int i = 0; i < n; i++) {
-            Object[] order = orders.get(i);
-            System.out.print(order[0]);
+        // routes
+        final int q = routes.size();
+        line = q + "\n";
+        sb.append(line);
+
+        for (int i = 0; i < q; i++) {
+            Object[] order = routes.get(i);
+            line = order[0].toString();
             for (int j = 1; j < order.length; j++) {
-                System.out.print(" " + order[j]);
+                line += " " + order[j];
             }
-            System.out.println();
+            line += "\n";
+            sb.append(line);
         }
+
+        return sb.toString();
     }
 
-    public static void main(String[] args) {
-        TestCaseGenerator tcg = new TestCaseGenerator(10, 10);
-        tcg.putShelf(8);
-        tcg.generateOrder(5);
-        tcg.printGrid();
-        tcg.printOrders();
-    }
+
 }

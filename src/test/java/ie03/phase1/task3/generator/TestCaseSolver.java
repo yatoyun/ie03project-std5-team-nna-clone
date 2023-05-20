@@ -12,7 +12,7 @@ public class TestCaseSolver {
         grid = grd;
     }
 
-    private int solve(Point cpos, Point dpos) {
+    protected int solve(Point cpos, Point dpos) {
         int minDist = Integer.MAX_VALUE;
         // use queue
         Queue<ArrayList<Point>> q = new LinkedList<>();
@@ -21,7 +21,9 @@ public class TestCaseSolver {
             ArrayList<Point> path = q.poll();
             Point lastPoint = path.get(path.size()-1);
             if (lastPoint.equals(dpos)) {
-                minDist = Math.min(minDist, path.size());
+                if (minDist > path.size()) {
+                    minDist = path.size();
+                }
             } else {
                 if (path.size() >= minDist) {
                     continue;
@@ -30,18 +32,19 @@ public class TestCaseSolver {
                 int[] dy = {0, 1, 0, -1}; // E, N, W, S
                 for (int i = 0; i < 4; i++) {
                     Point npos = new Point(lastPoint.x + dx[i], lastPoint.y + dy[i]);
-                    if (grid.isInvalid(npos) || path.contains(npos)) {
+                    if ((!grid.isValid(npos)) || path.contains(npos)) {
                         continue;
                     }
-                    path.add(npos);
-                    q.add(new ArrayList<>(path));
+                    ArrayList<Point> newPath = new ArrayList<>(path);
+                    newPath.add(npos);
+                    q.add(new ArrayList<>(newPath));
                 }
             }
         }
-        return minDist;
+        return (minDist == Integer.MAX_VALUE) ? -1 : minDist-1;
     }
 
-    public void move(Object[] order) {
+    public int move(Object[] order) {
         int m = (int) order[0];
         int dist = 0;
 
@@ -56,21 +59,22 @@ public class TestCaseSolver {
 
         npos = new Point(grid.w-2, 0);
         dist += solve(cpos, npos);
+        int d = solve(cpos, npos);
 
-
-        System.out.println(dist);
+        return dist;
     }
 
     public static void main(String[] args) {
         TestCaseGenerator tcg = new TestCaseGenerator(10, 10);
-        tcg.putShelf(10);
-        tcg.generateOrder(10);
-        tcg.printGrid();
-        tcg.printOrders();
-        Grid grid = tcg.getGrid();
+        tcg.putShelves(10);
+        tcg.generateRouteRandomly(10, 1);
+
+        final Grid grid = tcg.getGrid();
         TestCaseSolver tcs = new TestCaseSolver(grid);
-        for (Object[] order : tcg.getOrders()) {
-            tcs.move(order);
+
+        for (Object[] route : tcg.getRoutes()) {
+            System.out.println(tcs.move(route));
         }
     }
+
 }
