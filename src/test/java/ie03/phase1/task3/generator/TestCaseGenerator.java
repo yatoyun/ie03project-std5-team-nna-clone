@@ -6,12 +6,38 @@ import java.awt.*;
 import java.util.*;
 
 public class TestCaseGenerator {
+    int[][] weight;
     Grid grid;
     ArrayList<Object[]> shelves;
     ArrayList<Object[]> orders;
 
     public TestCaseGenerator(int w, int h) {
         grid = new Grid(w, h);
+
+        //copy weight
+        weight = new int[w][h];
+        for (int i = 0; i < w; i++) {
+            System.arraycopy(grid.weight[i], 0, weight[i], 0, h);
+        }
+        // set additional weight (to avoid putting around enter and exit)
+        weight[1][0] = Integer.MAX_VALUE;
+        weight[1][1] = Integer.MAX_VALUE;
+        weight[w-2][0] = Integer.MAX_VALUE;
+        weight[w-2][1] = Integer.MAX_VALUE;
+    }
+
+    private boolean isInvalid(Point p) {
+        if (grid.isInvalid(p)) {
+            return true;
+        } else return weight[p.x][p.y] == Integer.MAX_VALUE;
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public ArrayList<Object[]> getOrders() {
+        return orders;
     }
 
     public void putShelf(int n) {
@@ -50,8 +76,9 @@ public class TestCaseGenerator {
             String s = "S" + cnt;
 
             // if shelf is not put yet
-            if (grid.weight[x][y] != Integer.MAX_VALUE && grid.weight[pos.x][pos.y] != Integer.MAX_VALUE) {
-                grid.weight[pos.x][pos.y] = Integer.MAX_VALUE;
+            if (!isInvalid(pos) && !isInvalid(new Point(x, y))) {
+                weight[x][y] = Integer.MAX_VALUE;
+                weight[pos.x][pos.y] = Integer.MAX_VALUE;
                 shelves.add(new Object[]{x, y, s, d});
                 // if shelf is not put yet
                 grid.setShelf(new Point(x, y), s, d);

@@ -56,4 +56,12 @@ public class Grid {
         shelves.put(s, pos);
     }
 
+    public boolean isInvalid(Point p) {
+        if (p.x < 0 || p.x >= w || p.y < 0 || p.y >= h) {
+            // check if out of bounds
+            return true;
+        } else return weight[p.x][p.y] == Integer.MAX_VALUE;
+        // simplified else statement
+    }
+
 }

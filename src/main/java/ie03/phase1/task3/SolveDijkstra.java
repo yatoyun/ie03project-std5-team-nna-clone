@@ -57,8 +57,16 @@ public class SolveDijkstra {
                 npos.x = cpos.x + dx[i];
                 npos.y = cpos.y + dy[i];
 
+                /*
                 if (npos.x < 0 || npos.x >= w || npos.y < 0 || npos.y >= h) {
                     // check if out of bounds
+                    continue;
+                }
+
+                */
+
+                if (grid.isInvalid(npos)) {
+                    // check if invalid
                     continue;
                 }
 
@@ -67,10 +75,14 @@ public class SolveDijkstra {
                     continue;
                 }
 
+
+                /*
                 if (grid.weight[npos.x][npos.y] == Integer.MAX_VALUE) {
                     // check if wall
                     continue;
                 }
+                */
+
 
                 if (totaldist[npos.x][npos.y] > totaldist[cpos.x][cpos.y] + grid.weight[npos.x][npos.y]) {
                     // main logic
