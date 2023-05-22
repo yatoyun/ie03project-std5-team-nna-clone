@@ -21,11 +21,9 @@ public class TestCaseSolver {
             ArrayList<Point> path = q.poll();
             Point lastPoint = path.get(path.size()-1);
             if (lastPoint.equals(dpos)) {
-                if (minDist > path.size()) {
-                    minDist = path.size();
-                }
+                minDist = Math.min(minDist, path.size());
             } else {
-                if (path.size() >= minDist) {
+                if (path.size() > grid.w*grid.h || path.size() > minDist) {
                     continue;
                 }
                 int[] dx = {1, 0, -1, 0}; // E, N, W, S
@@ -45,21 +43,20 @@ public class TestCaseSolver {
     }
 
     public int move(Object[] order) {
-        int m = (int) order[0];
+        final int m = (int) order[0];
         int dist = 0;
 
         Point cpos = new Point(1, 0);
         Point npos;
 
         for (int j = 1; j <= m; j++) {
-            npos = grid.shelves.get((String) order[j]);
+            npos = grid.getShelfPoint((String) order[j]);
             dist += solve(cpos, npos);
             cpos = npos;
         }
 
         npos = new Point(grid.w-2, 0);
         dist += solve(cpos, npos);
-        int d = solve(cpos, npos);
 
         return dist;
     }

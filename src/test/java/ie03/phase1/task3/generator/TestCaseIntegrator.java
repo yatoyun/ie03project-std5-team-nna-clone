@@ -8,9 +8,7 @@ public class TestCaseIntegrator extends TestCaseGenerator {
 
     public String getOutput() {
         StringBuilder sb = new StringBuilder();
-        final int q = routes.size();
-        for (int i = 0; i < q; i++) {
-            Object[] route = routes.get(i);
+        for (final Object[] route : routes) {
             String line = solver.move(route) + "\n";
             sb.append(line);
         }
@@ -18,10 +16,11 @@ public class TestCaseIntegrator extends TestCaseGenerator {
     }
 
     public static void main(String[] args) {
-        int w = 4;
-        int h = 4;
-        int n = 3;
-        int q = 4;
+        int i = 3;
+        int w = 4*i;
+        int h = 4*i;
+        int n = i*3;
+        int q = 1;
         int maxRouteLength = 1;
 
         TestCaseIntegrator generator = new TestCaseIntegrator(w, h);

@@ -6,15 +6,23 @@ import java.awt.*;
 public class Grid {
     public int w;
     public int h;
-    public int[][] weight;
-    public HashMap<String, Point> shelves;
+    int[][] weight;
+    HashMap<String, Point> shelves;
 
     public Grid(int w, int h) {
         this.w = w;
         this.h = h;
         this.weight = new int[w][h];
         this.shelves = new HashMap<>();
+        clearGrid();
+    }
 
+    public Point getShelfPoint(String s) {
+        return shelves.get(s);
+    }
+
+    public void clearGrid() {
+        shelves.clear();
         // initialize grid
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
