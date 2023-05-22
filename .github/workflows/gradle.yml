@@ -36,7 +36,8 @@ jobs:
         arguments: build
     - name: Upload generated testcases
       uses: actions/upload-artifact@v3
+      if: always()
       with:
-        name: testcases
+        name: generated-testcases
         path: build/generated_testcases
 
