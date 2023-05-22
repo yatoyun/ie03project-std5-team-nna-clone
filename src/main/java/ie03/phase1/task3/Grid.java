@@ -21,6 +21,10 @@ public class Grid {
         return shelves.get(s);
     }
 
+    public Set<Point> getShelfPoints() {
+        return new HashSet<>(shelves.values());
+    }
+
     public void clearGrid() {
         shelves.clear();
         // initialize grid

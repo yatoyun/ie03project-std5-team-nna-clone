@@ -16,7 +16,7 @@ public class TestCaseIntegrator extends TestCaseGenerator {
     }
 
     public static void main(String[] args) {
-        int i = 3;
+        int i = 5;
         int w = 4*i;
         int h = 4*i;
         int n = i*3;
