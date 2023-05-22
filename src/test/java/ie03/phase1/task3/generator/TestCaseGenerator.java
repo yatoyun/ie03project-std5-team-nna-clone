@@ -18,19 +18,42 @@ public class TestCaseGenerator {
         routes = new ArrayList<>();
     }
 
-    private boolean isUnreachable(Point p) {
-        final Point enter = new Point(1, 0);
-        final Point exit = new Point(grid.w-2, 0);
-
-        // return solver.solveDist(enter, p) == -1 || solver.solveDist(p, exit) == -1;
-        // below way is faster than above way. believe me.
-
-        return solver.solve(p, enter) == -1 || solver.solve(p, exit) == -1;
-    }
-
     private void reset() {
         shelves.clear();
         grid.clearGrid();
+    }
+
+    private boolean isAllShelvesReachable() {
+        Set<Point> dposSet = grid.getShelfPoints();
+        Set<Point> visited = new HashSet<>();
+        // use queue
+        Queue<ArrayList<Point>> q = new LinkedList<>();
+        // add start point as initialisation
+        q.add(new ArrayList<>(Collections.singletonList(new Point(1, 0))));
+        while (!q.isEmpty()) {
+            ArrayList<Point> path = q.poll();
+            Point lastPoint = path.get(path.size()-1);
+
+            if (lastPoint.equals(new Point(grid.w-2, 0)) || path.size() > grid.w*grid.h) {
+                continue;
+            }
+
+            dposSet.remove(lastPoint);
+
+            int[] dx = {1, 0, -1, 0}; // E, N, W, S
+            int[] dy = {0, 1, 0, -1}; // E, N, W, S
+            for (int i = 0; i < 4; i++) {
+                Point npos = new Point(lastPoint.x + dx[i], lastPoint.y + dy[i]);
+                if ((!grid.isValid(npos)) || path.contains(npos) || visited.contains(npos)) {
+                    continue;
+                }
+                ArrayList<Point> newPath = new ArrayList<>(path);
+                newPath.add(npos);
+                visited.add(npos);
+                q.add(new ArrayList<>(newPath));
+            }
+        }
+        return dposSet.isEmpty();
     }
 
     public Grid getGrid() {
@@ -112,28 +135,14 @@ public class TestCaseGenerator {
             candidatePoints.remove(dpos);
             shelves.add(new Object[]{p.x, p.y, s, d});
             grid.setShelf(p, s, d);
-            candidatePoints.remove(dpos);
             cnt++;
 
-            if (cnt == n) {
-                for (int i = 0; i < n; i++) {
-                    // check if the shelf is unreachable
-                    Object[] shelf = shelves.get(i);
-                    System.out.println(shelf[0] + " " + shelf[1] + " " + shelf[2] + " " + shelf[3]);
-                }
+            if (cnt == n && !isAllShelvesReachable()) {
+                // if unreachable, reset and try again
+                reset();
+                cnt = 0;
             }
 
-            for (int i = (cnt==n?0:n); i < n; i++) {
-                // check if the shelf is unreachable
-                Point shelfPoint = grid.getShelfPoint("S"+i);
-                System.out.println(shelfPoint);
-                if (isUnreachable(shelfPoint)) {
-                    // if unreachable, reset and try again
-                    reset();
-                    cnt = 0;
-                    break;
-                }
-            }
         }
     }
 

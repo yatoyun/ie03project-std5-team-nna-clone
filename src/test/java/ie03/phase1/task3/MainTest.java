@@ -33,7 +33,7 @@ public class MainTest {
         final Path path = Paths.get(TEST_CASES_PREFIX);
         Files.createDirectories(path);
 
-        final int numTestCases = 5;
+        final int numTestCases = 25;
         final String INPUT_FILE_PREFIX = "example";
         final String INPUT_FILE_EXTENSION = "_in.txt";
         final String OUTPUT_FILE_PREFIX = "example";
@@ -49,7 +49,7 @@ public class MainTest {
             String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;
             String expect_fileName = EXPECT_FILE_PREFIX + i + EXPECT_FILE_EXTENSION;
 
-            generator.putShelves(Math.min(25, 3 * i));
+            generator.putShelves(Math.min(3*i, 25));
             generator.generateRouteRandomly(Math.min(3*i, 20), 1);
 
             String input = generator.getInput();

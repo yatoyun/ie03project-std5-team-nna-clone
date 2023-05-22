@@ -15,6 +15,7 @@ public class TestCaseSolver {
     protected int solve(Point cpos, Point dpos) {
         int minDist = Integer.MAX_VALUE;
         // use queue
+        Set<Point> visited = new HashSet<>();
         Queue<ArrayList<Point>> q = new LinkedList<>();
         q.add(new ArrayList<>(Collections.singletonList(cpos)));
         while (!q.isEmpty()) {
@@ -30,11 +31,12 @@ public class TestCaseSolver {
                 int[] dy = {0, 1, 0, -1}; // E, N, W, S
                 for (int i = 0; i < 4; i++) {
                     Point npos = new Point(lastPoint.x + dx[i], lastPoint.y + dy[i]);
-                    if ((!grid.isValid(npos)) || path.contains(npos)) {
+                    if ((!grid.isValid(npos)) || path.contains(npos) || visited.contains(npos)) {
                         continue;
                     }
                     ArrayList<Point> newPath = new ArrayList<>(path);
                     newPath.add(npos);
+                    visited.add(npos);
                     q.add(new ArrayList<>(newPath));
                 }
             }
