@@ -4,11 +4,13 @@ import ie03.TestUtils;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,25 +21,23 @@ public class MainTest {
         return test.execute(input);
     }
 
-    String getFileContent(String path) throws Exception{
-        final String fileContent = new String(Files.readAllBytes(Paths.get(getClass().getResource(path).getPath())));
-        return fileContent;
+    String getFileContent(String path) throws IOException, NullPointerException {
+        return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
     }
 
     @TestFactory
-    Collection<DynamicTest> exampleTest() {
+    Collection<DynamicTest> exampleTest() throws Exception{
 
         List<DynamicTest> tests = new ArrayList<>();
 
         String input_path = "/phase2/task5/example_in.txt";
         String output_path = "/phase2/task5/example_out.txt";
+        String input = getFileContent(input_path);
+        String outputExpected = getFileContent(output_path);
 
         tests.add(DynamicTest.dynamicTest("Example Test", () -> {
 
-            String input = getFileContent(input_path);
             String outputActual = execute(input);
-            String outputExpected = getFileContent(output_path);
-
 
             System.err.println("[Input] \n" + input);
             System.err.println("[Actual Output] \n" + outputActual);
