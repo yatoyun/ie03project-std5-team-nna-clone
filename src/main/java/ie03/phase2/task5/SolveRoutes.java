@@ -10,7 +10,7 @@ public class SolveRoutes {
 
     public String[] stopovers;
 
-    SolveRoutes(Grid grid) {
+    public SolveRoutes(Grid grid) {
         this.get_route = new GetMinimumRoute(grid);
         this.shelves = grid.shelves;
     }
