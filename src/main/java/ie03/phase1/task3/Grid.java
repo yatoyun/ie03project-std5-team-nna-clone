@@ -48,22 +48,21 @@ public class Grid {
         Point pos = new Point();
 
         switch (d) {
-            case "N" -> {
+            case "N":
                 pos.x = p.x;
                 pos.y = p.y + 1;
-            }
-            case "S" -> {
+                break;
+            case "S":
                 pos.x = p.x;
                 pos.y = p.y - 1;
-            }
-            case "E" -> {
+                break;
+            case "E":
                 pos.x = p.x + 1;
                 pos.y = p.y;
-            }
-            case "W" -> {
+                break;
+            case "W":
                 pos.x = p.x - 1;
                 pos.y = p.y;
-            }
         }
         shelves.put(s, pos);
     }
