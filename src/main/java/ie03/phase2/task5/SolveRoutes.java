@@ -10,9 +10,9 @@ public class SolveRoutes {
 
     public String[] stopovers;
 
-    SolveRoutes(int w, int h, int[][] grid, HashMap<String, Point> shelves){
-        this.get_route = new GetMinimumRoute(w, h, grid);
-        this.shelves = shelves;
+    SolveRoutes(Grid grid) {
+        this.get_route = new GetMinimumRoute(grid);
+        this.shelves = grid.shelves;
     }
 
     public void resetDistGraph(){
