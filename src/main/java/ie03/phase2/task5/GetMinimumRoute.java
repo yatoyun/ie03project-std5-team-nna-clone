@@ -10,10 +10,10 @@ public class GetMinimumRoute {
     public static int w, h;
     public static int[][] grid;
 
-    GetMinimumRoute(int w, int h, int[][] grid) {
-        GetMinimumRoute.w = w;
-        GetMinimumRoute.h = h;
-        GetMinimumRoute.grid = grid;
+    GetMinimumRoute(Grid grid) {
+        GetMinimumRoute.w = grid.w;
+        GetMinimumRoute.h = grid.h;
+        GetMinimumRoute.grid = grid.grid;
     }
 
     public static int[][] solveTotalDist(Point cpos, Point dpos) {
