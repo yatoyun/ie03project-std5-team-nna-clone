@@ -13,7 +13,7 @@ public class GetMinimumRoute {
     GetMinimumRoute(Grid grid) {
         GetMinimumRoute.w = grid.w;
         GetMinimumRoute.h = grid.h;
-        GetMinimumRoute.grid = grid.grid;
+        GetMinimumRoute.grid = grid.weight;
     }
 
     public static int[][] solveTotalDist(Point cpos, Point dpos) {
