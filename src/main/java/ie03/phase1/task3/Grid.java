@@ -6,8 +6,8 @@ import java.awt.*;
 public class Grid {
     public int w;
     public int h;
-    int[][] weight;
-    HashMap<String, Point> shelves;
+    public int[][] weight;
+    public HashMap<String, Point> shelves;
 
     public Grid(int w, int h) {
         this.w = w;

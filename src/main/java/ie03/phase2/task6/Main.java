@@ -5,12 +5,11 @@ import ie03.phase2.task5.Input;
 
 import java.util.ArrayList;
 
-
+/*
 public class Main {
     public static void main(String[] args) {
         // input 01
         Grid grid = new Grid();
-        grid.warehouseSetup();
 
         // input 02
         int q = Input.nextInt();
@@ -29,3 +28,5 @@ public class Main {
         }
     }
 }
+
+ */
