@@ -6,8 +6,8 @@ import java.awt.*;
 public class Grid {
     public int w;
     public int h;
-    int[][] weight;
-    HashMap<String, Point> shelves;
+    public int[][] weight;
+    public HashMap<String, Point> shelves;
 
     public Grid(int w, int h) {
         this.w = w;
@@ -48,22 +48,21 @@ public class Grid {
         Point pos = new Point();
 
         switch (d) {
-            case "N" -> {
+            case "N":
                 pos.x = p.x;
                 pos.y = p.y + 1;
-            }
-            case "S" -> {
+                break;
+            case "S":
                 pos.x = p.x;
                 pos.y = p.y - 1;
-            }
-            case "E" -> {
+                break;
+            case "E":
                 pos.x = p.x + 1;
                 pos.y = p.y;
-            }
-            case "W" -> {
+                break;
+            case "W":
                 pos.x = p.x - 1;
                 pos.y = p.y;
-            }
         }
         shelves.put(s, pos);
     }
@@ -73,6 +72,7 @@ public class Grid {
             // check if out of bounds
             return false;
         } else return weight[p.x][p.y] != Integer.MAX_VALUE;
+        // if not out of bounds, check if wall
         // simplified else statement
     }
 

@@ -1,43 +1,14 @@
 package ie03.phase2.task5;
 
 import java.awt.*;
-import java.util.HashMap;
 
-public class Grid {
+public class Grid extends ie03.phase1.task3.Grid {
 
-    public int w, h;
-    public int[][] grid;
-    public HashMap<String, Point> shelves = new HashMap<>();
-
-    public void warehouseSetup() {
-        // first input to set w, h, and shelve positions
-
-        w = Input.nextInt();
-        h = Input.nextInt();
-        int n = Input.nextInt();
-        grid = new int[w][h];
-
-        gridInitializer(w,h,grid);
-        shelvesInitializer(w,n,grid,shelves);
+    public Grid(int w, int h) {
+        super(w, h);
     }
 
-    public static void gridInitializer(int w, int h, int[][] grid){
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                if ((i == 0 && j == h - 1) || (i == w - 1 && j == h - 1)) {
-                    // upper left and lower right corner
-                    grid[i][j] = Integer.MAX_VALUE;
-                } else if ((i != 1 && i != w - 2) && j == 0) {
-                    // lower wall
-                    grid[i][j] = Integer.MAX_VALUE;
-                } else {
-                    grid[i][j] = 1;
-                }
-            }
-        }
-    }
-
-    public static void shelvesInitializer(int w, int n, int[][] grid, HashMap<String, Point> shelves){
+    public void shelvesInitializer(int n) {
         for (int i = 0; i < n; i++) {
 
             int x = Input.nextInt();
@@ -45,36 +16,16 @@ public class Grid {
             String s = Input.next();
             String d = Input.next();
 
-            grid[x][y] = Integer.MAX_VALUE;
-
-            Point pos = new Point();
-
-            if (d.compareTo("N") == 0) {
-                pos.x = x;
-                pos.y = y + 1;
-            } else if (d.compareTo("S") == 0) {
-                pos.x = x;
-                pos.y = y - 1;
-            } else if (d.compareTo("E") == 0) {
-                pos.x = x + 1;
-                pos.y = y;
-            } else if (d.compareTo("W") == 0) {
-                pos.x = x - 1;
-                pos.y = y;
-            }
-
-            shelves.put(s, pos);
+            Point p = new Point(x, y);
+            setShelf(p, s, d);
         }
+
         // set entry point
-        Point pos = new Point();
-        pos.x = 1;
-        pos.y = 0;
+        Point pos = new Point(1, 0);
         shelves.put("EN", pos);
 
         // set exit point
-        pos = new Point();
-        pos.x = w-2;
-        pos.y = 0;
+        pos = new Point(w-2, 0);
         shelves.put("EX", pos);
     }
 }
