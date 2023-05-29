@@ -72,6 +72,7 @@ public class Grid {
             // check if out of bounds
             return false;
         } else return weight[p.x][p.y] != Integer.MAX_VALUE;
+        // if not out of bounds, check if wall
         // simplified else statement
     }
 

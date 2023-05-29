@@ -1,17 +1,19 @@
 package ie03.phase2.task5;
 
+import ie03.phase1.task3.SolveDijkstra;
+
 import java.awt.*;
 import java.util.*;
 
 public class SolveRoutes {
     public HashMap<String, Integer> dist_graph;
-    public GetMinimumRoute get_route;
+    public SolveDijkstra get_route;
     public HashMap<String, Point> shelves;
 
     public String[] stopovers;
 
     public SolveRoutes(Grid grid) {
-        this.get_route = new GetMinimumRoute(grid);
+        this.get_route = new SolveDijkstra(grid);
         this.shelves = grid.shelves;
     }
 
