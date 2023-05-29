@@ -11,6 +11,19 @@ public class Main {
         grid.shelvesInitializer(n);
 
         // input 02 and solve
-        Outputs.inputSecond(grid);
+        int q = Input.nextInt();
+
+        SolveRoutes sr = new SolveRoutes(grid);
+
+        for (int i = 0; i < q; i++) {
+            int m = Input.nextInt();
+
+            // reset dist_graph
+            sr.resetDistGraph();
+            sr.resetStopovers(m);
+
+            // solve
+            System.out.println(sr.solveTSP());
+        }
     }
 }

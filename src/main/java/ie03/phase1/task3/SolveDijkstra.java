@@ -58,7 +58,7 @@ public class SolveDijkstra {
                 npos.y = cpos.y + dy[i];
 
                 if (!grid.isValid(npos)) {
-                    // check if invalid
+                    // check if invalid (out of bounds or wall
                     continue;
                 }
 
