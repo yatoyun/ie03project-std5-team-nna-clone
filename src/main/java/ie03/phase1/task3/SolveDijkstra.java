@@ -19,7 +19,7 @@ public class SolveDijkstra {
         this.shelves = g.shelves;
     }
 
-    private int[][] solveTotalDist(Point cpos, Point dpos) {
+    public int[][] solveTotalDist(Point cpos, Point dpos) {
         // solve distance using dijkstra
         int[][] totaldist = new int[w][h];
         boolean[][] visited = new boolean[w][h];
