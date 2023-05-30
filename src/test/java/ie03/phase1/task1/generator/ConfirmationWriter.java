@@ -8,11 +8,12 @@ public class ConfirmationWriter {
     final private Map<String, Integer> wordCount;
     final private String fileName;
 
-    final String FILEPATH = "src/test/resources/phase1/task1/";
+    final String FILEPATH;
 
-    ConfirmationWriter(Map<String, Integer> wordCount, String fileName) {
+    ConfirmationWriter(Map<String, Integer> wordCount, String fileName, String FILEPATH) {
         this.wordCount = wordCount;
         this.fileName = fileName;
+        this.FILEPATH = FILEPATH;
     }
 
     boolean writeConfirmationText() {

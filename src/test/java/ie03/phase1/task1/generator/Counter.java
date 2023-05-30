@@ -1,6 +1,8 @@
 package ie03.phase1.task1.generator;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 public class Counter {
@@ -9,11 +11,13 @@ public class Counter {
     private final String text;
 
     private int total;
-    Counter(String text){
+
+    public Counter(String text) {
         this.text = text;
         this.total = 0;
     }
-    int countWords() {
+
+    public int countWords() {
         String[] words = text.split("\\s+");
         for (String word : words) {
             if (pattern.matcher(word).matches()) { // Check if the word is not a number

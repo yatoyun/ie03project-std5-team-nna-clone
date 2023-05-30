@@ -3,7 +3,7 @@ package ie03.phase1.task1.generator;
 import java.util.*;
 
 public class TestCaseGenerator {
-    private static final String[] products = {
+    protected static final String[] products = {
             "laptop", "fridge", "headphones", "tv", "monitor", "iphone", "toaster", "blender",
             "tea", "butter", "bread", "onion", "carrot", "potato", "rice", "water", "juice", "coffee", "milk", "coke",
             "ayhjls", "alkjuy", "yutreq", "oiuytr", "plkjhu", "jklkjh", "iuytrew", "uiuytr", "azerty", "qwerty"
@@ -11,7 +11,7 @@ public class TestCaseGenerator {
     private Map<String, Integer> purchasesData;
     private String output;
 
-     public String generateTestCase(int caseNumber) {
+    public String generateTestCase(int caseNumber) {
         Random rand = new Random();
         StringBuilder sb1 = new StringBuilder();//store purchaseData
         StringBuilder sb2 = new StringBuilder();//store query

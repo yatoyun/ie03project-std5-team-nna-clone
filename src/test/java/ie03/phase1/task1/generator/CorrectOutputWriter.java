@@ -5,17 +5,18 @@ import java.io.IOException;
 
 public class CorrectOutputWriter {
 
-    final String output;
-    final String fileName;
+    protected final String output;
+    protected final String fileName;
 
-    final String FILEPATH = "src/test/resources/phase1/task1/";
+    protected final String FILEPATH;
 
-    CorrectOutputWriter(String output, String fileName) {
+    public CorrectOutputWriter(String output, String fileName, String filepath) {
         this.output = output;
         this.fileName = fileName;
+        this.FILEPATH = filepath;
     }
 
-    boolean writeOutput() {
+    public boolean writeOutput() {
         try (FileWriter writer = new FileWriter(FILEPATH + fileName)) {
             writer.write(output);
             return true;
