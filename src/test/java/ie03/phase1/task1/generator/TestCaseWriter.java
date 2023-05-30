@@ -7,14 +7,15 @@ public class TestCaseWriter {
     final String testCase;
     final String fileName;
 
-    final String FILEPATH = "src/test/resources/phase1/task1/";
+    final String FILEPATH;
 
-    TestCaseWriter(String testCase, String fileName) {
+    public TestCaseWriter(String testCase, String fileName, String filepath) {
         this.testCase = testCase;
         this.fileName = fileName;
+        this.FILEPATH = filepath;
     }
 
-    boolean writeTestcase() {
+    public boolean writeTestcase() {
         try (FileWriter writer = new FileWriter(FILEPATH + fileName)) {
             writer.write(testCase);
             return true;

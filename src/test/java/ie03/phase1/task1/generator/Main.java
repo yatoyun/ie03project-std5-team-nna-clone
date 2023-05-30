@@ -9,6 +9,7 @@ public class Main {
         final String OUTPUT_FILE_EXTENSION = "_out.txt";
         final String CONFIRMATION_FILE_PREFIX = "example";
         final String CONFIRMATION_FILE_EXTENSION = "_confirm.txt";
+        final String FILE_PATH = "src/test/resources/phase1/task1/";
 
         TestCaseGenerator generator = new TestCaseGenerator();
 
@@ -20,7 +21,7 @@ public class Main {
             String testCase = generator.generateTestCase(i);
 
             //generate testcases for input
-            TestCaseWriter tw = new TestCaseWriter(testCase, input_fileName);
+            TestCaseWriter tw = new TestCaseWriter(testCase, input_fileName, FILE_PATH);
             if (tw.writeTestcase()) {
                 System.out.println("Generated test case: " + input_fileName);
             } else {
@@ -28,7 +29,7 @@ public class Main {
             }
 
             //generate txt files to confirm whether output is correct or not
-            CorrectOutputWriter ow = new CorrectOutputWriter(generator.getOutput(), output_fileName);
+            CorrectOutputWriter ow = new CorrectOutputWriter(generator.getOutput(), output_fileName, FILE_PATH);
             if (ow.writeOutput()) {
                 System.out.println("Generated output txt: " + output_fileName);
             } else {
@@ -36,7 +37,7 @@ public class Main {
             }
 
             //generate txt files to confirm whether output is correct or not (full display)
-            ConfirmationWriter cw = new ConfirmationWriter(generator.getPurchasesData(), confirmation_fileName);
+            ConfirmationWriter cw = new ConfirmationWriter(generator.getPurchasesData(), confirmation_fileName, FILE_PATH);
             if (cw.writeConfirmationText()) {
                 System.out.println("Generated confirmation txt: " + confirmation_fileName);
             } else {
