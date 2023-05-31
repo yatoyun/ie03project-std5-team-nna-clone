@@ -11,12 +11,12 @@ public class CorrectOutputGenerator {
     List<String> itemList;
 
 
-    CorrectOutputGenerator(String items, List<Integer> queries) {
+    public CorrectOutputGenerator(String items, List<Integer> queries) {
         this.ITEMS = items;
         this.Queries = queries;
     }
 
-    String writeCorrectOutput() {
+    public String writeCorrectOutput() {
         String[] items = ITEMS.split("\n");
         itemList = new ArrayList<>(Arrays.asList(items));
         StringBuilder sb = new StringBuilder();

@@ -2,12 +2,12 @@ package ie03.phase2.task4;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ie03.phase2.task4.generator.ConfirmationTxtWriter;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import ie03.TestUtils;
-import ie03.phase1.task1.generator.TestCaseGenerator;
-
+import ie03.phase2.task4.generator.*;
 import java.nio.file.*;
 import java.util.*;
 
@@ -24,6 +24,7 @@ public class MainTest {
     }
 
 
+    @TestFactory
     Collection<DynamicTest> generatedTest() throws Exception {
 
         final String buildPath = System.getProperty("user.dir") + "/build";
@@ -33,7 +34,7 @@ public class MainTest {
         Path path = Paths.get(TEST_CASES_PREFIX);
         Files.createDirectories(path);
 
-        final int numTestCases = 100;
+        final int numTestCases = 1;
         final String INPUT_FILE_PREFIX = "example";
         final String INPUT_FILE_EXTENSION = "_in.txt";
         final String OUTPUT_FILE_PREFIX = "example";
@@ -53,7 +54,11 @@ public class MainTest {
 
             String input = generator.generateTestCase(i);
             String outputActual = execute(input);
-            String outputExpected = generator.getOutput();
+
+            // generate expected output
+            ConfirmationTxtWriter cw = new ConfirmationTxtWriter(generator.getItems());
+            CorrectOutputGenerator cog = new CorrectOutputGenerator(cw.getListToString(), generator.getQueryList());
+            String outputExpected = cog.writeCorrectOutput();
 
             // write input to file
             Files.write(Paths.get(TEST_CASES_PREFIX + "/" + input_fileName), input.getBytes());
