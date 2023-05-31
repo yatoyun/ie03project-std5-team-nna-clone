@@ -42,7 +42,7 @@ public class RouteSimulationWithPathRoute extends SolveRoutes {
             String comb_name = getCombName(stopovers[i], stopovers[n]);
             if (dist_graph.get(comb_name) != null) {
                 res = Math.min(res, dp[(1 << n) - 1][i] + dist_graph.get(comb_name));
-                last = i;
+                if (res == dp[(1 << n) - 1][i] + dist_graph.get(comb_name)) last = i;
             }
         }
 
@@ -56,6 +56,8 @@ public class RouteSimulationWithPathRoute extends SolveRoutes {
         }
 
         Collections.reverse(path);
+
+        System.err.println(path);
 
         return path;
     }

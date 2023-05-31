@@ -13,10 +13,13 @@ public class Main {
     static HashMap<Point, String> shelvesByPoint = new HashMap<>();
     static SolveDijkstra solver;
     static Grid grid;
-    
+    static String[] stopovers;
+
 
     static ArrayList<String> solveWaypoints(Point cpos, Point npos) {
         // trace the shortest path from npos to cpos and return list of steped shelves
+
+        HashSet<String> stopoversSet = new HashSet<>(Arrays.asList(stopovers));
 
         // solve distance using dikstra
         int[][] totaldist = solver.solveTotalDist(cpos, npos);
@@ -27,25 +30,52 @@ public class Main {
         int[] dx = {1, 0, -1, 0}; // E, N, W, S
         int[] dy = {0, 1, 0, -1}; // E, N, W, S
 
-        Point p = npos;
+        Queue<Point> queue = new LinkedList<>();
+        queue.add(npos);
 
-        while (!p.equals(cpos)) {
+        while (!queue.isEmpty()) {
+            Point p = queue.poll();
             for (int i = 0; i < 4; i++) {
                 Point np = new Point(dx[i] + p.x, dy[i] + p.y);
-                
+
                 if (!grid.isValid(np)) {
                     continue;
                 }
-                
+
                 if (totaldist[np.x][np.y] == totaldist[p.x][p.y] - 1) {
-                    p = np;
-                    if (shelvesByPoint.containsKey(p)) {
-                        route.add(shelvesByPoint.get(p));
-                        break;
+                    queue.add(np);
+                    String npShelfName = shelvesByPoint.get(np);
+
+                    if (!shelvesByPoint.containsKey(np)) {
+                        continue;
+                    }
+
+                    // if there exsites a shelf in front of on np, add it to route
+                    // however we bust avoid adding shelf if the last element of route is the same totaldist value as np's totaldist value
+
+                    if (route.size() == 0) {
+                        route.add(npShelfName);
+                        continue;
+                    }
+
+                    // if the last element of route is the same totaldist value as np's totaldist value, we should not add shelf
+                    // we need to compare which is smaller the shelves' name as dictionary order
+
+                    Point lastShelfPos = grid.shelves.get(route.get(route.size() - 1));
+                    String lastShelfName = shelvesByPoint.get(lastShelfPos);
+
+                    if (totaldist[lastShelfPos.x][lastShelfPos.y] == totaldist[np.x][np.y] && !stopoversSet.contains(npShelfName)) {
+                        if (lastShelfName.compareTo(npShelfName) > 0) {
+                            route.remove(route.size() - 1);
+                            route.add(npShelfName);
+                        }
+                    } else {
+                        route.add(npShelfName);
                     }
                 }
             }
         }
+
         return route;
     }
 
@@ -72,6 +102,7 @@ public class Main {
             // reset dist_graph
             sr.resetDistGraph();
             sr.resetStopovers(m);
+            stopovers = sr.stopovers;
 
             int minDist = sr.solveTSP();
             ArrayList<String> stopovers = sr.solveAndGetRouteTSP();
