@@ -61,11 +61,11 @@ public class TestCaseGenerator extends ie03.phase1.task1.generator.TestCaseGener
         return sb1.append(queries).toString();
     }
 
-    String getItems() {
+    public String getItems() {
         return items;
     }
 
-    List<Integer> getQueryList() {
+    public List<Integer> getQueryList() {
         return queryList;
     }
 }

@@ -12,20 +12,30 @@ public class ConfirmationTxtWriter {
     final String FILE_PATH;
     List<Map.Entry<String, Integer>> list;
 
+    public ConfirmationTxtWriter(String items) {
+        this.ITEMS = items;
+        this.FILE_NAME = null;
+        this.FILE_PATH = null;
+        createList();
+    }
+
     ConfirmationTxtWriter(String items, String file, String path) {
         this.ITEMS = items;
         this.FILE_NAME = file;
         this.FILE_PATH = path;
+        createList();
     }
 
-    public boolean write() {
+    public void createList() {
         String shoppingList = ITEMS;
         Map<String, Integer> pairCount = processShoppingList(shoppingList);
 
         // sort the pairs by their count, then in lexicographic order
         list = new ArrayList<>(pairCount.entrySet());
         list.sort(Map.Entry.<String, Integer>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()));
+    }
 
+    public boolean write() {
         // output the pairs and their counts to a file
         try (PrintWriter writer = new PrintWriter(new File(FILE_PATH + FILE_NAME))) {
             for (Map.Entry<String, Integer> entry : list) {

@@ -11,17 +11,17 @@ public class CorrectOutputGenerator {
     List<String> itemList;
 
 
-    CorrectOutputGenerator(String items, List<Integer> queries) {
+    public CorrectOutputGenerator(String items, List<Integer> queries) {
         this.ITEMS = items;
         this.Queries = queries;
     }
 
-    String writeCorrectOutput() {
+    public String writeCorrectOutput() {
         String[] items = ITEMS.split("\n");
         itemList = new ArrayList<>(Arrays.asList(items));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < Queries.size() / 2; i++) {
-            for (int j = Queries.get(2 * i); j < Queries.get(2 * i + 1); j++) {
+            for (int j = Queries.get(2 * i); j <= Queries.get(2 * i + 1); j++) {
                 sb.append(itemList.get(j - 1)).append("\n");
             }
         }
