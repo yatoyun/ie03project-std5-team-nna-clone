@@ -1,24 +1,28 @@
 package ie03.phase1.task1;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import ie03.TestUtils;
-import ie03.phase1.task1.generator.*;
-
-import org.junit.jupiter.api.TestFactory;
+import ie03.phase1.task1.generator.Generator;
 import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
 
-import java.util.*;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PurchaseHistoryTest {
 
-    String execute(String input) throws Exception{
+    String execute(String input) throws Exception {
         TestUtils test = new TestUtils(new PurchaseHistory());
         return test.execute(input);
     }
 
-    String getFileContent(String path) throws Exception{
+    String getFileContent(String path) throws Exception {
         return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
     }
 
@@ -40,7 +44,7 @@ public class PurchaseHistoryTest {
         final String EXPECT_FILE_PREFIX = "example";
         final String EXPECT_FILE_EXTENSION = "_out_expect.txt";
 
-        TestCaseGenerator generator = new TestCaseGenerator();
+        Generator generator = new Generator();
 
         List<DynamicTest> tests = new ArrayList<>();
 
@@ -50,7 +54,8 @@ public class PurchaseHistoryTest {
             String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;
             String expect_fileName = EXPECT_FILE_PREFIX + i + EXPECT_FILE_EXTENSION;
 
-            String input = generator.generateTestCase(i);
+            generator.generateInputAndOutput(i);
+            String input = generator.getInput();
             String outputActual = execute(input);
             String outputExpected = generator.getOutput();
 
@@ -75,12 +80,13 @@ public class PurchaseHistoryTest {
 
         return tests;
     }
+
     @TestFactory
     Collection<DynamicTest> exampleTest() {
 
         List<DynamicTest> tests = new ArrayList<>();
 
-        for (int i=1; i<3; i++) {
+        for (int i = 1; i < 3; i++) {
             String input_path = "/phase1/task1/example" + i + "_in.txt";
             String output_path = "/phase1/task1/example" + i + "_out.txt";
 
