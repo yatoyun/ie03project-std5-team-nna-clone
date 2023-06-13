@@ -61,6 +61,7 @@ public class ShelvesGenerator implements IGenerator<ArrayList<Object[]>> {
             candidatePoints.remove(p);
             candidatePoints.remove(dpos);
             shelves.add(new Object[]{p.x, p.y, s, d});
+            grid.shelves.put(s, p);
             grid.setShelf(p, s, d);
             cnt++;
 
@@ -70,6 +71,11 @@ public class ShelvesGenerator implements IGenerator<ArrayList<Object[]>> {
                 cnt = 0;
             }
         }
+        // set entry point
+        grid.shelves.put("EN", ENTRANCE);
+
+        // set exit point
+        grid.shelves.put("EX", EXIT);
     }
 
 

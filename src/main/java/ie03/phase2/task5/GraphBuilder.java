@@ -10,9 +10,9 @@ public class GraphBuilder {
     public SolveDijkstra getRoute;
     public HashMap<String, Point> shelves;
     public String[] stopovers;
-    public Input input;
+    public InterfaceIn input;
 
-    public GraphBuilder(Input input, Grid grid){
+    public GraphBuilder(InterfaceIn input, Grid grid){
         this.input = input;
         this.shelves = grid.shelves;
         this.getRoute = new SolveDijkstra(grid);

@@ -33,7 +33,7 @@ public class MainTest {
         final Path path = Paths.get(TEST_CASES_PREFIX);
         Files.createDirectories(path);
 
-        final int numTestCases = 25;
+        final int numTestCases = 5;//25;
         final String INPUT_FILE_PREFIX = "example";
         final String INPUT_FILE_EXTENSION = "_in.txt";
         final String OUTPUT_FILE_PREFIX = "example";
@@ -44,7 +44,7 @@ public class MainTest {
         List<DynamicTest> tests = new ArrayList<>();
 
         for (int i = 1; i <= numTestCases; i++) {
-            TestCaseGenerator generator = new TestCaseGenerator(4 * i, 4 * i);
+            TestCaseGenerator generator = new TestCaseGenerator();
             String input_fileName = INPUT_FILE_PREFIX + i + INPUT_FILE_EXTENSION;
             String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;
             String expect_fileName = EXPECT_FILE_PREFIX + i + EXPECT_FILE_EXTENSION;

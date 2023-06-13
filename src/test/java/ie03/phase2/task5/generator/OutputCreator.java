@@ -1,26 +1,32 @@
 package ie03.phase2.task5.generator;
 
-import ie03.phase1.task3.Grid;
-import ie03.phase2.task5.SolveRoutes;
+import ie03.phase2.task5.Grid;
+import ie03.phase2.task5.GraphBuilder;
 
 import java.util.ArrayList;
 
 public class OutputCreator implements ICreator<String> {
-    private final ArrayList<Object[]> shelves;
     private final ArrayList<Object[]> routes;
-    private final TestCaseSolver solver;
+    private final Grid grid;
 
-    public OutputCreator(Grid grid, ArrayList<Object[]> shelves, ArrayList<Object[]> routes){
-        this.shelves = shelves;
+    public OutputCreator(Grid grid, ArrayList<Object[]> routes){
         this.routes = routes;
-        this.solver = new TestCaseSolver(grid);
+        this.grid = grid;
     }
 
     @Override
     public String getTestText(){
         StringBuilder sb = new StringBuilder();
+        StopOversInput soi = new StopOversInput();
+        GraphBuilder graphBl = new GraphBuilder(soi, grid);
+
         for (final Object[] route : routes) {
-            String line = solver.move(route) + "\n";
+            soi.reset(route);
+            graphBl.getDistGlaph(soi.getLength());
+            TSPTEST tsp = new TSPTEST(graphBl);
+            tsp.solveTSP();
+
+            String line = tsp.getMinRouteValue() + "\n";
             sb.append(line);
         }
         return sb.toString();

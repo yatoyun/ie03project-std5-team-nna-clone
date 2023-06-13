@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
-public class Input {
+public class Input implements InterfaceIn{
     private static InputStream in;
     private final static byte[] buffer = new byte[1024];
     private static int ptr = 0;
