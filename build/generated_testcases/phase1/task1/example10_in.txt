@@ -1,0 +1,111 @@
+100
+5 azerty coffee oiuytr onion yutreq
+4 blender jklkjh laptop uiuytr
+6 bread carrot headphones plkjhu tea tv
+2 fridge oiuytr
+2 carrot rice
+2 ayhjls tea
+10 ayhjls azerty bread carrot coke jklkjh monitor potato tv yutreq
+9 ayhjls fridge headphones iphone potato qwerty tea toaster yutreq
+5 blender coke headphones tv water
+6 alkjuy blender bread iphone monitor toaster
+1 ayhjls
+8 butter fridge headphones juice monitor onion qwerty uiuytr
+8 alkjuy bread butter juice potato rice water yutreq
+8 bread juice milk onion plkjhu qwerty tv yutreq
+6 azerty bread carrot jklkjh laptop qwerty
+2 headphones uiuytr
+5 alkjuy coffee fridge iphone onion
+3 laptop rice tea
+8 ayhjls azerty blender coffee fridge juice rice tea
+3 coke fridge onion
+4 carrot jklkjh tv yutreq
+3 blender headphones uiuytr
+5 coke headphones oiuytr rice toaster
+10 bread coffee fridge iuytrew jklkjh milk potato qwerty tea yutreq
+1 iphone
+5 alkjuy carrot coffee potato yutreq
+9 blender coffee headphones laptop milk oiuytr plkjhu potato tea
+8 ayhjls fridge laptop onion plkjhu qwerty tv yutreq
+10 ayhjls blender bread coffee fridge iphone monitor potato tea yutreq
+8 alkjuy iphone monitor oiuytr onion rice uiuytr yutreq
+1 headphones
+7 alkjuy blender iphone milk oiuytr rice tv
+8 alkjuy bread carrot coffee juice potato qwerty tv
+6 alkjuy butter coffee oiuytr tea uiuytr
+7 jklkjh juice milk monitor qwerty tea water
+7 alkjuy fridge iphone milk potato qwerty yutreq
+5 bread coffee headphones onion toaster
+2 potato uiuytr
+2 coffee iphone
+10 carrot coke iuytrew jklkjh monitor plkjhu rice toaster water yutreq
+9 bread juice oiuytr onion qwerty rice tea toaster uiuytr
+3 azerty iuytrew yutreq
+7 bread headphones laptop oiuytr onion rice uiuytr
+1 onion
+4 ayhjls iphone onion tv
+1 butter
+4 carrot laptop milk water
+1 qwerty
+2 iphone tv
+2 azerty juice
+5 alkjuy jklkjh milk onion potato
+1 juice
+2 plkjhu rice
+10 blender coffee fridge headphones iphone jklkjh laptop plkjhu tv yutreq
+9 ayhjls butter carrot fridge laptop monitor oiuytr potato tv
+2 coffee plkjhu
+4 bread juice oiuytr uiuytr
+2 bread carrot
+4 ayhjls azerty laptop plkjhu
+7 carrot coffee fridge monitor plkjhu uiuytr yutreq
+1 azerty
+7 azerty butter coke jklkjh juice onion qwerty
+8 butter iphone jklkjh plkjhu potato qwerty water yutreq
+3 azerty headphones potato
+2 headphones iuytrew
+7 carrot iuytrew laptop monitor onion potato water
+1 azerty
+3 blender bread coke
+4 fridge iphone toaster yutreq
+6 alkjuy azerty juice onion potato rice
+4 ayhjls butter oiuytr yutreq
+9 ayhjls bread coffee fridge juice laptop monitor tv uiuytr
+1 yutreq
+10 azerty bread coke milk onion plkjhu potato qwerty water yutreq
+2 azerty coke
+6 alkjuy bread juice oiuytr potato water
+8 ayhjls azerty carrot iphone jklkjh oiuytr plkjhu water
+9 blender coke fridge milk onion plkjhu potato rice toaster
+10 alkjuy bread carrot fridge monitor onion qwerty rice tea toaster
+4 fridge monitor qwerty toaster
+4 ayhjls iuytrew milk yutreq
+9 coke onion potato qwerty rice tea tv uiuytr yutreq
+2 ayhjls tv
+8 ayhjls azerty butter coke fridge juice onion uiuytr
+10 alkjuy ayhjls carrot iuytrew laptop onion potato toaster tv yutreq
+4 blender bread potato yutreq
+6 fridge iphone iuytrew oiuytr potato rice
+8 ayhjls azerty iuytrew jklkjh laptop onion plkjhu toaster
+3 alkjuy blender fridge
+4 azerty iuytrew oiuytr qwerty
+4 monitor onion plkjhu qwerty
+6 ayhjls coffee fridge iphone oiuytr tv
+1 onion
+5 bread coffee headphones onion qwerty
+3 ayhjls coffee plkjhu
+9 alkjuy headphones iuytrew oiuytr qwerty rice tea toaster uiuytr
+10 azerty butter carrot coffee headphones onion tea tv water yutreq
+2 alkjuy laptop
+8 ayhjls azerty blender milk qwerty rice tea water
+6 ayhjls azerty carrot headphones tea uiuytr
+9
+9 24
+12 24
+3 24
+3 18
+14 27
+29 30
+12 15
+13 21
+22 24

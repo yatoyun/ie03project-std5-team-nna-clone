@@ -3,18 +3,17 @@ package ie03.phase2.task5;
 import java.awt.*;
 
 public class Grid extends ie03.phase1.task3.Grid {
-
     public Grid(int w, int h) {
         super(w, h);
     }
 
-    public void shelvesInitializer(int n) {
+    public void shelvesInitializer(Input input, int n) {
         for (int i = 0; i < n; i++) {
 
-            int x = Input.nextInt();
-            int y = Input.nextInt();
-            String s = Input.next();
-            String d = Input.next();
+            int x = input.nextInt();
+            int y = input.nextInt();
+            String s = input.next();
+            String d = input.next();
 
             Point p = new Point(x, y);
             setShelf(p, s, d);
