@@ -33,7 +33,7 @@ public class MainTest {
         final Path path = Paths.get(TEST_CASES_PREFIX);
         Files.createDirectories(path);
 
-        final int numTestCases = 5;//25;
+        final int numTestCases = 25;
         final String INPUT_FILE_PREFIX = "example";
         final String INPUT_FILE_EXTENSION = "_in.txt";
         final String OUTPUT_FILE_PREFIX = "example";

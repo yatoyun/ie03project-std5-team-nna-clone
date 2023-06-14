@@ -2,6 +2,7 @@ package ie03.phase2.task5.generator;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collections;
 
 public class RouteGenerator implements IGenerator<ArrayList<Object[]>> {
     private final ArrayList<Object[]> shelves;
@@ -29,9 +30,9 @@ public class RouteGenerator implements IGenerator<ArrayList<Object[]>> {
         Random rand = new Random();
         Object[] route = new Object[m+1];
         route[0] = m;
+        Collections.shuffle(shelves);
         for (int cnt = 0; cnt < m; cnt++) {
-            int idx = rand.nextInt(shelves.size());
-            route[cnt+1] = shelves.get(idx)[2];
+            route[cnt+1] = shelves.get(cnt)[2];
         }
         routes.add(route);
     }
