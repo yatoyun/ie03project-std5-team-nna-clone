@@ -16,6 +16,8 @@ public class TSPTEST {
     private HashMap<String, Integer> firstDists;
     private HashMap<String, Integer> endDists;
 
+    private int minEndDist = Integer.MAX_VALUE;
+
     public TSPTEST(GraphBuilder graphBl){
         this.graphBl = graphBl;
         this.n = this.graphBl.stopovers.length - 1; // EX is excluded
@@ -38,6 +40,9 @@ public class TSPTEST {
 
         // set minimumRouteValue using greedy algorithm
         greedyDist();
+        for (Integer value : endDists.values()) {
+            if (minEndDist > value) minEndDist = value;
+        }
 
         recursiveTSP(graphBl.stopovers, 1, n-1, 0);
 
@@ -70,7 +75,7 @@ public class TSPTEST {
                 value = graphBl.distGraph.get(comb_name); // 新たに追加されたルートの距離を追加
             }
             // the current total dist is already more than minimum, then backtrack
-            if (dist+value >= minimumRouteValue){
+            if (dist+value+minEndDist > minimumRouteValue){
                 continue;
             }
             swap(arr, index, i);

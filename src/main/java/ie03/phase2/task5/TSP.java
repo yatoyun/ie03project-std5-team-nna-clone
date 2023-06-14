@@ -45,7 +45,7 @@ public class TSP {
 
     private void initializeTSP(int[][] dp){
         prev = new int[1 << n][n]; // for debug
-        for (int[] row : dp) Arrays.fill(row, 300);
+        for (int[] row : dp) Arrays.fill(row, 25*25);
         dp[1][0] = 0;
 
         for (int mask = 1; mask < (1 << n); mask++) {

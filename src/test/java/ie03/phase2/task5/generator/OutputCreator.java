@@ -26,9 +26,13 @@ public class OutputCreator implements ICreator<String> {
             TSPTEST tsp = new TSPTEST(graphBl);
             tsp.solveTSP();
 
-            String line = tsp.getMinRouteValue() + "\n";
+            String line = getOutput(tsp);
             sb.append(line);
         }
         return sb.toString();
+    }
+
+    protected String getOutput(TSPTEST tsp){
+        return tsp.getMinRouteValue() + "\n";
     }
 }

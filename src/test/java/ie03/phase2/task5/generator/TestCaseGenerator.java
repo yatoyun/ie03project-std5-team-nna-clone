@@ -2,6 +2,7 @@ package ie03.phase2.task5.generator;
 
 import ie03.phase2.task5.Grid;
 import ie03.phase2.task5.SolveRoutes;
+import ie03.phase2.task6.generator.OutputWithRouteCreator;
 
 import java.util.*;
 
@@ -11,6 +12,12 @@ public class TestCaseGenerator {
     private final ArrayList<Object[]> routes;
     private String intputText;
     private String outputText;
+
+    int number;
+
+
+    InputCreator inputCr;
+    OutputCreator outputCr;
 
     public TestCaseGenerator() {
         shelves = new ArrayList<>();
@@ -26,16 +33,28 @@ public class TestCaseGenerator {
     }
 
     public void setTestText(int number){
-        int numShelves = Math.min(3*number, 25);
-        int numRoutes = Math.min(3*number, 20);
+        this.number = number;
         grid = new Grid(4*number, 4*number);
 
-        InputCreator inputCr = new InputCreator(grid, shelves, routes);
-        OutputCreator outputCr = new OutputCreator(grid, routes);
+        initilizeCreators();
+    }
 
+    public void runGenerator(){
+        int numShelves = Math.min(3*number, 25);
+        int numRoutes = Math.min(3*number, 20);
         inputCr.initializeGenerators(numShelves, numRoutes, number);
 
         intputText = inputCr.getTestText();
         outputText = outputCr.getTestText();
     }
+
+    private void initilizeCreators(){
+        inputCr = new InputCreator(grid, shelves, routes);
+        outputCr = new OutputCreator(grid, routes);
+    }
+
+    public void useOutputWithRouteCreator() {
+        outputCr = new OutputWithRouteCreator(grid, routes); // 子クラスのインスタンスを代入
+    }
+
 }
