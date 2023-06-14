@@ -10,10 +10,10 @@ public class GraphBuilder {
     public SolveDijkstra getRoute;
     public HashMap<String, Point> shelves;
     public String[] stopovers;
-    public InterfaceIn input;
+    public String[] inputRoute;
 
-    public GraphBuilder(InterfaceIn input, Grid grid){
-        this.input = input;
+    public GraphBuilder(String[] inputRoute, Grid grid){
+        this.inputRoute = inputRoute;
         this.shelves = grid.shelves;
         this.getRoute = new SolveDijkstra(grid);
     }
@@ -27,7 +27,7 @@ public class GraphBuilder {
         stopovers[0] = "EN";
         stopovers[m + 1] = "EX";
         for (int i = 1; i < m + 1; i++) {
-            stopovers[i] = input.next();
+            stopovers[i] = inputRoute[i-1];
         }
         // get distances between each stopover and stopover
         getEachDists(stopovers, m + 2);

@@ -97,11 +97,16 @@ public class Main {
         }
 
         // input 02
-        SolveRoutes sr = new SolveRoutes(input, grid);
+        
         int q = input.nextInt();
         for (int i = 0; i < q; i++) {
             int m = input.nextInt();
 
+            String[] inputRoute = new String[m];
+            for (int j = 0; j < m; j++)
+                inputRoute[j] = input.next();
+
+            SolveRoutes sr = new SolveRoutes(inputRoute, grid);
             // reset dist_graph
             sr.resetGlaph(m);
             stopovers = sr.getStopOvers();

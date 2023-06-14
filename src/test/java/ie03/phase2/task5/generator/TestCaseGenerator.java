@@ -5,6 +5,7 @@ import ie03.phase2.task5.SolveRoutes;
 import ie03.phase2.task6.generator.OutputWithRouteCreator;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class TestCaseGenerator {
     private Grid grid;
@@ -45,7 +46,12 @@ public class TestCaseGenerator {
         inputCr.initializeGenerators(numShelves, numRoutes, number);
 
         intputText = inputCr.getTestText();
-        outputText = outputCr.getTestText();
+
+        try {
+            outputText = outputCr.getTestText();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void initilizeCreators(){

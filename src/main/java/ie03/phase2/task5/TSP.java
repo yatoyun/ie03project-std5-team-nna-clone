@@ -3,13 +3,14 @@ package ie03.phase2.task5;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class TSP {
     private final GraphBuilder graphBl;
     private int[][] prev;
     private final int n;
     private ArrayList<String> path;
-    private int minimumRouteValue;
+    private int minimumRouteValue = Integer.MAX_VALUE;
 
     public TSP(GraphBuilder graphBl){
         this.graphBl = graphBl;
@@ -25,11 +26,15 @@ public class TSP {
     }
 
     public void solveTSP(){
+        // approximate
+        ApproximateSolve approximateSr = new ApproximateSolve(graphBl);
+        approximateSr.solveTSP();
+        minimumRouteValue = approximateSr.getMinRouteValue();
+
         int[][] dp = new int[1 << n][n];
 
         initializeTSP(dp);
 
-        minimumRouteValue = Integer.MAX_VALUE;
         int last = -1; // for debug
         for (int i = 0; i < n; i++) {
             String comb_name = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[n]);
@@ -47,21 +52,35 @@ public class TSP {
         prev = new int[1 << n][n]; // for debug
         for (int[] row : dp) Arrays.fill(row, 25*25);
         dp[1][0] = 0;
+        HashSet<Integer> pruning = new HashSet<>();
+        int currentBest = Integer.MAX_VALUE;
 
         for (int mask = 1; mask < (1 << n); mask++) {
+            if (pruning.contains(mask)) continue;
             for (int i = 0; i < n; i++) {
                 if ((mask & (1 << i)) != 0) {
                     for (int j = 0; j < n; j++) {
-                        // make combination name
-                        String combName = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[j]);
-
                         // if combName exists and has not yet passed
-                        if ((mask & (1 << j)) == 0 && graphBl.distGraph.get(combName) != null) {
+                        if ((mask & (1 << j)) == 0 && i != j){
+                            // make combination name
+                            String combName = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[j]);
                             dp[mask | (1 << j)][j] = Math.min(dp[mask | 1 << j][j], dp[mask][i] + graphBl.distGraph.get(combName));
+                            currentBest = Math.min(currentBest, dp[mask | 1 << j][j]);
                             prev[mask | 1 << j][j] = i; //for debug
                         }
                     }
                 }
+            }
+            if (currentBest >= minimumRouteValue) {
+                pruningAddMask(pruning, mask);
+            }
+        }
+    }
+
+    private void pruningAddMask(HashSet<Integer> pruning, int mask){
+        for (int submask = 0; submask < (1 << n - 1); submask++) {
+            if ((submask & mask) == submask) {
+                pruning.add(submask);
             }
         }
     }

@@ -6,8 +6,8 @@ import java.util.*;
 public class SolveRoutes {
     private final GraphBuilder graphBl;
 
-    public SolveRoutes(Input input, Grid grid) {
-        this.graphBl = new GraphBuilder(input, grid);
+    public SolveRoutes(String[] inputRoute, Grid grid) {
+        this.graphBl = new GraphBuilder(inputRoute, grid);
     }
 
     public void resetGlaph(int m){
