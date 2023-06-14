@@ -43,7 +43,7 @@ public class MainTest {
 
         List<DynamicTest> tests = new ArrayList<>();
 
-        for (int i = 15; i <= numTestCases; i++) {
+        for (int i = 1; i <= numTestCases; i++) {
             TestCaseGenerator generator = new TestCaseGenerator();
             String input_fileName = INPUT_FILE_PREFIX + i + INPUT_FILE_EXTENSION;
             String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;

@@ -193,7 +193,7 @@ public class ApproximateSolve {
                         int l5 = getDistCombNodes(j1, i2, path);
                         int l6 = getDistCombNodes(i0, i3, path);
                         if (l1 + l2 + l3 > l4 + l5 + l6) {
-                            if (i2 != 0 && i1 != 0) {
+                            if (i2 != 0 && i1 != 0 && j0 != 1 && j1 != 0) {
                                 String city2 = path.remove(i2);
                                 String city1 = path.remove(i1);
                                 if (i1 < j1) {
@@ -203,8 +203,8 @@ public class ApproximateSolve {
                                     path.add(j1, city2);
                                     path.add(j1, city1);
                                 }
+                                improved = true;
                             }
-                            improved = true;
                         }
                     }
                 }

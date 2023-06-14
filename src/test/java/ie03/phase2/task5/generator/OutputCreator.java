@@ -23,7 +23,7 @@ public class OutputCreator implements ICreator<String> {
     public String getTestText() throws InterruptedException, ExecutionException {
         StringBuilder sb = new StringBuilder();
 
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()/2);
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-2);
         CompletionService<Pair<Integer, TSPTEST>> completionService = new ExecutorCompletionService<>(executor);
 
         int index = 0;
