@@ -52,7 +52,7 @@ public class TSPTEST {
         for (int mask = 1; mask < (1 << n); mask++) {
             for (int i = 0; i < n; i++) {
                 if ((mask & (1 << i)) != 0) {
-                    for (int j = 0; j < n; j++) {
+                    for (int j = 1; j < n; j++) {
                         if ((mask & (1 << j)) == 0 && i != j){
                             // make combination name
                             String combName = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[j]);

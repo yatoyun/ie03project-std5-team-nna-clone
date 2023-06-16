@@ -15,6 +15,7 @@ public class Main {
 
         int n = input.nextInt();
         grid.shelvesInitializer(input, n);
+        grid.getDistGraph();
 
         // input 02 and solve
         int q = input.nextInt();

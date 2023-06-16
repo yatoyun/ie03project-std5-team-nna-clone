@@ -46,6 +46,7 @@ public class TestCaseGenerator {
         inputCr.initializeGenerators(numShelves, numRoutes, number);
 
         intputText = inputCr.getTestText();
+        grid.getDistGraph();
 
         try {
             outputText = outputCr.getTestText();

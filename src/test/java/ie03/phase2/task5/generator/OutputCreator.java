@@ -23,37 +23,17 @@ public class OutputCreator implements ICreator<String> {
     public String getTestText() throws InterruptedException, ExecutionException {
         StringBuilder sb = new StringBuilder();
 
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-2);
-        CompletionService<Pair<Integer, TSPTEST>> completionService = new ExecutorCompletionService<>(executor);
-
-        int index = 0;
         for (final Object[] route : routes) {
-            int currentIndex = index;
-            completionService.submit(() -> {
-                String[] routeNode = new String[route.length - 1];
-                for (int i = 1; i < route.length; i++)
-                    routeNode[i - 1] = (String) route[i];
-                GraphBuilder graphBl = new GraphBuilder((String[]) routeNode, grid);
-                graphBl.getDistGlaph(route.length-1);
-                TSPTEST tsp = new TSPTEST(graphBl);
-                tsp.solveTSP();
+            String[] routeNode = new String[route.length - 1];
+            for (int i = 1; i < route.length; i++)
+                routeNode[i - 1] = (String) route[i];
+            GraphBuilder graphBl = new GraphBuilder((String[]) routeNode, grid);
+            graphBl.getDistGlaph(route.length-1);
+            TSPTEST tsp = new TSPTEST(graphBl);
+            tsp.solveTSP();
 
-                return new Pair<>(currentIndex, tsp);
-            });
-            index++;
+            sb.append(getOutput(tsp));
         }
-
-        List<Pair<Integer, TSPTEST>> results = new ArrayList<>();
-        for (int i = 0; i < routes.size(); i++) {
-            results.add(completionService.take().get());
-        }
-
-        results.sort(Comparator.comparing(Pair::getKey));
-        for (Pair<Integer, TSPTEST> result : results) {
-            sb.append(getOutput(result.getValue()));
-        }
-
-        executor.shutdown();
 
         return sb.toString();
     }

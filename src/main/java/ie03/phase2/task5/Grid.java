@@ -1,8 +1,12 @@
 package ie03.phase2.task5;
 
+import ie03.phase1.task3.SolveDijkstra;
+
 import java.awt.*;
+import java.util.HashMap;
 
 public class Grid extends ie03.phase1.task3.Grid {
+    public HashMap<String, Integer> distGraph = new HashMap<>();
     public Grid(int w, int h) {
         super(w, h);
     }
@@ -26,5 +30,22 @@ public class Grid extends ie03.phase1.task3.Grid {
         // set exit point
         pos = new Point(w-2, 0);
         shelves.put("EX", pos);
+    }
+
+    public void getDistGraph() {
+        SolveDijkstra getRoute = new SolveDijkstra(this);
+
+        getEachDists(shelves.keySet().toArray(new String[shelves.size()]), shelves.size(), getRoute);
+    }
+
+    private void getEachDists(String[] stopovers, int num_stopovers, SolveDijkstra getRoute) {
+        // num_stopovers_C_2
+        for (int i = 0; i < num_stopovers; i++) {
+            for (int j = i + 1; j < num_stopovers; j++) {
+                distGraph.put(CombinationName.get(stopovers[i], stopovers[j]), // name of comb
+                        getRoute.solveDist(      // value of dists
+                                shelves.get(stopovers[i]), shelves.get(stopovers[j])));
+            }
+        }
     }
 }
