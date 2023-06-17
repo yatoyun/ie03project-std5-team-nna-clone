@@ -1,16 +1,20 @@
 package ie03.phase2.task5;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import ie03.TestUtils;
 import ie03.phase2.task5.generator.TestCaseGenerator;
 import org.junit.jupiter.api.DynamicTest;
-
-import ie03.TestUtils;
 import org.junit.jupiter.api.TestFactory;
 
-import java.io.*;
-import java.util.*;
-import java.nio.file.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MainTest {
 
@@ -44,27 +48,28 @@ public class MainTest {
         List<DynamicTest> tests = new ArrayList<>();
 
         for (int i = 1; i <= numTestCases; i++) {
-            TestCaseGenerator generator = new TestCaseGenerator();
             String input_fileName = INPUT_FILE_PREFIX + i + INPUT_FILE_EXTENSION;
             String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;
             String expect_fileName = EXPECT_FILE_PREFIX + i + EXPECT_FILE_EXTENSION;
 
-            generator.setTestText(i);
-            generator.runGenerator();
-
-            String input = generator.getIntputText();
-            String outputActual = execute(input);
-            String outputExpected = generator.getOutputText();
-
-            // write input to file
-            Files.write(Paths.get(TEST_CASES_PREFIX + "/" + input_fileName), input.getBytes());
-            // write output to file
-            Files.write(Paths.get(TEST_CASES_PREFIX + "/" + output_fileName), outputActual.getBytes());
-            // write confirmation to file
-            Files.write(Paths.get(TEST_CASES_PREFIX + "/" + expect_fileName), outputExpected.getBytes());
-
-
+            int currentI = i;
             tests.add(DynamicTest.dynamicTest("Generated Test " + i, () -> {
+                TestCaseGenerator generator = new TestCaseGenerator();
+                generator.setTestText(currentI);
+                generator.runGenerator();
+
+                String input = generator.getIntputText();
+                String outputActual = execute(input);
+                String outputExpected = generator.getOutputText();
+
+                // write input to file
+                Files.write(Paths.get(TEST_CASES_PREFIX + "/" + input_fileName), input.getBytes());
+                // write output to file
+                Files.write(Paths.get(TEST_CASES_PREFIX + "/" + output_fileName), outputActual.getBytes());
+                // write confirmation to file
+                Files.write(Paths.get(TEST_CASES_PREFIX + "/" + expect_fileName), outputExpected.getBytes());
+
+                // print
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
                 System.err.println("[Expected Output] \n" + outputExpected);

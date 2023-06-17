@@ -1,10 +1,9 @@
 package ie03.phase2.task5.generator;
 
 import ie03.phase2.task5.Grid;
-import ie03.phase2.task5.SolveRoutes;
 import ie03.phase2.task6.generator.OutputWithRouteCreator;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class TestCaseGenerator {
@@ -41,9 +40,10 @@ public class TestCaseGenerator {
     }
 
     public void runGenerator(){
-        int numShelves = Math.min(3*number, 25);
-        int numRoutes = Math.min(3*number, 20);
-        inputCr.initializeGenerators(numShelves, numRoutes, number);
+        int numShelves = Math.min(3*number, 20);
+        int numRoutes = Math.min(number, 20);
+        int numWayPoints = Math.min(numRoutes, 20);
+        inputCr.initializeGenerators(numShelves, numRoutes, numWayPoints);
 
         intputText = inputCr.getTestText();
         grid.getDistGraph();
