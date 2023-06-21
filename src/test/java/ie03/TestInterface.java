@@ -11,12 +11,12 @@ import java.nio.file.*;
 
 public interface TestInterface {
 
-    public abstract String getFileContent(String path) throws IOException, NullPointerException;
+    public abstract String execute(String input) throws Exception;
 
     @TestFactory
     public abstract Collection<DynamicTest> exampleTest();
 
     @TestFactory
-    public abstract Collection<DynamicTest> generatedTest();
+    public abstract Collection<DynamicTest> generatedTest() throws Exception;
 
 }

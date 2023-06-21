@@ -8,7 +8,7 @@ public class TestCaseWriter {
 
     String writePathPrefix;
 
-    public void TestCaseWriter(String pathPrefix) throws IOException, NullPointerException {
+    public TestCaseWriter(String pathPrefix) throws IOException, NullPointerException {
         /*
         example: TestCaseWriter("/generated_testcases/phase2/task5");
         Then the file will be written to "build/generated_testcases/phase2/task5"
@@ -19,12 +19,11 @@ public class TestCaseWriter {
         Files.createDirectories(path);
     }
 
-    public void writeTestCase(String input, String prefix, int number, String suffix) throws IOException, NullPointerException {
+    public void writeTestCase(String input, String filename) throws IOException, NullPointerException {
         /*
-        example: writeTestCase(input, "example", 1, "in");
+        example: writeTestCase(input, "example_1_in.txt");
         Then the file name will be "example_1_in.txt"
          */
-        String fileName = prefix + "_" + number + "_" + suffix + ".txt";
-        Files.write(Paths.get(writePathPrefix + "/" + fileName), input.getBytes());
+        Files.write(Paths.get(writePathPrefix + "/" + filename), input.getBytes());
     }
 }
