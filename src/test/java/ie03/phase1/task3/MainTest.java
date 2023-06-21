@@ -13,11 +13,6 @@ import java.util.*;
 
 public class MainTest extends TestRunner implements TestInterface {
 
-    public String execute(String input) throws Exception{
-        TestUtils test = new TestUtils(new Main());
-        return test.execute(input);
-    }
-
     @TestFactory
     public Collection<DynamicTest> generatedTest() throws Exception {
 
@@ -27,6 +22,8 @@ public class MainTest extends TestRunner implements TestInterface {
 
         List<DynamicTest> tests = new ArrayList<>();
 
+        Main main = new Main();
+
         for (int i = 1; i <= numTestCases; i++) {
             TestCaseIntegrator generator = new TestCaseIntegrator(4 * i, 4 * i);
 
@@ -34,7 +31,7 @@ public class MainTest extends TestRunner implements TestInterface {
             generator.generateRouteRandomly(Math.min(3*i, 20), 1);
 
             String input = generator.getInput();
-            String outputActual = execute(input);
+            String outputActual = execute(input, main);
             String outputExpected = generator.getOutput();
 
             // write input to file
@@ -46,7 +43,7 @@ public class MainTest extends TestRunner implements TestInterface {
 
             tests.add(DynamicTest.dynamicTest("Generated Test " + i, () -> {
 
-                execute(input);
+                execute(input, main);
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
                 System.err.println("[Expected Output] \n" + outputExpected);
@@ -68,9 +65,11 @@ public class MainTest extends TestRunner implements TestInterface {
         String input = getFileContent(input_path);
         String outputExpected = getFileContent(output_path);
 
+        Main main = new Main();
+
         tests.add(DynamicTest.dynamicTest("Example Test", () -> {
 
-            String outputActual = execute(input);
+            String outputActual = execute(input, main);
 
 
             System.err.println("[Input] \n" + input);

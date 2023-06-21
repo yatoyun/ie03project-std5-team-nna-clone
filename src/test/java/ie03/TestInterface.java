@@ -11,8 +11,6 @@ import java.nio.file.*;
 
 public interface TestInterface {
 
-    public abstract String execute(String input) throws Exception;
-
     @TestFactory
     public abstract Collection<DynamicTest> generatedTest() throws Exception;
 

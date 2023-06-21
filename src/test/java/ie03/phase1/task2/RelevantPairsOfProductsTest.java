@@ -3,19 +3,14 @@ package ie03.phase1.task2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DynamicTest;
-
-import ie03.*;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
 import java.util.*;
 
-public class RelevantPairsOfProductsTest extends TestRunner implements TestInterface {
+import ie03.*;
 
-    public String execute(String input) throws Exception{
-        TestUtils test = new TestUtils(new RelevantPairsOfProducts());
-        return test.execute(input);
-    }
+public class RelevantPairsOfProductsTest extends TestRunner implements TestInterface {
 
     @TestFactory
     public Collection<DynamicTest> generatedTest() throws Exception {
@@ -32,9 +27,11 @@ public class RelevantPairsOfProductsTest extends TestRunner implements TestInter
         String input = getFileContent(input_path);
         String outputExpected = getFileContent(output_path);
 
+        RelevantPairsOfProducts rpoProduct = new RelevantPairsOfProducts();
+
         tests.add(DynamicTest.dynamicTest("Example Test", () -> {
 
-            String outputActual = execute(input);
+            String outputActual = execute(input, rpoProduct);
 
             System.err.println("[Input] \n" + input);
             System.err.println("[Actual Output] \n" + outputActual);

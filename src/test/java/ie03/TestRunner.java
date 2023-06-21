@@ -11,6 +11,10 @@ import java.nio.file.*;
 
 public class TestRunner {
 
+    public String execute(String input, Object cls) throws Exception {
+        TestUtils test = new TestUtils(cls);
+        return test.execute(input);
+    }
     public String getFileContent(String path) throws IOException, NullPointerException {
         return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
     }

@@ -1,22 +1,17 @@
 package ie03.phase1.task1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import ie03.phase1.task1.generator.Generator;
 import org.junit.jupiter.api.DynamicTest;
-
-import ie03.*;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
 import java.util.*;
 
-public class PurchaseHistoryTest extends TestRunner implements TestInterface {
+import ie03.*;
 
-    public String execute(String input) throws Exception {
-        TestUtils test = new TestUtils(new PurchaseHistory());
-        return test.execute(input);
-    }
+import ie03.phase1.task1.generator.Generator;
+
+public class PurchaseHistoryTest extends TestRunner implements TestInterface {
 
     @TestFactory
     public Collection<DynamicTest> generatedTest() throws Exception {
@@ -29,12 +24,14 @@ public class PurchaseHistoryTest extends TestRunner implements TestInterface {
 
         List<DynamicTest> tests = new ArrayList<>();
 
+        PurchaseHistory psHistory = new PurchaseHistory();
+
         //start from i = 3 because test cases 1,2 has already been created.
         for (int i = 1; i <= numTestCases; i++) {
 
             generator.generateInputAndOutput(i);
             String input = generator.getInput();
-            String outputActual = execute(input);
+            String outputActual = execute(input, psHistory);
             String outputExpected = generator.getOutput();
 
             // write input to file
@@ -46,7 +43,7 @@ public class PurchaseHistoryTest extends TestRunner implements TestInterface {
 
 
             tests.add(DynamicTest.dynamicTest("Example Test " + i, () -> {
-                execute(input);
+                execute(input, psHistory);
 
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
@@ -64,6 +61,8 @@ public class PurchaseHistoryTest extends TestRunner implements TestInterface {
 
         List<DynamicTest> tests = new ArrayList<>();
 
+        PurchaseHistory psHistory = new PurchaseHistory();
+
         for (int i = 1; i < 3; i++) {
             String input_path = "/phase1/task1/example" + i + "_in.txt";
             String output_path = "/phase1/task1/example" + i + "_out.txt";
@@ -73,7 +72,7 @@ public class PurchaseHistoryTest extends TestRunner implements TestInterface {
 
             tests.add(DynamicTest.dynamicTest("Example Test " + i, () -> {
 
-                String outputActual = execute(input);
+                String outputActual = execute(input, psHistory);
 
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
