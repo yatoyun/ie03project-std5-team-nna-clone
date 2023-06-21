@@ -109,7 +109,6 @@ public class Main {
             SolveRoutes sr = new SolveRoutes(inputRoute, grid);
             // reset dist_graph
             sr.resetGlaph(m);
-            stopovers = sr.getStopOvers();
 
             TSP tsp = sr.solve();
             int minDist = tsp.getMinRouteValue();

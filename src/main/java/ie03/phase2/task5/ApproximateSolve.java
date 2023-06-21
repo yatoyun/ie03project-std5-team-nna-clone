@@ -11,7 +11,7 @@ public class ApproximateSolve {
 
     public ApproximateSolve(GraphBuilder graphBl){
         this.graphBl = graphBl;
-        this.n = this.graphBl.stopovers.length - 1; // EX is excluded
+        this.n = this.graphBl.stopovers.length; // EX is excluded
         this.originalDistDict = new HashMap<>(graphBl.distGraph);
     }
 
@@ -24,43 +24,78 @@ public class ApproximateSolve {
     }
 
     public void solveTSP(){
-        minusKMeanDistance(n+1);
+        String combName = CombinationName.get("EN", "EX");
+        originalDistDict.put(combName, 0);
 
+        minusKMeanDistance(n);
         ArrayList<String> path = new ArrayList<>();
 
-        greedyDist(path, graphBl.stopovers);
+        for (int flag = 0; flag < 2; flag++) {
+            for (int st = 0; st < n; st++) {
+                if (flag == 0) {
+                    KruskalTSP kruTsp = new KruskalTSP();
+                    path = kruTsp.kruskal(n, st, graphBl.stopovers, originalDistDict);
+                } else {
+                    path = new ArrayList<>();
+                    greedyDist(path, graphBl.stopovers, st);
+                }
 
-        twoOpt(path);
-        oneOrOpt(path);
-        twoOrOpt(path);
+                twoOpt(path);
+                oneOrOpt(path);
+                twoOrOpt(path);
 
+                rearrangeList(path);
+                int value = totalDists(path);
 
+                if (!path.get(0).equals("EN")) {
+                    Collections.reverse(path);
+                }
+                if (!(path.get(0).equals("EN") && path.get(path.size() - 1).equals("EX")))
+                    continue;
 
-        if (!path.get(0).equals("EN")){
-            Collections.reverse(path);
+                if (value < minimumRouteValue) {
+                    FinalPath = path;
+                    minimumRouteValue = value;
+                }
+            }
         }
-        if (!(path.get(0).equals("EN") && path.get(path.size()-1).equals("EX")))
-            System.out.println(path);
+        if (!(FinalPath.get(0).equals("EN") && FinalPath.get(path.size()-1).equals("EX")))
+            System.out.println(FinalPath);
+    }
 
-        int value = totalDists(path);
-        if (value < minimumRouteValue){
-            FinalPath = path;
-            minimumRouteValue = value;
+    public void rearrangeList(ArrayList<String> list) {
+        int indexEN = list.indexOf("EN");
+        int indexEX = list.indexOf("EX");
+
+        // Check if "EN" and "EX" are adjacent and "EN" comes before "EX"
+        if (indexEN == indexEX - 1) {
+            // Rotate the list so that "EN" is at index 0 and "EX" is at the last index
+            Collections.rotate(list, -(indexEN+1));
+        } else if (indexEX == indexEN - 1) {
+            // If "EX" comes before "EN", rotate the list so that "EX" is at index 0
+            // Then, reverse the list so that "EN" is at index 0 and "EX" is at the last index
+            Collections.rotate(list, -(indexEX+1));
+            Collections.reverse(list);
         }
     }
 
-    private void greedyDist(ArrayList<String> path, String[] stopovers){
-        String lastCity = stopovers[0]; // 最初の都市
+
+
+
+    private void greedyDist(ArrayList<String> path, String[] stopovers, int st){
+        String lastCity = stopovers[st]; // 最初の都市
         HashSet<String> visitedCities = new HashSet<>();
-        path.add(0, lastCity);
+        path.add(lastCity);
         int index = 1;
 
         visitedCities.add(lastCity);
+        ArrayList<String> newList = new ArrayList<>(Arrays.asList(stopovers));
+        newList.removeIf(element -> element.equals(stopovers[st]));
 
         while (visitedCities.size() < n) {
             String closestCity = null;
             int closestDist = Integer.MAX_VALUE;
-            for (String city : Arrays.copyOfRange(stopovers, 1, n)) {
+            for (String city : newList) {
                 if (!visitedCities.contains(city)) {
                     String comb_name = CombinationName.get(lastCity, city);
                     int dist = originalDistDict.get(comb_name);
@@ -72,10 +107,8 @@ public class ApproximateSolve {
             }
             lastCity = closestCity;
             visitedCities.add(lastCity);
-            path.add(index++, lastCity);
+            path.add(lastCity);
         }
-        String comb_name = CombinationName.get(lastCity, stopovers[n]);
-        path.add(index, stopovers[n]);
     }
 
     private void minusKMeanDistance(int k) {
@@ -118,7 +151,7 @@ public class ApproximateSolve {
         boolean improved = true;
         while (improved) {
             improved = false;
-            for (int i = 1; i < N - 2; i++) {
+            for (int i = 0; i < N - 2; i++) {
                 for (int j = i + 2; j < N; j++) {
                     int l1 = getDistCombNodes(i, i+1, path);
                     int l2 = getDistCombNodes(j, (j+1)%N, path);
@@ -142,11 +175,11 @@ public class ApproximateSolve {
         boolean improved = true;
         while (improved) {
             improved = false;
-            for (int i = 1; i < N; i++) {
+            for (int i = 0; i < N; i++) {
                 int i0 = i;
                 int i1 = (i + 1) % N;
                 int i2 = (i + 2) % N;
-                for (int j = 1; j < N; j++) {
+                for (int j = 0; j < N; j++) {
                     int j0 = j;
                     int j1 = (j + 1) % N;
                     if (j0 != i0 && j0 != i1) {
@@ -156,7 +189,7 @@ public class ApproximateSolve {
                         int l4 = getDistCombNodes(j0, i1, path);
                         int l5 = getDistCombNodes(j1, i1, path);
                         int l6 = getDistCombNodes(i0, i2, path);
-                        if (l1 + l2 + l3 > l4 + l5 + l6 && i1 != 0 && j1 != 0) {
+                        if (l1 + l2 + l3 > l4 + l5 + l6) {
                             String city = path.remove(i1);
                             if (i1 < j1) {
                                 path.add(j0, city);
@@ -177,12 +210,12 @@ public class ApproximateSolve {
         boolean improved = true;
         while (improved) {
             improved = false;
-            for (int i = 1; i < N; i++) {
+            for (int i = 0; i < N; i++) {
                 int i0 = i;
                 int i1 = (i + 1) % N;
                 int i2 = (i + 2) % N;
                 int i3 = (i + 3) % N;
-                for (int j = 1; j < N; j++) {
+                for (int j = 0; j < N; j++) {
                     int j0 = j;
                     int j1 = (j + 1) % N;
                     if (j0 != i0 && j0 != i1 && j0 != i2) {
@@ -193,7 +226,12 @@ public class ApproximateSolve {
                         int l5 = getDistCombNodes(j1, i2, path);
                         int l6 = getDistCombNodes(i0, i3, path);
                         if (l1 + l2 + l3 > l4 + l5 + l6) {
-                            if (i2 != 0 && i1 != 0 && j0 != 1 && j1 != 0) {
+                            if (i2 == 0) {
+                                String city1 = path.remove(i1);
+                                String city2 = path.remove(i2);
+                                path.add(j0, city2);
+                                path.add(j0, city1);
+                            }else {
                                 String city2 = path.remove(i2);
                                 String city1 = path.remove(i1);
                                 if (i1 < j1) {
@@ -217,8 +255,14 @@ public class ApproximateSolve {
 
         for (int i = 1; i < path.size(); i++){
             String combName = CombinationName.get(path.get(i-1), path.get(i));
+            if (combName.equals("EN-EX"))
+                continue;
             min += graphBl.distGraph.get(combName);
         }
+        String combName = CombinationName.get(path.get(0), path.get(path.size()-1));
+        if (!combName.equals("EN-EX"))
+            min += graphBl.distGraph.get(combName);
+
         return  min;
     }
 }

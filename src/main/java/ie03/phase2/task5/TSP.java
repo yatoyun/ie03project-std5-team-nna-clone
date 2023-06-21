@@ -25,31 +25,32 @@ public class TSP {
     }
 
     public void solveTSP(){
-        // approximate
+        //approximate
         ApproximateSolve approximateSr = new ApproximateSolve(graphBl);
         approximateSr.solveTSP();
         minimumRouteValue = approximateSr.getMinRouteValue();
+        path = approximateSr.getMinRoutePath();
 
-        for (int i = 1; i < n; i++) {
-            String comb_name = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[n]);
-            if (graphBl.distGraph.get(comb_name) != null) {
-                lasttDist.put(graphBl.stopovers[i], graphBl.distGraph.get(comb_name));
-            }
-        }
+//        for (int i = 1; i < n; i++) {
+//            String comb_name = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[n]);
+//            if (graphBl.distGraph.get(comb_name) != null) {
+//                lasttDist.put(graphBl.stopovers[i], graphBl.distGraph.get(comb_name));
+//            }
+//        }
 
         int[][] dp = new int[1 << n][n];
-
-        // run dp
-        solveDP(dp);
-
-        int last = -1; // for debug
-        for (int i = 1; i < n; i++) {
-            minimumRouteValue = Math.min(minimumRouteValue, dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i]));
-            last = i; // for debug
-        }
-
-        // Reverse the PATH
-        getRoutePath(last);
+//
+//        // run dp
+//        solveDP(dp);
+//
+//        int last = -1; // for debug
+//        for (int i = 1; i < n; i++) {
+//            minimumRouteValue = Math.min(minimumRouteValue, dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i]));
+//            last = i; // for debug
+//        }
+//
+//        // Reverse the PATH
+//        getRoutePath(last);
     }
 
     private void solveDP(int[][] dp){
@@ -60,7 +61,7 @@ public class TSP {
         int currentBest = Integer.MAX_VALUE;
 
         for (int mask = 1; mask < (1 << n); mask++) {
-            if (pruning.contains(mask)) continue;
+//            if (pruning.contains(mask)) continue;
             for (int i = 0; i < n; i++) {
                 if ((mask & (1 << i)) != 0) {
                     for (int j = 1; j < n; j++) {
@@ -69,23 +70,28 @@ public class TSP {
                             // make combination name
                             String combName = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[j]);
                             dp[mask | (1 << j)][j] = Math.min(dp[mask | 1 << j][j], dp[mask][i] + graphBl.distGraph.get(combName));
-                            currentBest = Math.min(currentBest, dp[mask | 1 << j][j] + lasttDist.get(graphBl.stopovers[j]));
+//                            currentBest = Math.min(currentBest, dp[mask | 1 << j][j] + lasttDist.get(graphBl.stopovers[j]));
                             prev[mask | 1 << j][j] = i; //for debug
                         }
                     }
                 }
             }
-            if (currentBest >= minimumRouteValue) {
-                pruningAddMask(pruning, mask);
-            }
+//            if (currentBest > minimumRouteValue) {
+//                pruningAddMask(pruning, mask);
+//            }
         }
     }
 
-    private void pruningAddMask(HashSet<Integer> pruning, int mask){
-        for (int submask = 0; submask < (1 << n - 1); submask++) {
-            if ((submask & mask) == submask) {
-                pruning.add(submask);
-            }
+    private void pruningAddMask(HashSet<Integer> pruning, int submask){
+        int mask = submask;
+
+        if (submask == 0) return;
+
+        while (mask < (1 << n - 1)) {
+            pruning.add(mask);
+            int c = mask & -mask;
+            int r = mask + c;
+            mask = (((r^mask) >>> 2) / c) | r;
         }
     }
 
