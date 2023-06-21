@@ -105,22 +105,21 @@ public class TestCaseGenerator {
 
             Point dpos = new Point(p.x, p.y);
             switch (dnum) {
-                case 0 -> {
+                case 0:
                     d = "N";
                     dpos.y = p.y + 1;
-                }
-                case 1 -> {
+                    break;
+                case 1:
                     d = "S";
                     dpos.y = p.y - 1;
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     d = "E";
                     dpos.x = p.x + 1;
-                }
-                case 3 -> {
+                    break;
+                case 3:
                     d = "W";
                     dpos.x = p.x - 1;
-                }
             }
 
             String s = "S" + cnt;
