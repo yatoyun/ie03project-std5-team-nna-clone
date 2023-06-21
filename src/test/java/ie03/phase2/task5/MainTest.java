@@ -1,32 +1,28 @@
 package ie03.phase2.task5;
 
-import ie03.TestUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.DynamicTest;
+
+import ie03.*;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+public class MainTest extends TestRunner implements TestInterface {
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class MainTest {
-
-    String execute(String input) throws Exception{
+    public String execute(String input) throws Exception{
         TestUtils test = new TestUtils(new Main());
         return test.execute(input);
     }
 
-    String getFileContent(String path) throws IOException, NullPointerException {
-        return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
+    @TestFactory
+    public Collection<DynamicTest> generatedTest() throws Exception {
+        return new ArrayList<>();
     }
 
     @TestFactory
-    Collection<DynamicTest> exampleTest() throws Exception{
+    public Collection<DynamicTest> exampleTest() throws IOException {
 
         List<DynamicTest> tests = new ArrayList<>();
 

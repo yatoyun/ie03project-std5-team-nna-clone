@@ -14,9 +14,9 @@ public interface TestInterface {
     public abstract String execute(String input) throws Exception;
 
     @TestFactory
-    public abstract Collection<DynamicTest> exampleTest();
+    public abstract Collection<DynamicTest> generatedTest() throws Exception;
 
     @TestFactory
-    public abstract Collection<DynamicTest> generatedTest() throws Exception;
+    public abstract Collection<DynamicTest> exampleTest() throws IOException;
 
 }

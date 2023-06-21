@@ -8,9 +8,8 @@ import org.junit.jupiter.api.DynamicTest;
 import ie03.*;
 import org.junit.jupiter.api.TestFactory;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
-import java.nio.file.*;
 
 public class MainTest extends TestRunner implements TestInterface {
 
@@ -60,18 +59,18 @@ public class MainTest extends TestRunner implements TestInterface {
 
 
     @TestFactory
-    public Collection<DynamicTest> exampleTest() {
+    public Collection<DynamicTest> exampleTest() throws IOException {
 
         List<DynamicTest> tests = new ArrayList<>();
 
         String input_path = "/phase1/task3/example_in.txt";
         String output_path = "/phase1/task3/example_out.txt";
+        String input = getFileContent(input_path);
+        String outputExpected = getFileContent(output_path);
 
         tests.add(DynamicTest.dynamicTest("Example Test", () -> {
 
-            String input = getFileContent(input_path);
             String outputActual = execute(input);
-            String outputExpected = getFileContent(output_path);
 
 
             System.err.println("[Input] \n" + input);
