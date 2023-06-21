@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
-public class Input {
-    private static final InputStream in = System.in;
-    private static final byte[] buffer = new byte[1024];
+public class Input implements InterfaceIn{
+    private static InputStream in;
+    private final static byte[] buffer = new byte[1024];
     private static int ptr = 0;
     private static int buflen = 0;
+
+    public Input(InputStream in){
+        this.in = in;
+    }
 
     private static boolean hasNextByte() {
         if (ptr < buflen) {
@@ -28,7 +32,7 @@ public class Input {
         return true;
     }
 
-    private static int readByte() {
+    private int readByte() {
         if (hasNextByte()) return buffer[ptr++];
         else return -1;
     }
@@ -37,16 +41,16 @@ public class Input {
         return 33 <= c && c <= 126;
     }
 
-    private static void skipUnprintable() {
+    private void skipUnprintable() {
         while (hasNextByte() && !isPrintableChar(buffer[ptr])) ptr++;
     }
 
-    public static boolean hasNext() {
+    public boolean hasNext() {
         skipUnprintable();
         return hasNextByte();
     }
 
-    public static String next() {
+    public String next() {
         if (!hasNext()) throw new NoSuchElementException();
         StringBuilder sb = new StringBuilder();
         int b = readByte();
@@ -57,7 +61,7 @@ public class Input {
         return sb.toString();
     }
 
-    public static long nextLong() {
+    public long nextLong() {
         if (!hasNext()) throw new NoSuchElementException();
         long n = 0;
         boolean minus = false;
@@ -82,7 +86,7 @@ public class Input {
         }
     }
 
-    public static int nextInt(){
+    public int nextInt(){
         return (int)nextLong();
     }
 }

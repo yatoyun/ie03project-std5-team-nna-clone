@@ -1,29 +1,39 @@
 package ie03.phase2.task5;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.*;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         // input 01
-        int w = Input.nextInt();
-        int h = Input.nextInt();
+        Input input = new Input(System.in);
+        int w = input.nextInt();
+        int h = input.nextInt();
         Grid grid = new Grid(w, h);
 
-        int n = Input.nextInt();
-        grid.shelvesInitializer(n);
+        int n = input.nextInt();
+        grid.shelvesInitializer(input, n);
+        grid.getDistGraph();
 
         // input 02 and solve
-        int q = Input.nextInt();
-
-        SolveRoutes sr = new SolveRoutes(grid);
+        int q = input.nextInt();
 
         for (int i = 0; i < q; i++) {
-            int m = Input.nextInt();
+            int m = input.nextInt();
+            String[] inputRoute = new String[m];
 
+            for (int j = 0; j < m; j++)
+                inputRoute[j] = input.next();
+            SolveRoutes sr = new SolveRoutes(inputRoute, grid);
             // reset dist_graph
-            sr.resetDistGraph();
-            sr.resetStopovers(m);
+            sr.resetGlaph(m);
 
             // solve
-            System.out.println(sr.solveTSP());
+            TSP tsp = sr.solve();
+            System.out.println(tsp.getMinRouteValue());
         }
     }
+
 }

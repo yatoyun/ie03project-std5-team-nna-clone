@@ -1,117 +1,31 @@
 package ie03.phase2.task5;
 
-import ie03.phase1.task3.SolveDijkstra;
-
 import java.awt.*;
 import java.util.*;
 
 public class SolveRoutes {
-    public HashMap<String, Integer> dist_graph;
-    public SolveDijkstra get_route;
-    public HashMap<String, Point> shelves;
+    private final GraphBuilder graphBl;
 
-    public String[] stopovers;
-
-    public SolveRoutes(Grid grid) {
-        this.get_route = new SolveDijkstra(grid);
-        this.shelves = grid.shelves;
+    public SolveRoutes(String[] inputRoute, Grid grid) {
+        this.graphBl = new GraphBuilder(inputRoute, grid);
     }
 
-    public void resetDistGraph(){
-        dist_graph = new HashMap<>();
+    public void resetGlaph(int m){
+        graphBl.getDistGlaph(m);
     }
 
-    public void resetStopovers(int m){
-        stopovers = getDistGlaph(m);
+    public String[] getStopOvers(){
+        return graphBl.stopovers;
     }
 
-
-    public String[] getDistGlaph(int m) {
-        String[] stopovers = new String[m + 2];
-
-        // set stopovers including entry and exit
-        stopovers[0] = "EN";
-        stopovers[m + 1] = "EX";
-        for (int i = 1; i < m + 1; i++) {
-            stopovers[i] = Input.next();
-        }
-        // get distances between each stopover and stopover
-        getEachDists(stopovers, m + 2);
-        return stopovers;
-    }
-
-    public void getEachDists(String[] stopovers, int num_stopovers) {
-        // num_stopovers_C_2
-        for (int i = 0; i < num_stopovers; i++) {
-            for (int j = i + 1; j < num_stopovers; j++) {
-
-                dist_graph.put(getCombName(stopovers[i], stopovers[j]), // name of comb
-                        get_route.solveDist(      // value of dists
-                                shelves.get(stopovers[i]), shelves.get(stopovers[j])));
-            }
-        }
-    }
-
-    public String getCombName(String first_stopover, String second_stopover) {
-        String concat_names;
-
-        // Alphabetized and concatenate
-        if (first_stopover.compareTo(second_stopover) < 0) {
-            concat_names = first_stopover + "-" + second_stopover;
-        } else {
-            concat_names = second_stopover + "-" + first_stopover;
-        }
-        return concat_names;
-    }
 
     /* If you want to know which route you went through,
     just comment out the line that says for debug and put it back in the code and you will see it.
      */
-    public int solveTSP() {
-        int n = stopovers.length - 1; // EX is excluded
-        int[][] dp = new int[1 << n][n];
-//        int[][] prev = new int[1 << n][n]; // for debug
-        for (int[] row : dp) Arrays.fill(row, 300);
-        dp[1][0] = 0;
+    public TSP solve() {
+        TSP tsp = new TSP(graphBl);
+        tsp.solveTSP();
 
-        for (int mask = 1; mask < (1 << n); mask++) {
-            for (int i = 0; i < n; i++) {
-                if ((mask & (1 << i)) != 0) {
-                    for (int j = 0; j < n; j++) {
-                        String comb_name = getCombName(stopovers[i], stopovers[j]);
-
-                        if ((mask & (1 << j)) == 0 && dist_graph.get(comb_name) != null) {
-                            dp[mask | (1 << j)][j] = Math.min(dp[mask | 1 << j][j], dp[mask][i] + dist_graph.get(comb_name));
-//                            prev[mask | 1 << j][j] = i; //for debug
-                        }
-                    }
-                }
-            }
-        }
-
-
-        int res = Integer.MAX_VALUE;
-//        int last = -1; // for debug
-        for (int i = 0; i < n; i++) {
-            String comb_name = getCombName(stopovers[i], stopovers[n]);
-            if (dist_graph.get(comb_name) != null) {
-                res = Math.min(res, dp[(1 << n) - 1][i] + dist_graph.get(comb_name));
-//                last = i; // for debug
-            }
-        }
-//        // for debug and show route
-//        ArrayList<String> path = new ArrayList<String>();
-//        int mask = (1 << n) - 1;
-//        while (last != 0) {
-//            path.add(stopovers[last]);
-//            int temp = mask;
-//            mask ^= 1 << last;
-//            last = prev[temp][last];
-//        }
-//        Collections.reverse(path);
-//
-//        System.out.println("Path: " + String.join(" -> ", path));
-
-        return res;
+        return tsp;
     }
 }

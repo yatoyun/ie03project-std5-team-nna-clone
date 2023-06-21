@@ -3,6 +3,8 @@ package ie03.phase2.task6;
 import ie03.phase1.task3.SolveDijkstra;
 import ie03.phase2.task5.Grid;
 import ie03.phase2.task5.Input;
+import ie03.phase2.task5.SolveRoutes;
+import ie03.phase2.task5.TSP;
 
 import java.awt.*;
 import java.util.*;
@@ -81,11 +83,12 @@ public class Main {
 
     public static void main(String[] args) {
         // input 01
-        int h = Input.nextInt();
-        int w = Input.nextInt();
+        Input input = new Input(System.in);
+        int h = input.nextInt();
+        int w = input.nextInt();
         grid = new Grid(h, w);
-        int n = Input.nextInt();
-        grid.shelvesInitializer(n);
+        int n = input.nextInt();
+        grid.shelvesInitializer(input, n);
 
         solver = new SolveDijkstra(grid);
         for (Entry<String, Point> entry : grid.shelves.entrySet()) {
@@ -94,18 +97,23 @@ public class Main {
         }
 
         // input 02
-        RouteSimulationWithPathRoute sr = new RouteSimulationWithPathRoute(grid);
-        int q = Input.nextInt();
+        
+        int q = input.nextInt();
         for (int i = 0; i < q; i++) {
-            int m = Input.nextInt();
+            int m = input.nextInt();
 
+            String[] inputRoute = new String[m];
+            for (int j = 0; j < m; j++)
+                inputRoute[j] = input.next();
+
+            SolveRoutes sr = new SolveRoutes(inputRoute, grid);
             // reset dist_graph
-            sr.resetDistGraph();
-            sr.resetStopovers(m);
-            stopovers = sr.stopovers;
+            sr.resetGlaph(m);
+            stopovers = sr.getStopOvers();
 
-            int minDist = sr.solveTSP();
-            ArrayList<String> stopovers = sr.solveAndGetRouteTSP();
+            TSP tsp = sr.solve();
+            int minDist = tsp.getMinRouteValue();
+            ArrayList<String> stopovers = tsp.getMinRoutePath();
             ArrayList<String> waypoints;
             HashSet<String> visited = new HashSet<>();
             Point cpos = new Point(1, 0);
