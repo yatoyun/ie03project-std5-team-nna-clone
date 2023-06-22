@@ -53,7 +53,9 @@ public class ApproximateSolve {
                 if (!(path.get(0).equals("EN") && path.get(path.size() - 1).equals("EX")))
                     continue;
 
-                if (value < minimumRouteValue) {
+                if (value == minimumRouteValue) {
+                    compareOrder(FinalPath, path);
+                }else if (value < minimumRouteValue){
                     FinalPath = path;
                     minimumRouteValue = value;
                 }
@@ -61,9 +63,22 @@ public class ApproximateSolve {
         }
         if (!(FinalPath.get(0).equals("EN") && FinalPath.get(path.size()-1).equals("EX")))
             System.out.println(FinalPath);
+        FinalPath.remove("EN");
     }
 
-    public void rearrangeList(ArrayList<String> list) {
+    private void compareOrder(ArrayList<String> finalPath, ArrayList<String> currentPath){
+        for (int i = 0; i<finalPath.size();i++){
+            int check =  finalPath.get(i).compareTo(currentPath.get(i));
+
+            if (check < 0)
+                return;
+            else if(check > 0){
+                finalPath = currentPath;
+            }
+        }
+    }
+
+    private void rearrangeList(ArrayList<String> list) {
         int indexEN = list.indexOf("EN");
         int indexEX = list.indexOf("EX");
 
@@ -78,6 +93,8 @@ public class ApproximateSolve {
             Collections.reverse(list);
         }
     }
+
+
 
 
 

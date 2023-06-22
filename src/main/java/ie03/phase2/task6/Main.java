@@ -15,13 +15,13 @@ public class Main {
     static HashMap<Point, String> shelvesByPoint = new HashMap<>();
     static SolveDijkstra solver;
     static Grid grid;
-    static String[] stopovers;
+    static ArrayList<String> stopovers;
 
 
     static ArrayList<String> solveWaypoints(Point cpos, Point npos) {
         // trace the shortest path from npos to cpos and return list of steped shelves
 
-        HashSet<String> stopoversSet = new HashSet<>(Arrays.asList(stopovers));
+        HashSet<String> stopoversSet = new HashSet<>(stopovers);
 
         // solve distance using dikstra
         int[][] totaldist = solver.solveTotalDist(cpos, npos);
@@ -89,6 +89,7 @@ public class Main {
         grid = new Grid(h, w);
         int n = input.nextInt();
         grid.shelvesInitializer(input, n);
+        grid.getDistGraph();
 
         solver = new SolveDijkstra(grid);
         for (Entry<String, Point> entry : grid.shelves.entrySet()) {
@@ -112,11 +113,14 @@ public class Main {
 
             TSP tsp = sr.solve();
             int minDist = tsp.getMinRouteValue();
-            ArrayList<String> stopovers = tsp.getMinRoutePath();
+            stopovers = tsp.getMinRoutePath();
+            // debug
+//            System.out.println(stopovers);
             ArrayList<String> waypoints;
             HashSet<String> visited = new HashSet<>();
             Point cpos = new Point(1, 0);
             Point npos;
+
             // solve
             for (String stopover : stopovers) {
                 npos = grid.shelves.get(stopover);

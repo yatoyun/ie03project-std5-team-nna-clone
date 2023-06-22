@@ -62,6 +62,9 @@ public class MainTest {
                 String outputActual = execute(input);
                 String outputExpected = generator.getOutputText();
 
+                // save image
+                generator.saveImage(TEST_CASES_PREFIX + "/" + input_fileName);
+
                 // write input to file
                 Files.write(Paths.get(TEST_CASES_PREFIX + "/" + input_fileName), input.getBytes());
                 // write output to file

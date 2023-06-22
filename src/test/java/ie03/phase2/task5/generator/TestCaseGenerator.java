@@ -3,6 +3,10 @@ package ie03.phase2.task5.generator;
 import ie03.phase2.task5.Grid;
 import ie03.phase2.task6.generator.OutputWithRouteCreator;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -14,6 +18,8 @@ public class TestCaseGenerator {
     private String outputText;
 
     int number;
+
+    private BufferedImage image;
 
 
     InputCreator inputCr;
@@ -32,6 +38,10 @@ public class TestCaseGenerator {
         return outputText;
     }
 
+    public void saveImage(String path) throws IOException {
+        ImageIO.write(image, "png", new File(path+".png"));
+    }
+
     public void setTestText(int number){
         this.number = number;
         grid = new Grid(4*number, 4*number);
@@ -46,6 +56,7 @@ public class TestCaseGenerator {
         inputCr.initializeGenerators(numShelves, numRoutes, numWayPoints);
 
         intputText = inputCr.getTestText();
+        image = StoreImageSave.create(intputText);
         grid.getDistGraph();
 
         try {
