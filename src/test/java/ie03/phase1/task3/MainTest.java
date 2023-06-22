@@ -5,68 +5,45 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import ie03.phase1.task3.generator.TestCaseIntegrator;
 import org.junit.jupiter.api.DynamicTest;
 
-import ie03.TestUtils;
+import ie03.*;
 import org.junit.jupiter.api.TestFactory;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
-import java.nio.file.*;
 
-public class MainTest {
-
-    String execute(String input) throws Exception{
-        TestUtils test = new TestUtils(new Main());
-        return test.execute(input);
-    }
-
-    String getFileContent(String path) throws IOException, NullPointerException {
-        return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
-    }
+public class MainTest extends TestRunner implements TestInterface {
 
     @TestFactory
-    Collection<DynamicTest> generatedTest() throws Exception {
+    public Collection<DynamicTest> generatedTest() throws Exception {
 
-        final String buildPath = System.getProperty("user.dir") + "/build";
-        final String TEST_CASES_PREFIX = buildPath + "/generated_testcases/phase1/task3";
-
-        // create directory if it doesn't exist
-        final Path path = Paths.get(TEST_CASES_PREFIX);
-        Files.createDirectories(path);
+        TestCaseWriter tcWriter = new TestCaseWriter("/generated_testcases/phase1/task3");
 
         final int numTestCases = 25;
-        final String INPUT_FILE_PREFIX = "example";
-        final String INPUT_FILE_EXTENSION = "_in.txt";
-        final String OUTPUT_FILE_PREFIX = "example";
-        final String OUTPUT_FILE_EXTENSION = "_out_actual.txt";
-        final String EXPECT_FILE_PREFIX = "example";
-        final String EXPECT_FILE_EXTENSION = "_out_expect.txt";
 
         List<DynamicTest> tests = new ArrayList<>();
 
+        Main main = new Main();
+
         for (int i = 1; i <= numTestCases; i++) {
             TestCaseIntegrator generator = new TestCaseIntegrator(4 * i, 4 * i);
-            String input_fileName = INPUT_FILE_PREFIX + i + INPUT_FILE_EXTENSION;
-            String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;
-            String expect_fileName = EXPECT_FILE_PREFIX + i + EXPECT_FILE_EXTENSION;
 
             generator.putShelves(Math.min(3*i, 25));
             generator.generateRouteRandomly(Math.min(3*i, 20), 1);
 
             String input = generator.getInput();
-            String outputActual = execute(input);
+            String outputActual = execute(input, main);
             String outputExpected = generator.getOutput();
 
             // write input to file
-            Files.write(Paths.get(TEST_CASES_PREFIX + "/" + input_fileName), input.getBytes());
+            tcWriter.writeTestCase(input, "testcase_" + i + "_in.txt");
             // write output to file
-            Files.write(Paths.get(TEST_CASES_PREFIX + "/" + output_fileName), outputActual.getBytes());
+            tcWriter.writeTestCase(outputActual, "testcase_" + i + "_out_actual.txt");
             // write confirmation to file
-            Files.write(Paths.get(TEST_CASES_PREFIX + "/" + expect_fileName), outputExpected.getBytes());
-
+            tcWriter.writeTestCase(outputExpected, "testcase_" + i + "_out_expected.txt");
 
             tests.add(DynamicTest.dynamicTest("Generated Test " + i, () -> {
 
-                execute(input);
+                execute(input, main);
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
                 System.err.println("[Expected Output] \n" + outputExpected);
@@ -79,18 +56,20 @@ public class MainTest {
 
 
     @TestFactory
-    Collection<DynamicTest> exampleTest() {
+    public Collection<DynamicTest> exampleTest() throws IOException {
 
         List<DynamicTest> tests = new ArrayList<>();
 
         String input_path = "/phase1/task3/example_in.txt";
         String output_path = "/phase1/task3/example_out.txt";
+        String input = getFileContent(input_path);
+        String outputExpected = getFileContent(output_path);
+
+        Main main = new Main();
 
         tests.add(DynamicTest.dynamicTest("Example Test", () -> {
 
-            String input = getFileContent(input_path);
-            String outputActual = execute(input);
-            String outputExpected = getFileContent(output_path);
+            String outputActual = execute(input, main);
 
 
             System.err.println("[Input] \n" + input);
