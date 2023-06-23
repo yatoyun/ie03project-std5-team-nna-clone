@@ -1,15 +1,18 @@
 package ie03.phase2.task5;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import ie03.TestCaseWriter;
+import ie03.TestInterface;
+import ie03.TestRunner;
+import ie03.phase2.task5.generator.TestCaseGenerator;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import ie03.*;
-
-import ie03.phase2.task5.generator.TestCaseGenerator;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MainTest extends TestRunner implements TestInterface {
 
@@ -24,6 +27,8 @@ public class MainTest extends TestRunner implements TestInterface {
         List<DynamicTest> tests = new ArrayList<>();
 
         Main main = new Main();
+        int[] falsecount = {0};
+        int[] totalcount = {0};
 
         for (int i = 1; i <= numTestCases; i++) {
 
@@ -38,7 +43,7 @@ public class MainTest extends TestRunner implements TestInterface {
                 String outputExpected = generator.getOutputText();
 
                 // save image
-                generator.saveImage(TEST_CASES_PREFIX + "/" + input_fileName);
+                generator.saveImage(System.getProperty("user.dir") + "/build"+"/generated_testcases/phase2/task5/testcase_" + currentI);
 
                 // write input to file
                 tcWriter.writeTestCase(input, "testcase_" + currentI + "_in.txt");
@@ -52,9 +57,16 @@ public class MainTest extends TestRunner implements TestInterface {
                 System.err.println("[Actual Output] \n" + outputActual);
                 System.err.println("[Expected Output] \n" + outputExpected);
 
+                falsecount[0] += countDifferences(outputExpected.split("\n"), outputActual.split("\n"), currentI);
+                totalcount[0] += outputExpected.split("\n").length;
                 assertEquals(outputExpected, outputActual);
+
             }));
         }
+        tests.add(DynamicTest.dynamicTest("Generated Test Result", () -> {
+            System.err.println("Total count : " + totalcount[0] + "\nTotal false: " + falsecount[0]);
+            System.err.println("Average true rate: " + (1 - ((double) falsecount[0] / totalcount[0])));
+        }));
         return tests;
     }
 
@@ -82,6 +94,17 @@ public class MainTest extends TestRunner implements TestInterface {
             assertEquals(outputExpected, outputActual);
         }));
 
+
         return tests;
+    }
+    static int countDifferences(String[] expectedOutput, String[] actualOutput, int currentI) {
+        int differences = 0;
+
+        for (int i = 0; i < Math.min(currentI, 20); i++) {
+            if (!expectedOutput[i].equals(actualOutput[i])) {
+                differences++;
+            }
+        }
+        return differences;
     }
 }

@@ -6,7 +6,7 @@ public class TSP {
     private final GraphBuilder graphBl;
     private int[][] prev;
     private final int n;
-    private ArrayList<String> path;
+    private HashSet<ArrayList<String>> pathList;
     private int minimumRouteValue = Integer.MAX_VALUE;
 
     private HashMap<String, Integer> lasttDist = new HashMap<>();
@@ -20,8 +20,8 @@ public class TSP {
         return minimumRouteValue;
     }
 
-    public ArrayList<String> getMinRoutePath(){
-        return path;
+    public HashSet<ArrayList<String>> getMinRoutePath(){
+        return pathList;
     }
 
     public void solveTSP(){
@@ -29,24 +29,32 @@ public class TSP {
         ApproximateSolve approximateSr = new ApproximateSolve(graphBl);
         approximateSr.solveTSP();
         minimumRouteValue = approximateSr.getMinRouteValue();
-        path = approximateSr.getMinRoutePath();
-
+        pathList = approximateSr.getMinRoutePath();
+        //debug
+//        System.out.println("Appro:");
+//        System.out.println(path);
+//
 //        for (int i = 1; i < n; i++) {
 //            String comb_name = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[n]);
 //            if (graphBl.distGraph.get(comb_name) != null) {
 //                lasttDist.put(graphBl.stopovers[i], graphBl.distGraph.get(comb_name));
 //            }
 //        }
-
-        int[][] dp = new int[1 << n][n];
+//
+//        int[][] dp = new int[1 << n][n];
 //
 //        // run dp
 //        solveDP(dp);
 //
+//        int min = Integer.MAX_VALUE;
 //        int last = -1; // for debug
 //        for (int i = 1; i < n; i++) {
-//            minimumRouteValue = Math.min(minimumRouteValue, dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i]));
+//            min = Math.min(min, dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i]));
 //            last = i; // for debug
+//        }
+//
+//        if (min < minimumRouteValue){
+//            System.out.println("bitDP is better");
 //        }
 //
 //        // Reverse the PATH
@@ -96,7 +104,7 @@ public class TSP {
     }
 
     private void getRoutePath(int last){
-        path = new ArrayList<String>();
+        ArrayList<String> path = new ArrayList<>();
         int mask = (1 << n) - 1;
         while (last != 0) {
             path.add(graphBl.stopovers[last]);
@@ -105,5 +113,6 @@ public class TSP {
             last = prev[temp][last];
         }
         Collections.reverse(path);
+        pathList.add(path);
     }
 }

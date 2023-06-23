@@ -5,7 +5,7 @@ import java.util.*;
 public class ApproximateSolve {
     private final GraphBuilder graphBl;
     private final int n;
-    private ArrayList<String> FinalPath;
+    private HashSet<ArrayList<String>> FinalPathList;
     private int minimumRouteValue = Integer.MAX_VALUE;
     private final HashMap<String, Integer> originalDistDict;
 
@@ -19,16 +19,14 @@ public class ApproximateSolve {
         return minimumRouteValue;
     }
 
-    public ArrayList<String> getMinRoutePath(){
-        return FinalPath;
-    }
+    public HashSet<ArrayList<String>> getMinRoutePath(){ return FinalPathList; }
 
     public void solveTSP(){
         String combName = CombinationName.get("EN", "EX");
         originalDistDict.put(combName, 0);
 
         minusKMeanDistance(n);
-        ArrayList<String> path = new ArrayList<>();
+        ArrayList<String> path;
 
         for (int flag = 0; flag < 2; flag++) {
             for (int st = 0; st < n; st++) {
@@ -40,9 +38,45 @@ public class ApproximateSolve {
                     greedyDist(path, graphBl.stopovers, st);
                 }
 
-                twoOpt(path);
-                oneOrOpt(path);
-                twoOrOpt(path);
+                // Simulated Annealing
+                double T = 100.0;  // Initial temperature
+                double T_min = 0.01;  // Minimum temperature
+                double alpha = 0.9;  // Cooling rate
+                Random random = new Random();
+                while (T > T_min) {
+                    // Create a new candidate solution
+                    ArrayList<String> newPath = new ArrayList<>(path);
+                    int optChoice = random.nextInt(4);  // Choose 3 different options
+                    switch (optChoice) {
+                        case 0:
+                            twoOpt(newPath);
+                            break;
+                        case 1:
+                            oneOrOpt(newPath);
+                            break;
+                        case 2:
+                            twoOrOpt(newPath);
+                            break;
+                        case 3:
+                            int first = random.nextInt(n - 1) + 1;
+                            int second = random.nextInt(n - 2) + 1;
+                            if (second == first) second++;
+                            Collections.swap(newPath, first, second);
+                    }
+
+                    // Calculate the acceptance probability
+                    int currentDistance = totalDists(path);
+                    int newDistance = totalDists(newPath);
+                    double ap = acceptanceProbability(currentDistance, newDistance, T);
+
+                    // Decide whether to accept the new solution
+                    if (ap > Math.random()) {
+                        path = newPath;
+                    }
+
+                    // Cool down
+                    T *= alpha;
+                }
 
                 rearrangeList(path);
                 int value = totalDists(path);
@@ -54,27 +88,26 @@ public class ApproximateSolve {
                     continue;
 
                 if (value == minimumRouteValue) {
-                    compareOrder(FinalPath, path);
+                    FinalPathList.add((ArrayList<String>) path.clone());
                 }else if (value < minimumRouteValue){
-                    FinalPath = path;
+                    FinalPathList = new HashSet<>();
+                    FinalPathList.add((ArrayList<String>) path.clone());
                     minimumRouteValue = value;
                 }
             }
         }
-        if (!(FinalPath.get(0).equals("EN") && FinalPath.get(path.size()-1).equals("EX")))
-            System.out.println(FinalPath);
-        FinalPath.remove("EN");
+
+        for (ArrayList<String> finalPath : FinalPathList) {
+            finalPath.remove("EN");
+            finalPath.remove("EX");
+        }
     }
 
-    private void compareOrder(ArrayList<String> finalPath, ArrayList<String> currentPath){
-        for (int i = 0; i<finalPath.size();i++){
-            int check =  finalPath.get(i).compareTo(currentPath.get(i));
-
-            if (check < 0)
-                return;
-            else if(check > 0){
-                finalPath = currentPath;
-            }
+    private double acceptanceProbability(int currentDistance, int newDistance, double T) {
+        if (newDistance < currentDistance) {
+            return 1.0;
+        } else {
+            return Math.exp((currentDistance - newDistance) / T);
         }
     }
 
@@ -266,6 +299,40 @@ public class ApproximateSolve {
             }
         }
     }
+
+    private void threeOpt(ArrayList<String> path) {
+        int N = n;
+
+        boolean improved = true;
+        while (improved) {
+            improved = false;
+            for (int i = 0; i < N - 3; i++) {
+                for (int j = i + 2; j < N - 1; j++) {
+                    for (int k = j + 2; k < N + (i > 0 ? 1 : 0); k++) {
+                        int l1 = getDistCombNodes(i, i+1, path);
+                        int l2 = getDistCombNodes(j, j+1, path);
+                        int l3 = getDistCombNodes(k % N, (k+1) % N, path);
+                        int l4 = getDistCombNodes(i, j, path);
+                        int l5 = getDistCombNodes(j+1, k % N, path);
+                        int l6 = getDistCombNodes((k+1) % N, i+1, path);
+                        if (l1 + l2 + l3 > l4 + l5 + l6) {
+                            ArrayList<String> newTour1 = new ArrayList<>(path.subList(i+1, j+1));
+                            Collections.reverse(newTour1);
+                            path.subList(i+1, j+1).clear();
+                            path.addAll(i+1, newTour1);
+                            ArrayList<String> newTour2 = new ArrayList<>(path.subList(j+1, k % N));
+                            Collections.reverse(newTour2);
+                            path.subList(j+1, k % N).clear();
+                            path.addAll(j+1, newTour2);
+                            improved = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 
     private int totalDists(ArrayList<String> path){
         int min = 0;

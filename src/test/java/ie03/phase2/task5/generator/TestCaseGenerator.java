@@ -53,12 +53,29 @@ public class TestCaseGenerator {
         int numShelves = Math.min(3*number, 20);
         int numRoutes = Math.min(number, 20);
         int numWayPoints = Math.min(numRoutes, 20);
+
+        // input init
         inputCr.initializeGenerators(numShelves, numRoutes, numWayPoints);
 
+        // create input text
         intputText = inputCr.getTestText();
+
+        // create grid image
         image = StoreImageSave.create(intputText);
+
+        // calc and set distance graph
         grid.getDistGraph();
 
+        // create output text
+        outputGetText(outputCr);
+    }
+
+    private void initilizeCreators(){
+        inputCr = new InputCreator(grid, shelves, routes);
+        outputCr = new OutputCreator(grid, routes);
+    }
+
+    private void outputGetText(OutputCreator outputCr){
         try {
             outputText = outputCr.getTestText();
         } catch (InterruptedException | ExecutionException e) {
@@ -66,10 +83,6 @@ public class TestCaseGenerator {
         }
     }
 
-    private void initilizeCreators(){
-        inputCr = new InputCreator(grid, shelves, routes);
-        outputCr = new OutputCreator(grid, routes);
-    }
 
     public void useOutputWithRouteCreator() {
         outputCr = new OutputWithRouteCreator(grid, routes); // 子クラスのインスタンスを代入

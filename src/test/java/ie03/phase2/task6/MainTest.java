@@ -1,105 +1,88 @@
 package ie03.phase2.task6;
 
-import ie03.TestUtils;
+import ie03.TestCaseWriter;
+import ie03.TestInterface;
+import ie03.TestRunner;
 import ie03.phase2.task5.generator.TestCaseGenerator;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MainTest {
-
-    String execute(String input) throws Exception{
-        TestUtils test = new TestUtils(new Main());
-        return test.execute(input);
-    }
-
-    String getFileContent(String path) throws IOException, NullPointerException {
-        return new String(Files.readAllBytes(Paths.get(Objects.requireNonNull(getClass().getResource(path)).getPath())));
-    }
-
+public class MainTest extends TestRunner implements TestInterface {
     @TestFactory
-    Collection<DynamicTest> generatedTest() throws Exception {
+    public Collection<DynamicTest> generatedTest() throws Exception {
 
-        final String buildPath = System.getProperty("user.dir") + "/build";
-        final String TEST_CASES_PREFIX = buildPath + "/generated_testcases/phase2/task5";
-
-        // create directory if it doesn't exist
-        final Path path = Paths.get(TEST_CASES_PREFIX);
-        Files.createDirectories(path);
+        TestCaseWriter tcWriter = new TestCaseWriter("/generated_testcases/phase2/task6");
 
         final int numTestCases = 10;//25;
-        final String INPUT_FILE_PREFIX = "example";
-        final String INPUT_FILE_EXTENSION = "_in.txt";
-        final String OUTPUT_FILE_PREFIX = "example";
-        final String OUTPUT_FILE_EXTENSION = "_out_actual.txt";
-        final String EXPECT_FILE_PREFIX = "example";
-        final String EXPECT_FILE_EXTENSION = "_out_expect.txt";
 
+        Main main = new Main();
         List<DynamicTest> tests = new ArrayList<>();
 
+        int[] falsecount = {0};
+        int[] totalcount = {0};
+
+
         for (int i = 1; i <= numTestCases; i++) {
-            String input_fileName = INPUT_FILE_PREFIX + i + INPUT_FILE_EXTENSION;
-            String output_fileName = OUTPUT_FILE_PREFIX + i + OUTPUT_FILE_EXTENSION;
-            String expect_fileName = EXPECT_FILE_PREFIX + i + EXPECT_FILE_EXTENSION;
-
-
-            int currentIndex = i;
+            int currentI = i;
             tests.add(DynamicTest.dynamicTest("Generated Test " + i, () -> {
                 TestCaseGenerator generator = new TestCaseGenerator();
                 // generate test case
-                generator.setTestText(currentIndex);
-                generator.runGenerator();
+                generator.setTestText(currentI);
                 generator.useOutputWithRouteCreator();
+                generator.runGenerator();
 
                 String input = generator.getIntputText();
-                String outputActual = execute(input);
+                String outputActual = execute(input, main);
                 String outputExpected = generator.getOutputText();
 
                 // save image
-                generator.saveImage(TEST_CASES_PREFIX + "/" + input_fileName);
+                generator.saveImage(System.getProperty("user.dir") + "/build"+"/generated_testcases/phase2/task5/testcase_" + currentI);
 
-                // write input to file
-                Files.write(Paths.get(TEST_CASES_PREFIX + "/" + input_fileName), input.getBytes());
+                // save image
+                tcWriter.writeTestCase(input, "testcase_" + currentI + "_in.txt");
                 // write output to file
-                Files.write(Paths.get(TEST_CASES_PREFIX + "/" + output_fileName), outputActual.getBytes());
+                tcWriter.writeTestCase(outputActual, "testcase_" + currentI + "_out_actual.txt");
                 // write confirmation to file
-                Files.write(Paths.get(TEST_CASES_PREFIX + "/" + expect_fileName), outputExpected.getBytes());
+                tcWriter.writeTestCase(outputExpected, "testcase_" + currentI + "_out_expect.txt");
 
                 System.err.println("[Input] \n" + input);
                 System.err.println("[Actual Output] \n" + outputActual);
                 System.err.println("[Expected Output] \n" + outputExpected);
 
+                falsecount[0] += countDifferences(outputExpected.split("\n"), outputActual.split("\n"), currentI);
+                totalcount[0] += outputExpected.split("\n").length;
                 assertEquals(outputExpected, outputActual);
             }));
         }
+        tests.add(DynamicTest.dynamicTest("Generated Test Result", () -> {
+            System.err.println("Total count : " + totalcount[0] + "\nTotal false: " + falsecount[0]);
+            System.err.println("Average true rate: " + (1 - ((double) falsecount[0] / totalcount[0])));
+        }));
         return tests;
     }
 
-
     @TestFactory
-    Collection<DynamicTest> exampleTest() {
+    public Collection<DynamicTest> exampleTest() throws IOException {
 
         List<DynamicTest> tests = new ArrayList<>();
 
         String input_path = "/phase2/task6/example_in.txt";
         String output_path = "/phase2/task6/example_out.txt";
+        String input = getFileContent(input_path);
+        String outputExpected = getFileContent(output_path);
+
+        Main main = new Main();
 
         tests.add(DynamicTest.dynamicTest("Example Test", () -> {
 
-            String input = getFileContent(input_path);
-            String outputActual = execute(input);
-            String outputExpected = getFileContent(output_path);
-
+            String outputActual = execute(input, main);
 
             System.err.println("[Input] \n" + input);
             System.err.println("[Actual Output] \n" + outputActual);
@@ -108,6 +91,18 @@ public class MainTest {
             assertEquals(outputExpected, outputActual);
         }));
 
+
         return tests;
+    }
+
+    static int countDifferences(String[] expectedOutput, String[] actualOutput, int currentI) {
+        int differences = 0;
+
+        for (int i = 0; i < Math.min(currentI, 20); i++) {
+            if (!expectedOutput[i].equals(actualOutput[i])) {
+                differences++;
+            }
+        }
+        return differences;
     }
 }
