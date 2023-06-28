@@ -33,7 +33,7 @@ public class MainTest extends TestRunner implements TestInterface {
         for (int i = 1; i <= numTestCases; i++) {
 
             int currentI = i;
-            tests.add(DynamicTest.dynamicTest("Generated Test " + i, () -> {
+            tests.add(DynamicTest.dynamicTest("Task5 Generated Test " + i, () -> {
                 TestCaseGenerator generator = new TestCaseGenerator();
                 generator.setTestText(currentI);
                 generator.runGenerator();
@@ -63,7 +63,7 @@ public class MainTest extends TestRunner implements TestInterface {
 
             }));
         }
-        tests.add(DynamicTest.dynamicTest("Generated Test Result", () -> {
+        tests.add(DynamicTest.dynamicTest("Task5 Generated Test Result", () -> {
             System.err.println("Total count : " + totalcount[0] + "\nTotal false: " + falsecount[0]);
             System.err.println("Average true rate: " + (1 - ((double) falsecount[0] / totalcount[0])));
         }));
@@ -83,7 +83,7 @@ public class MainTest extends TestRunner implements TestInterface {
 
         Main main = new Main();
 
-        tests.add(DynamicTest.dynamicTest("Example Test", () -> {
+        tests.add(DynamicTest.dynamicTest("Task5 Example Test", () -> {
 
             String outputActual = execute(input, main);
 

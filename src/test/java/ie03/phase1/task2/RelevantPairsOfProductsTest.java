@@ -29,7 +29,7 @@ public class RelevantPairsOfProductsTest extends TestRunner implements TestInter
 
         RelevantPairsOfProducts rpoProduct = new RelevantPairsOfProducts();
 
-        tests.add(DynamicTest.dynamicTest("Example Test", () -> {
+        tests.add(DynamicTest.dynamicTest("Task2 Example Test", () -> {
 
             String outputActual = execute(input, rpoProduct);
 

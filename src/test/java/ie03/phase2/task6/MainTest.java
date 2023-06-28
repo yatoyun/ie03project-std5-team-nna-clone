@@ -31,7 +31,7 @@ public class MainTest extends TestRunner implements TestInterface {
 
         for (int i = 1; i <= numTestCases; i++) {
             int currentI = i;
-            tests.add(DynamicTest.dynamicTest("Generated Test " + i, () -> {
+            tests.add(DynamicTest.dynamicTest("Task6 Generated Test " + i, () -> {
                 TestCaseGenerator generator = new TestCaseGenerator();
                 // generate test case
                 generator.setTestText(currentI);
@@ -80,7 +80,7 @@ public class MainTest extends TestRunner implements TestInterface {
 
         Main main = new Main();
 
-        tests.add(DynamicTest.dynamicTest("Example Test", () -> {
+        tests.add(DynamicTest.dynamicTest("Task6 Example Test", () -> {
 
             String outputActual = execute(input, main);
 
