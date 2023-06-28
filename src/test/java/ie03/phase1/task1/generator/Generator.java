@@ -3,6 +3,7 @@ package ie03.phase1.task1.generator;
 public class Generator {
     private String input;
     private String output;
+    private String query;
 
     public void generateInputAndOutput(int numCase) {
         PurchaseDataGenerator gp = new PurchaseDataGenerator();
@@ -12,7 +13,7 @@ public class Generator {
         int numPurchases = counter.countWords();
 
         GenerateQuery gq = new GenerateQuery(numPurchases);
-        String query = gq.QueryGenerator();
+        query = gq.QueryGenerator();
 
         StringFormatter sf = new StringFormatter();
         input = sf.concatenate(purchaseData, query);
@@ -29,5 +30,9 @@ public class Generator {
 
     public String getInput() {
         return input;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }
