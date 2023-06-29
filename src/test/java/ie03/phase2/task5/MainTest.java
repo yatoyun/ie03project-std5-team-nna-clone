@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MainTest extends TestRunner implements TestInterface {
 
-    @TestFactory
     public Collection<DynamicTest> generatedTest() throws Exception {
 
 
@@ -71,7 +70,6 @@ public class MainTest extends TestRunner implements TestInterface {
     }
 
 
-    @TestFactory
     public Collection<DynamicTest> exampleTest() throws IOException {
 
         List<DynamicTest> tests = new ArrayList<>();
