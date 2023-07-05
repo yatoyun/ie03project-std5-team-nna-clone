@@ -4,7 +4,7 @@ public class StringFormatter {
     StringBuilder sb = new StringBuilder();
 
     String concatenate(String a, String b) {
-        sb.append(a).append("\n").append(b);
+        sb.append(a).append(b);
         return sb.toString();
     }
 }
