@@ -68,7 +68,6 @@ public class MainTest extends TestRunner implements TestInterface {
         return tests;
     }
 
-    @TestFactory
     public Collection<DynamicTest> exampleTest() throws IOException {
 
         List<DynamicTest> tests = new ArrayList<>();
