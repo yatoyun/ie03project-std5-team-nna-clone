@@ -41,7 +41,7 @@ public class MainTest extends TestRunner implements TestInterface {
             tcWriter.writeTestCase(outputActual, "testcase_" + i + "_out_actual.txt");
             tcWriter.writeTestCase(outputExpected, "testcase_" + i + "_out_expect.txt");
 
-            tests.add(DynamicTest.dynamicTest("Task4 Example Test " + i, () -> {
+            tests.add(DynamicTest.dynamicTest("Task4 Generated Test " + i, () -> {
 
                 execute(input, main);
                 System.err.println("[Input] \n" + input);
