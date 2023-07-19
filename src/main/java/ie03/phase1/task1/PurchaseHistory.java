@@ -7,38 +7,22 @@ public class PurchaseHistory {
     public static void main(String[] args) throws IOException {
         final Scanner sc = new Scanner(System.in);
 
+        PurchaseData purchaseData = new PurchaseData();
+
         final int numberOfCustomer = Integer.parseInt(sc.next());
-        final Map<String, Integer> purchaseCount = new HashMap<>();
-
-        readPurchaseData(sc, numberOfCustomer, purchaseCount);
-        final List<Map.Entry<String, Integer>> sortedPurchaseCount = sortPurchaseCount(purchaseCount);
-
-        final int q = Integer.parseInt(sc.next());
-        displayInformation(sc, q, sortedPurchaseCount);
-    }
-
-    private static void readPurchaseData(Scanner sc, int numberOfCustomer, Map<String, Integer> purchaseCount) throws IOException {
         for (int i = 0; i < numberOfCustomer; i++) {
             final int m = Integer.parseInt(sc.next());
+            ArrayList<String> customer = new ArrayList<>();
             for (int j = 0; j < m; j++) {
                 final String product = sc.next();
-                if (purchaseCount.containsKey(product)) {
-                    purchaseCount.put(product, purchaseCount.get(product) + 1);
-                } else {
-                    purchaseCount.put(product, 1);
-                }
+                customer.add(product);
             }
+            purchaseData.addCustomer(customer);
         }
-    }
+        purchaseData.sortPurchaseCount();
 
-    private static ArrayList<Map.Entry<String, Integer>> sortPurchaseCount(Map<String, Integer> purchaseCount) {
-        final ArrayList<Map.Entry<String, Integer>> sortedPurchaseCount = new ArrayList<>(purchaseCount.entrySet());
-
-        final Comparator<Map.Entry<String, Integer>> valueComp = Map.Entry.comparingByValue(Comparator.reverseOrder());
-        final Comparator<Map.Entry<String, Integer>> keyComp = Map.Entry.comparingByKey();
-        sortedPurchaseCount.sort(valueComp.thenComparing(keyComp));
-
-        return sortedPurchaseCount;
+        final int q = Integer.parseInt(sc.next());
+        displayInformation(sc, q, purchaseData.sortedPurchaseCount);
     }
 
     private static void displayInformation(Scanner sc, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) throws IOException {
