@@ -3,6 +3,7 @@ package ie03.phase1.task3.generator;
 import ie03.phase1.task3.Grid;
 
 import java.awt.*;
+import java.util.Queue;
 import java.util.*;
 
 public class TestCaseGenerator {
@@ -32,9 +33,9 @@ public class TestCaseGenerator {
         q.add(new ArrayList<>(Collections.singletonList(new Point(1, 0))));
         while (!q.isEmpty()) {
             ArrayList<Point> path = q.poll();
-            Point lastPoint = path.get(path.size()-1);
+            Point lastPoint = path.get(path.size() - 1);
 
-            if (lastPoint.equals(new Point(grid.w-2, 0)) || path.size() > grid.w*grid.h) {
+            if (lastPoint.equals(new Point(grid.w - 2, 0)) || path.size() > grid.w * grid.h) {
                 continue;
             }
 
@@ -69,7 +70,7 @@ public class TestCaseGenerator {
         Random rand = new Random();
         // points where shelves cannot be placed
         Set<Point> candidatePoints = new HashSet<>();
-        for (int cnt = 0; cnt < n;) {
+        for (int cnt = 0; cnt < n; ) {
             if (cnt == 0) {
                 candidatePoints.clear();
                 // initialize set of possible points
@@ -85,8 +86,8 @@ public class TestCaseGenerator {
                 // on and in front of the entrance and exit
                 candidatePoints.remove(new Point(1, 0));
                 candidatePoints.remove(new Point(1, 1));
-                candidatePoints.remove(new Point(grid.w-2, 0));
-                candidatePoints.remove(new Point(grid.w-2, 1));
+                candidatePoints.remove(new Point(grid.w - 2, 0));
+                candidatePoints.remove(new Point(grid.w - 2, 1));
             }
 
             if (candidatePoints.isEmpty()) {
@@ -147,11 +148,11 @@ public class TestCaseGenerator {
 
     public void generateRouteManually(int m) {
         Random rand = new Random();
-        Object[] route = new Object[m+1];
+        Object[] route = new Object[m + 1];
         route[0] = m;
         for (int cnt = 0; cnt < m; cnt++) {
             int idx = rand.nextInt(shelves.size());
-            route[cnt+1] = shelves.get(idx)[2];
+            route[cnt + 1] = shelves.get(idx)[2];
         }
         routes.add(route);
     }
@@ -198,5 +199,7 @@ public class TestCaseGenerator {
         return sb.toString();
     }
 
-
+    public ArrayList<Object[]> getShelves() {
+        return shelves;
+    }
 }
