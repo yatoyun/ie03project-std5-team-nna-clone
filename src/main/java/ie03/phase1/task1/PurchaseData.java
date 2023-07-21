@@ -3,7 +3,7 @@ package ie03.phase1.task1;
 import java.util.*;
 
 public class PurchaseData {
-    ArrayList<ArrayList<String>> data = new ArrayList<>();
+    public ArrayList<ArrayList<String>> data = new ArrayList<>();
     Map<String, Integer> purchaseCount = new HashMap<>();
     ArrayList<Map.Entry<String, Integer>> sortedPurchaseCount = null;
 
