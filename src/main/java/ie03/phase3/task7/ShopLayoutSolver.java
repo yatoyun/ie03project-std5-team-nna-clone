@@ -17,6 +17,8 @@ public class ShopLayoutSolver {
     public ShopLayoutSolver(ProductsManager productsData, Grid grid) {
         this.productsData = productsData;
         this.grid = grid;
+        grid.putGates();
+        grid.getDistGraph();
         sprSolver = new ShortestPathRouteSolver(grid);
         for (String product : productsData.getProducts()) {
             prodName2prodIdxMap.put(product, prodName2prodIdxMap.size());
@@ -89,7 +91,9 @@ public class ShopLayoutSolver {
                 if (shelfName2prodNameMap.containsKey(shelf)) {
                     continue;
                 }
-                Map.Entry<Integer, ArrayList<String>> result = sprSolver.solve(new String[]{shelf});
+                String[] shelfName = new String[1];
+                shelfName[0] = shelf;
+                Map.Entry<Integer, ArrayList<String>> result = sprSolver.solve(shelfName);
                 ArrayList<String> possibleRightList = result.getValue();
                 if (nextRightList.size() < possibleRightList.size()) {
                     nextRightList = possibleRightList;

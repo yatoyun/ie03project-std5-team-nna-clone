@@ -5,6 +5,8 @@ import ie03.phase2.task5.Grid;
 
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.security.AllPermission;
 import java.util.*;
 
 public class Main {
@@ -44,6 +46,10 @@ public class Main {
         }
 
         ShopLayoutSolver splSolver = new ShopLayoutSolver(productsManager, grid);
-        System.out.println(splSolver.getShoplayout());
+        ArrayList<Map.Entry<String,Point>> sortedShelves = splSolver.getShoplayout();
+        for (Map.Entry<String, Point> product : sortedShelves) {
+            System.out.println(product.getKey() + " (" + product.getValue().x + ", " + product.getValue().y + ")");
+        }
+
     }
 }
