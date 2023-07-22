@@ -1,11 +1,9 @@
 package ie03.phase2.task6;
 
-import ie03.phase2.task5.Grid;
 import ie03.phase1.task3.SolveDijkstra;
+import ie03.phase2.task5.GraphBuilder;
 import ie03.phase2.task5.Grid;
-import ie03.phase2.task5.Input;
 import ie03.phase2.task5.SolveRoutes;
-import ie03.phase2.task5.TSP;
 
 import java.awt.*;
 import java.util.*;
@@ -33,7 +31,8 @@ public class ShortestPathRouteSolver {
         sr.resetGlaph(m);
         GetVisitableWaypoints gvw = new GetVisitableWaypoints(shelvesByPoint, solver, grid);
 
-        TSP tsp = sr.solve();
+        GraphBuilder graphBl = sr.GetGraphBl();
+        TSP tsp = new TSP(graphBl);
         int minDist = tsp.getMinRouteValue();
         HashSet<ArrayList<String>> stopoversList = tsp.getMinRoutePath();
 
