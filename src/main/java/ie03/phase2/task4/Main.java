@@ -1,6 +1,6 @@
 package ie03.phase2.task4;
 
-import ie03.phase1.task2.ProductsData;
+import ie03.phase1.task2.PurchaseDataEnhanced;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Main {
 
         int N = Integer.parseInt(sc.next());
 
-        ProductsData productsData = new ProductsData();
+        PurchaseDataEnhanced purchaseData = new PurchaseDataEnhanced();
 
         // Read strings from standard input
         for (int i = 0; i < N; i++) {
@@ -25,19 +25,17 @@ public class Main {
                 String items = sc.next();
                 purchases.add(items);
             }
-            productsData.addCustomer((ArrayList<String>) purchases);
+            purchaseData.addCustomer((ArrayList<String>) purchases);
         }
 
-        productsData.setPurchasePair();
-        productsData.sortPurchasePair();
-
+        ArrayList<Map.Entry<String, Integer>> sortedPurchasePair = purchaseData.getSortedPurchasePairCount();
 
         int q = Integer.parseInt(sc.next());
         for (int i = 0; i < q; i++) {
             int first = Integer.parseInt(sc.next());
             int last = Integer.parseInt(sc.next());
             for (int j = first - 1; j < last; j++) {
-                Map.Entry<String, Integer> entry = productsData.sortedPurchasePair.get(j);
+                Map.Entry<String, Integer> entry = sortedPurchasePair.get(j);
                 System.out.println(entry.getValue() + " " + entry.getKey());
             }
         }

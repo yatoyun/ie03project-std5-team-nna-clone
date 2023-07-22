@@ -19,13 +19,14 @@ public class PurchaseHistory {
             }
             purchaseData.addCustomer(customer);
         }
-        purchaseData.sortPurchaseCount();
+
+        ArrayList<Map.Entry<String, Integer>> sortedPurchaseCount = purchaseData.getSortedPurchaseCount();
 
         final int q = Integer.parseInt(sc.next());
-        displayInformation(sc, q, purchaseData.sortedPurchaseCount);
+        displayInformation(sc, q, sortedPurchaseCount);
     }
 
-    private static void displayInformation(Scanner sc, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) throws IOException {
+    private static void displayInformation(Scanner sc, int q, List<Map.Entry<String, Integer>> sortedPurchaseCount) {
         for (int i = 0; i < q; i++) {
             final int a = Integer.parseInt(sc.next()) - 1;
             final int b = Integer.parseInt(sc.next()) - 1;

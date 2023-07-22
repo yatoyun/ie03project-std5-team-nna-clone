@@ -11,7 +11,7 @@ public class RelevantPairsOfProducts {
         int n;
         String[] lines;
 
-        ProductsData productsData = new ProductsData();
+        PurchaseDataEnhanced purchaseData = new PurchaseDataEnhanced();
 
         //get N
         lines = get_line(br);
@@ -25,15 +25,14 @@ public class RelevantPairsOfProducts {
                 final String product = lines[j + 1];
                 customer.add(product);
             }
-            productsData.addCustomer(customer);
+            purchaseData.addCustomer(customer);
         }
 
         //get Q
         lines = get_line(br);
         int q = get_n(lines);
 
-        productsData.setPurchasePair();
-        productsData.sortPurchasePair();
+        ArrayList<Map.Entry<String, Integer>> sortedPurchasePair = purchaseData.getSortedPurchasePairCount();
 
         //output
         for (int i = 0; i < q; i++) {
@@ -41,8 +40,8 @@ public class RelevantPairsOfProducts {
             int a = Integer.parseInt(query[0]) - 1;
             int b = Integer.parseInt(query[1]) - 1;
 
-            for (int j = a; j <= b && j < productsData.sortedPurchasePair.size(); j++) {
-                Map.Entry<String, Integer> entry = productsData.sortedPurchasePair.get(j);
+            for (int j = a; j <= b && j < sortedPurchasePair.size(); j++) {
+                Map.Entry<String, Integer> entry = sortedPurchasePair.get(j);
                 System.out.println(entry.getValue() + " " + entry.getKey());
             }
         }

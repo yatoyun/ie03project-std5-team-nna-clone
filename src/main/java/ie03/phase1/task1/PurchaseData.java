@@ -3,9 +3,8 @@ package ie03.phase1.task1;
 import java.util.*;
 
 public class PurchaseData {
-    public ArrayList<ArrayList<String>> data = new ArrayList<>();
-    Map<String, Integer> purchaseCount = new HashMap<>();
-    ArrayList<Map.Entry<String, Integer>> sortedPurchaseCount = null;
+    protected final ArrayList<ArrayList<String>> data = new ArrayList<>();
+    private final Map<String, Integer> purchaseCount = new HashMap<>();
 
     public void addCustomer(ArrayList<String> customer) {
         data.add(customer);
@@ -18,11 +17,12 @@ public class PurchaseData {
         }
     }
 
-    public void sortPurchaseCount() {
-        sortedPurchaseCount = new ArrayList<>(purchaseCount.entrySet());
+    public ArrayList<Map.Entry<String, Integer>> getSortedPurchaseCount() {
+        ArrayList<Map.Entry<String, Integer>> sortedPurchaseCount = new ArrayList<>(purchaseCount.entrySet());
         final Comparator<Map.Entry<String, Integer>> valueComp = Map.Entry.comparingByValue(Comparator.reverseOrder());
         final Comparator<Map.Entry<String, Integer>> keyComp = Map.Entry.comparingByKey();
         sortedPurchaseCount.sort(valueComp.thenComparing(keyComp));
+        return sortedPurchaseCount;
     }
 
 }
