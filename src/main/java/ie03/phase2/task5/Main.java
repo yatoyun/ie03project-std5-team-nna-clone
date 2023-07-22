@@ -33,6 +33,7 @@ public class Main {
             // solve
             GraphBuilder graphBl = sr.GetGraphBl();
             TSP tsp = new TSP(graphBl);
+            tsp.solveTSP();
             System.out.println(tsp.getMinRouteValue());
         }
     }

@@ -33,6 +33,7 @@ public class ShortestPathRouteSolver {
 
         GraphBuilder graphBl = sr.GetGraphBl();
         TSP tsp = new TSP(graphBl);
+        tsp.solveTSP();
         int minDist = tsp.getMinRouteValue();
         HashSet<ArrayList<String>> stopoversList = tsp.getMinRoutePath();
 
