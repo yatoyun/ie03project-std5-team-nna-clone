@@ -21,16 +21,10 @@ public class Main {
         grid.shelvesInitializer(input, n);
         grid.getDistGraph();
 
-        SolveDijkstra solver = new SolveDijkstra(grid);
-        HashMap<Point, String> shelvesByPoint = new HashMap<>();
-        for (Entry<String, Point> entry : grid.shelves.entrySet()) {
-            if (!entry.getKey().equals("EN"))
-                shelvesByPoint.put(entry.getValue(), entry.getKey());
-        }
+        ShortestPathRouteSolver sprSolver = new ShortestPathRouteSolver(grid);
 
-        HashSet<ArrayList<String>> stopoversList;
         // input 02
-        
+
         int q = input.nextInt();
         for (int i = 0; i < q; i++) {
             int m = input.nextInt();
@@ -39,53 +33,11 @@ public class Main {
             for (int j = 0; j < m; j++)
                 inputRoute[j] = input.next();
 
-            SolveRoutes sr = new SolveRoutes(inputRoute, grid);
-            // reset dist_graph
-            sr.resetGlaph(m);
-            GetVisitableWaypoints gvw = new GetVisitableWaypoints(shelvesByPoint, solver, grid);
-
-            TSP tsp = sr.solve();
-            int minDist = tsp.getMinRouteValue();
-            stopoversList = tsp.getMinRoutePath();
-            // debug
-//            System.out.println("bitDP:");
-//            System.out.println(stopoversList);
-            ArrayList<String> finalVisitedList = new ArrayList<>();
-            for (ArrayList<String> stopovers : stopoversList) {
-
-                ArrayList<String> vistedList;
-                ArrayList<String> waypoints;
-                HashSet<String> visited = new HashSet<>();
-                visited.add("EN");
-                visited.add("EX");
-                Point cpos = new Point(1, 0);
-                Point npos;
-
-                // solve
-                for (String stopover : stopovers) {
-                    npos = grid.shelves.get(stopover);
-                    waypoints = gvw.solveWaypoints(cpos, npos, stopovers);
-                    visited.addAll(waypoints);
-                    cpos = npos;
-                }
-                npos = new Point(w-2, 0);
-                waypoints = gvw.solveWaypoints(cpos, npos, stopovers);
-                visited.addAll(waypoints);
-                visited.remove("EN");
-                visited.remove("EX");
-                vistedList = new ArrayList<>(visited);
-
-                // find largest visited list
-                if (finalVisitedList.size() < vistedList.size()) {
-                    finalVisitedList = vistedList;
-                }
-
-            }
-            Collections.sort(finalVisitedList);
+            Map.Entry<Integer, ArrayList<String>> result = sprSolver.solve(inputRoute);
 
             // output
-            System.out.print(minDist);
-            for (String s : finalVisitedList) {
+            System.out.print(result.getKey());
+            for (String s : result.getValue()) {
                 System.out.print(" " + s);
             }
             System.out.print("\n");
