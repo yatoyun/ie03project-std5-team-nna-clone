@@ -25,40 +25,51 @@ public class TSP {
     }
 
     public void solveTSP(){
+        /*
         //approximate
         ApproximateSolve approximateSr = new ApproximateSolve(graphBl);
         approximateSr.solveTSP();
         minimumRouteValue = approximateSr.getMinRouteValue();
         pathList = approximateSr.getMinRoutePath();
-        //debug
-//        System.out.println("Appro:");
-//        System.out.println(path);
-//
-//        for (int i = 1; i < n; i++) {
-//            String comb_name = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[n]);
-//            if (graphBl.distGraph.get(comb_name) != null) {
-//                lasttDist.put(graphBl.stopovers[i], graphBl.distGraph.get(comb_name));
-//            }
-//        }
-//
-//        int[][] dp = new int[1 << n][n];
-//
-//        // run dp
-//        solveDP(dp);
-//
-//        int min = Integer.MAX_VALUE;
-//        int last = -1; // for debug
-//        for (int i = 1; i < n; i++) {
-//            min = Math.min(min, dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i]));
-//            last = i; // for debug
-//        }
-//
-//        if (min < minimumRouteValue){
-//            System.out.println("bitDP is better");
-//        }
-//
-//        // Reverse the PATH
-//        getRoutePath(last);
+        */
+
+
+        /*
+        // debug
+        System.out.println("Appro:");
+        System.out.println(path);
+        */
+
+        // bitDP
+        for (int i = 1; i < n; i++) {
+            String comb_name = CombinationName.get(graphBl.stopovers[i], graphBl.stopovers[n]);
+            if (graphBl.distGraph.get(comb_name) != null) {
+                lasttDist.put(graphBl.stopovers[i], graphBl.distGraph.get(comb_name));
+            }
+        }
+
+        int[][] dp = new int[1 << n][n];
+
+        // run dp
+        solveDP(dp);
+
+        int min = Integer.MAX_VALUE;
+        int last = -1;    // for debug
+        for (int i = 1; i < n; i++) {
+            min = Math.min(min, dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i]));
+            if (min == dp[(1 << n) - 1][i] + lasttDist.get(graphBl.stopovers[i])) last = i;
+            // last = i;    // for debu
+        }
+        minimumRouteValue = min;
+
+        /*
+        if (min < minimumRouteValue){
+              System.out.println("bitDP is better");
+        }
+        */
+
+        // Reverse the PATH
+        getRoutePath(last);
     }
 
     private void solveDP(int[][] dp){
@@ -84,9 +95,11 @@ public class TSP {
                     }
                 }
             }
-//            if (currentBest > minimumRouteValue) {
-//                pruningAddMask(pruning, mask);
-//            }
+            /*
+            if (currentBest > minimumRouteValue) {
+                pruningAddMask(pruning, mask);
+            }
+            */
         }
     }
 
@@ -104,6 +117,7 @@ public class TSP {
     }
 
     private void getRoutePath(int last){
+        pathList = new HashSet<>();
         ArrayList<String> path = new ArrayList<>();
         int mask = (1 << n) - 1;
         while (last != 0) {

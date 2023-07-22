@@ -27,6 +27,7 @@ public class Main {
 
         int q = input.nextInt();
         for (int i = 0; i < q; i++) {
+            System.err.println("==========");
             int m = input.nextInt();
 
             String[] inputRoute = new String[m];
