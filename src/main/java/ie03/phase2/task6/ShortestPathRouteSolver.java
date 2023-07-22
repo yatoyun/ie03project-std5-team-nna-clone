@@ -36,7 +36,6 @@ public class ShortestPathRouteSolver {
         TSP tsp = sr.solve();
         int minDist = tsp.getMinRouteValue();
         HashSet<ArrayList<String>> stopoversList = tsp.getMinRoutePath();
-        System.err.println(stopoversList);
 
         ArrayList<String> finalVisitedList = new ArrayList<>();
 
@@ -61,7 +60,6 @@ public class ShortestPathRouteSolver {
             visited.remove("EN");
             visited.remove("EX");
             vistedList = new ArrayList<>(visited);
-            System.err.println("visitedList: " + vistedList);
             if (finalVisitedList.size() < vistedList.size()) {
                 finalVisitedList = vistedList;
             }
