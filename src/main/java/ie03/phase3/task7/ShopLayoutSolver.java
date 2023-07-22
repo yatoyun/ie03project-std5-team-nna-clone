@@ -10,9 +10,9 @@ public class ShopLayoutSolver {
     ProductsManager productsData;
     Grid grid;
     ShortestPathRouteSolver sprSolver;
-    private Map<String, Integer> prodName2prodIdxMap = new HashMap<>();
-    private Map<String, String> shelfName2prodNameMap = new HashMap<>();
-    private ArrayList<String> prodNameList = new ArrayList<>();
+    final private Map<String, Integer> prodName2prodIdxMap = new HashMap<>();
+    final private Map<String, String> shelfName2prodNameMap = new HashMap<>();
+    final private ArrayList<String> prodNameList = new ArrayList<>();
 
     public ShopLayoutSolver(ProductsManager productsData, Grid grid) {
         this.productsData = productsData;
@@ -72,6 +72,8 @@ public class ShopLayoutSolver {
             Map.Entry<ArrayList<String>, ArrayList<String>> entry = q.poll();
             ArrayList<String> leftList = entry.getKey();
             ArrayList<String> rightList = entry.getValue();
+            System.err.println("==========");
+            System.err.println(leftList + ", " + rightList);
 
             if (leftList.size() == 0 || rightList.size() == 0) {
                 continue;
@@ -101,13 +103,13 @@ public class ShopLayoutSolver {
                 }
             }
 
-            // in case
             if (nextRightList.size() == 0) {
                 continue;
             }
 
             // decide
             shelfName2prodNameMap.put(chosenShelf, product);
+            adjMatrix[productIndex][productIndex] = 0;
 
             ArrayList<String> nextLeftList = new ArrayList<>(leftList);
 
@@ -117,12 +119,13 @@ public class ShopLayoutSolver {
                     nextLeftList.remove(prod);
                 }
             }
-            adjMatrix[productIndex][productIndex] = 0;
 
             q.add(new AbstractMap.SimpleEntry<>(nextLeftList, nextRightList));
 
             leftList.remove(0);
             q.add(new AbstractMap.SimpleEntry<>(leftList, rightList));
+
+            System.err.println(shelfName2prodNameMap);
         }
 
 
