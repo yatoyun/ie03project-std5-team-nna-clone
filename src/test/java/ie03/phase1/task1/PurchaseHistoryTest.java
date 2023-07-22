@@ -42,7 +42,7 @@ public class PurchaseHistoryTest extends TestRunner implements TestInterface {
             tcWriter.writeTestCase(outputExpected, "testcase_" + i + "_out_expected.txt");
 
 
-            tests.add(DynamicTest.dynamicTest("Task1 Example Test " + i, () -> {
+            tests.add(DynamicTest.dynamicTest("Task1 Generated Test " + i, () -> {
                 execute(input, psHistory);
 
                 System.err.println("[Input] \n" + input);
@@ -70,7 +70,7 @@ public class PurchaseHistoryTest extends TestRunner implements TestInterface {
             String input = getFileContent(input_path);
             String outputExpected = getFileContent(output_path);
 
-            tests.add(DynamicTest.dynamicTest("Task1 Generated Test " + i, () -> {
+            tests.add(DynamicTest.dynamicTest("Task1 Example Test " + i, () -> {
 
                 String outputActual = execute(input, psHistory);
 
