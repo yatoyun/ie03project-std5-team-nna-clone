@@ -72,8 +72,6 @@ public class ShopLayoutSolver {
             Map.Entry<ArrayList<String>, ArrayList<String>> entry = q.poll();
             ArrayList<String> leftList = entry.getKey();
             ArrayList<String> rightList = entry.getValue();
-            System.err.println("==========");
-            System.err.println(leftList + ", " + rightList);
 
             if (leftList.size() == 0 || rightList.size() == 0) {
                 continue;
@@ -125,7 +123,6 @@ public class ShopLayoutSolver {
             leftList.remove(0);
             q.add(new AbstractMap.SimpleEntry<>(leftList, rightList));
 
-            System.err.println(shelfName2prodNameMap);
         }
 
 
