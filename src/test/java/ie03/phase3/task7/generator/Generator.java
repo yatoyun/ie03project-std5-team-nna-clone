@@ -60,7 +60,7 @@ public class Generator {
 
         for (int i = 0; i < n; i++) {
             Object[] shelf = shelves.get(i);
-            line = shelf[0] + " " + shelf[1] + " " + shelf[2] + " " + shelf[3];
+            line = shelf[0] + " " + shelf[1] + " " + shelf[3];
             sb.append(line);
 
             if (i != n - 1) {
