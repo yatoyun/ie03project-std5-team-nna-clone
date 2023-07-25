@@ -22,7 +22,10 @@ public class Grid extends ie03.phase1.task3.Grid {
             Point p = new Point(x, y);
             setShelf(p, s, d);
         }
+        putGates();
+    }
 
+    public void putGates() {
         // set entry point
         Point pos = new Point(1, 0);
         shelves.put("EN", pos);

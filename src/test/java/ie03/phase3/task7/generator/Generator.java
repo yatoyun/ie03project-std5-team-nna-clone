@@ -33,7 +33,7 @@ public class Generator {
             "ayhjls", "alkjuy", "yutreq", "oiuytr", "plkjhu", "jklkjh", "iuytrew", "uiuytr", "azerty", "qwerty"
     };
 
-    Generator(int num) {
+    public Generator(int num) {
         this.base = num;
     }
 
@@ -41,11 +41,11 @@ public class Generator {
         return 4 * i;
     }
 
-    String putShelves() {
+    public String putShelves() {
         int size = setGridSize(base);
 
         TestCaseGenerator shelvesGenerator = new TestCaseGenerator(size, size);
-        shelvesGenerator.putShelves(Math.min(3 * base, 25));
+        shelvesGenerator.putShelves(Math.min(3 * base, 20));
 
         StringBuilder sb = new StringBuilder();
         Grid grid = shelvesGenerator.getGrid();
@@ -60,7 +60,7 @@ public class Generator {
 
         for (int i = 0; i < n; i++) {
             Object[] shelf = shelves.get(i);
-            line = shelf[0] + " " + shelf[1] + " " + shelf[2] + " " + shelf[3];
+            line = shelf[0] + " " + shelf[1] + " " + shelf[3];
             sb.append(line);
 
             if (i != n - 1) {
@@ -70,32 +70,37 @@ public class Generator {
         return sb.toString();
     }
 
-    String putProducts() {
+    public String putProducts() {
         Random rand = new Random();
         StringBuilder sb = new StringBuilder();
 
         sb.append(n).append("\n");
+        List<String> soldProducts = new ArrayList<>(Arrays.asList(products));
+        while (soldProducts.size() > n) {
+            int productId = rand.nextInt(soldProducts.size());
+            soldProducts.remove(productId);
+        }
         for (int i = 0; i < n; i++) {
-            purchaseList.add(products[rand.nextInt(30)]);
-            sb.append(purchaseList.get(i));
+            purchaseList.add(soldProducts.get(i));
+            sb.append(soldProducts.get(i));
             if (i != n - 1) sb.append("\n");
         }
         return sb.toString();
     }
 
-    String createPurchaseData() {
+    public String createPurchaseData() {
         StringBuilder sb = new StringBuilder();
         Random rand = new Random();
         int numOfCustomer = base * 10;
 
         sb.append(numOfCustomer).append("\n");
         for (int i = 0; i < numOfCustomer; i++) {
-            Set<String> purchases = new HashSet<>();
+            List<String> purchases = new ArrayList<>(purchaseList);
             int numPurchases = rand.nextInt(n) + 1;
 
-            while (purchases.size() < numPurchases) {
-                int productId = rand.nextInt(n);
-                purchases.add(purchaseList.get(productId));
+            while (purchases.size() > numPurchases) {
+                int productId = rand.nextInt(purchases.size());
+                purchases.remove(productId);
             }
 
             List<String> sortedPurchasesList = new ArrayList<>(purchases);
