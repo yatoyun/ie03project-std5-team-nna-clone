@@ -29,8 +29,7 @@ public class ShortestPathRouteSolver {
         SolveRoutes sr = new SolveRoutes(inputRoute, grid);
         // reset dist_graph
         sr.resetGlaph(m);
-//        GetVisitableWaypoints gvw = new GetVisitableWaypoints(shelvesByPoint, solver, grid);
-        // create list of shelves
+
         AllVisitableWaypoints avw = new AllVisitableWaypoints(grid, shelvesByPoint);
         HashMap<String, Integer> allwaypoints = avw.GetWaypoints(new ArrayList<>(Arrays.asList(inputRoute)));
 

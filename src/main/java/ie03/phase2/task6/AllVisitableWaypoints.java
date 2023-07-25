@@ -7,6 +7,7 @@ import ie03.phase2.task5.Grid;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class AllVisitableWaypoints {
     private Grid grid;
@@ -55,18 +56,19 @@ public class AllVisitableWaypoints {
         ArrayList<String> unVisitable = new ArrayList<>(inputRoute);
         unVisitable.add("EN");
         unVisitable.add("EX");
+        HashSet<String> unVisitableSet = new HashSet<>(unVisitable);
 
         // get all combinations of waypoints
-        for (i = 0; i < unVisitable.size(); i++) {
-            for (int j = i + 1; j < unVisitable.size(); j++) {
+        for (i = 0; i < shelvesStringList.length; i++) {
+            for (int j = i + 1; j < shelvesStringList.length; j++) {
                 // EN-Ex is not a valid combination
-//                if (i == 0 && j == unVisitable.size() - 1)
-//                    continue;
+                if (i == 0 && j == shelvesStringList.length - 1)
+                    continue;
+                if (!unVisitableSet.contains(shelvesStringList[i]) && !unVisitableSet.contains(shelvesStringList[j]))
+                    continue;
                 // get all possible routes
-                waypoints = gvw.solveWaypoints(unVisitable.get(i), unVisitable.get(j), unVisitable);
-                int index1 = shelvesIndexDict.get(unVisitable.get(i));
-                int index2 = shelvesIndexDict.get(unVisitable.get(j));
-                addWaypoint(waypoints, index1, index2);
+                waypoints = gvw.solveWaypoints(shelvesStringList[i], shelvesStringList[j], unVisitable);
+                addWaypoint(waypoints, i, j);
             }
         }
         return allwaypoints;
