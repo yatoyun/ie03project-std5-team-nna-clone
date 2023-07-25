@@ -2,81 +2,95 @@ package ie03.phase2.task6;
 
 import ie03.phase1.task3.SolveDijkstra;
 import ie03.phase2.task5.Grid;
+import ie03.phase2.task5.CombinationName;
 
 import java.awt.*;
+import java.util.List;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GetVisitableWaypoints {
     private HashMap<Point, String> shelvesByPoint;
     private SolveDijkstra solver;
     private Grid grid;
 
+    private ArrayList<String> sortedStrings;
+
+    private ArrayList<String> maxRoute;
+
     public GetVisitableWaypoints(HashMap<Point, String> shelvesByPoint, SolveDijkstra solver, Grid grid){
         this.shelvesByPoint = shelvesByPoint;
         this.solver = solver;
         this.grid = grid;
+        this.maxRoute = new ArrayList<>();
+
+        // Create a list from elements of the HashMap
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(grid.distGraph.entrySet());
+
+        // Sort the list
+        list.sort(Map.Entry.comparingByValue());
+
+        // Create an ArrayList<String> from the sorted list
+        sortedStrings = list.stream()
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public ArrayList<String> solveWaypoints(Point cpos, Point npos, ArrayList<String> stopovers) {
-        // trace the shortest path from npos to cpos and return list of steped shelves
-
-        HashSet<String> stopoversSet = new HashSet<>(stopovers);
-
-        // solve distance using dikstra
-        int[][] totaldist = solver.solveTotalDist(cpos, npos);
+    public ArrayList<String> solveWaypoints(String cpos, String npos, ArrayList<String> stopovers) {
+        maxRoute = new ArrayList<>();
         ArrayList<String> route = new ArrayList<>();
+        HashSet<String> unVisitable = new HashSet<>(stopovers);
 
-        // find the shortest route
+        String combName = CombinationName.get(cpos, npos);
+        int minRoute = grid.distGraph.get(combName);
 
-        int[] dx = {1, 0, -1, 0}; // E, N, W, S
-        int[] dy = {0, 1, 0, -1}; // E, N, W, S
 
-        Queue<Point> queue = new LinkedList<>();
-        queue.add(npos);
+        HashSet<String> visitableSet = new HashSet<>(sortedStrings.subList(0, sortedStrings.indexOf(combName) + 1));
 
-        while (!queue.isEmpty()) {
-            Point p = queue.poll();
-            for (int i = 0; i < 4; i++) {
-                Point np = new Point(dx[i] + p.x, dy[i] + p.y);
+        int currentValue = 0;
 
-                if (!grid.isValid(np)) {
+        // perform DFS with backtracking
+        dfsWithBacktracking(cpos, npos, route, minRoute, visitableSet, currentValue, unVisitable);
+
+        if (maxRoute.size() == 0) {
+            maxRoute.add(cpos);
+            maxRoute.add(npos);
+        }
+
+        return maxRoute;
+    }
+
+    private void dfsWithBacktracking(String current, String end, ArrayList<String> route, int minRoute, HashSet<String> visitableSet, int currentValue, HashSet<String> unVisitable) {
+        if ((currentValue > minRoute) || (currentValue == minRoute && !current.equals(end))) {
+            return;
+        }
+        route.add(current);
+        String combName;
+
+        if (current.equals(end)) {
+            if (route.size() > maxRoute.size()) {
+                maxRoute = new ArrayList<>(route);
+            }else if(route.size() == maxRoute.size()){
+                // Convert both routes to a single string for comparison
+                String routeStr = String.join("", route);
+                String maxRouteStr = String.join("", maxRoute);
+
+                // If route is lexicographically larger than maxRoute, update maxRoute
+                if (routeStr.compareTo(maxRouteStr) < 0) {
+                    maxRoute = new ArrayList<>(route);
+                }
+            }
+        } else {
+            for (String next : grid.shelves.keySet()) {
+                combName = CombinationName.get(current, next);
+                if ((route.contains(next) && !visitableSet.contains(combName)) || (next != end && unVisitable.contains(next))) {
                     continue;
                 }
-
-                if (totaldist[np.x][np.y] == totaldist[p.x][p.y] - 1) {
-                    queue.add(np);
-                    String npShelfName = shelvesByPoint.get(np);
-
-                    if (!shelvesByPoint.containsKey(np)) {
-                        continue;
-                    }
-
-                    // if there exsites a shelf in front of on np, add it to route
-                    // however we bust avoid adding shelf if the last element of route is the same totaldist value as np's totaldist value
-
-                    if (route.size() == 0) {
-                        route.add(npShelfName);
-                        continue;
-                    }
-
-                    // if the last element of route is the same totaldist value as np's totaldist value, we should not add shelf
-                    // we need to compare which is smaller the shelves' name as dictionary order
-
-                    Point lastShelfPos = grid.shelves.get(route.get(route.size() - 1));
-                    String lastShelfName = shelvesByPoint.get(lastShelfPos);
-
-                    if (totaldist[lastShelfPos.x][lastShelfPos.y] == totaldist[np.x][np.y] && !stopoversSet.contains(npShelfName)) {
-                        if (lastShelfName.compareTo(npShelfName) > 0) {
-                            route.remove(route.size() - 1);
-                            route.add(npShelfName);
-                        }
-                    } else {
-                        route.add(npShelfName);
-                    }
-                }
+                int x = grid.distGraph.get(combName);
+                dfsWithBacktracking(next, end, route, minRoute, visitableSet, currentValue + grid.distGraph.get(combName), unVisitable);
             }
         }
 
-        return route;
+        route.remove(route.size() - 1);
     }
 }
