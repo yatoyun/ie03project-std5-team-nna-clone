@@ -1,8 +1,5 @@
 package ie03.phase2.task5;
 
-import java.awt.*;
-import java.util.*;
-
 public class SolveRoutes {
     private final GraphBuilder graphBl;
 
@@ -22,10 +19,7 @@ public class SolveRoutes {
     /* If you want to know which route you went through,
     just comment out the line that says for debug and put it back in the code and you will see it.
      */
-    public TSP solve() {
-        TSP tsp = new TSP(graphBl);
-        tsp.solveTSP();
-
-        return tsp;
+    public GraphBuilder GetGraphBl() {
+        return graphBl;
     }
 }

@@ -31,7 +31,9 @@ public class Main {
             sr.resetGlaph(m);
 
             // solve
-            TSP tsp = sr.solve();
+            GraphBuilder graphBl = sr.GetGraphBl();
+            TSP tsp = new TSP(graphBl);
+            tsp.solveTSP();
             System.out.println(tsp.getMinRouteValue());
         }
     }

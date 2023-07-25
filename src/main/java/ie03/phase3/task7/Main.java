@@ -1,5 +1,6 @@
 package ie03.phase3.task7;
 
+
 import ie03.phase1.task3.SolveDijkstra;
 import ie03.phase2.task5.Grid;
 
@@ -50,6 +51,5 @@ public class Main {
         for (Map.Entry<String, Point> product : sortedShelves) {
             System.out.println(product.getKey() + " (" + product.getValue().x + ", " + product.getValue().y + ")");
         }
-
     }
 }
